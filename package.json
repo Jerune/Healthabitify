@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --watch",
+    "stylelint": "npx stylelint '**/*.css'",
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
@@ -34,6 +35,9 @@
     "eslint-plugin-react": "^7.32.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.3",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard": "^29.0.0",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.3",
     "vite": "^4.0.0"
