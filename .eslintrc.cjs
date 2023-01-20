@@ -23,5 +23,5 @@ module.exports = {
         '@typescript-eslint/semi': 0,
         'react/react-in-jsx-scope': 0,
     },
-    ignorePatterns: ['*.json', '*.html', '.cjs']
+    ignorePatterns: ['*.json', '*.html', '*.cjs'],
 }
