@@ -12,4 +12,12 @@ body {
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Nanum Myeongjo', serif;
 }
