@@ -1,0 +1,32 @@
+{
+    "categories": [
+        {
+            "category": "Vitals",
+            "icon-name": "RiHeartPulseFill"
+        },
+        {
+            "category": "Body",
+            "icon-name": "RiBodyScanFill"
+        },
+        {
+            "category": "Sleep",
+            "icon-name": "RiHotelBedFill"
+        },
+        {
+            "category": "Metabolism",
+            "icon-name": "RiLungsFill"
+        },
+        {
+            "category": "Stress",
+            "icon-name": "RiMentalHealthFill"
+        },
+        {
+            "category": "Strength & Training",
+            "icon-name": "RiRunFill"
+        },
+        {
+            "category": "Lifestyle",
+            "icon-name": "RiCellphoneFill"
+        }
+    ]
+}
