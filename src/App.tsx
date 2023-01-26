@@ -1,9 +1,11 @@
-import { BrowserRouter as Router, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
     return (
         <Router>
-            <Routes />
+            <Routes>
+                <Route path="/" element={<App />} />
+            </Routes>
         </Router>
     )
 }
