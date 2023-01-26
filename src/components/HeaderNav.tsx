@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-no-bind */
 import { useState } from 'react'
+import { RiHeartPulseFill } from 'react-icons/ri'
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import { TfiReload } from 'react-icons/tfi'
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo_1b.jpg'
+import categoriesData from '../data/categoriesDataMock'
 
 function HeaderNav(): JSX.Element {
     const [sideNavOpen, setSideNavOpen] = useState(true)
@@ -14,6 +16,18 @@ function HeaderNav(): JSX.Element {
     ) : (
         <TiArrowSortedDown />
     )
+    const menuCategories = categoriesData.map((category) => {
+        return (
+            <Link
+                to={`/data/${category.name.toLowerCase()}`}
+                key={category.name}
+                className="flex flex-row items-center gap-2"
+            >
+                <RiHeartPulseFill />
+                {category.name}
+            </Link>
+        )
+    })
 
     function toggleMenu() {
         setSideNavOpen((prevState) => !prevState)
@@ -42,13 +56,9 @@ function HeaderNav(): JSX.Element {
                 </section>
             </header>
             <nav
-                className={`flex flex-column fixed top-16 left-0 ${sideNavVisibility}`}
+                className={`flex flex-col fixed top-16 left-[5%] ${sideNavVisibility}`}
             >
-                <Link to="/data/vitals" onClick={toggleMenu}>
-                    Vitals
-                </Link>
-                <Link to="/data/vitals">Vitals</Link>
-                <Link to="/data/vitals">Vitals</Link>
+                {menuCategories}
             </nav>
         </>
     )
