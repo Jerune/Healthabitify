@@ -1,6 +1,4 @@
-import React from 'react'
-
-function TopNav() {
+function HeaderNav() {
     return (
         <header>
             <div>Logo</div>
@@ -9,4 +7,4 @@ function TopNav() {
     )
 }
 
-export default TopNav
+export default HeaderNav
