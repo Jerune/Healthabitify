@@ -9,19 +9,19 @@ import Settings from './pages/Settings'
 
 function App() {
     return (
-        <>
+        <Router>
             <HeaderNav />
-            <Router>
+            <main className="mx-[5%]">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="data" element={<DataPage />} />
+                    <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="login" element={<Connection />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-            </Router>
+            </main>
             <Footer />
-        </>
+        </Router>
     )
 }
 

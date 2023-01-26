@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: ["./src/**/*.tsx"],
   theme: {
     extend: {
       colors: {
@@ -10,6 +10,7 @@ module.exports = {
           300: '#A8DADC',
           400: '#457B9D',
           500: '#1D3557',
+          600: '#030325',
         }
       },
     },
