@@ -11,7 +11,7 @@ function App() {
     return (
         <Router>
             <HeaderNav />
-            <main className="mx-[5%]">
+            <main className="grow mx-[5%]">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="data/:category" element={<DataPage />} />
