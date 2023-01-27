@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
+import { ImLab } from 'react-icons/im'
 import { RiHeartPulseFill } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo_1b.jpg'
@@ -60,15 +61,25 @@ function HeaderNav(): JSX.Element {
             <nav
                 className={`w-auto h-full flex flex-col fixed top-16 left-0 py-5 pl-8 pr-10 bg-white shadow-lg z-50 ${sideNavClasses}`}
             >
-                {menuCategories}
-                <Link
-                    to="/settings"
-                    className="flex flex-row items-center gap-3 py-2"
-                    onClick={toggleMenu}
-                >
-                    <SlSettings />
-                    <span className="text-lg">Settings</span>
-                </Link>
+                <div>{menuCategories}</div>
+                <div className="mt-6">
+                    <Link
+                        to="/labs"
+                        className="flex flex-row items-center gap-3 py-2"
+                        onClick={toggleMenu}
+                    >
+                        <ImLab />
+                        <span className="text-base">Labs</span>
+                    </Link>
+                    <Link
+                        to="/settings"
+                        className="flex flex-row items-center gap-3 py-2"
+                        onClick={toggleMenu}
+                    >
+                        <SlSettings />
+                        <span className="text-base">Settings</span>
+                    </Link>
+                </div>
             </nav>
         </>
     )
