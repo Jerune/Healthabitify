@@ -16,22 +16,24 @@ function HeaderNav(): JSX.Element {
     ) : (
         <AiOutlineDoubleRight />
     )
+
+    function toggleMenu() {
+        setSideNavOpen((prevState) => !prevState)
+    }
+
     const menuCategories = categoriesData.map((category) => {
         return (
             <Link
                 to={`/data/${category.name.toLowerCase()}`}
                 key={category.name}
                 className="flex flex-row items-center gap-3 py-2"
+                onClick={toggleMenu}
             >
                 <RiHeartPulseFill />
                 <span className="text-lg">{category.name}</span>
             </Link>
         )
     })
-
-    function toggleMenu() {
-        setSideNavOpen((prevState) => !prevState)
-    }
 
     return (
         <>
@@ -62,6 +64,7 @@ function HeaderNav(): JSX.Element {
                 <Link
                     to="/settings"
                     className="flex flex-row items-center gap-3 py-2"
+                    onClick={toggleMenu}
                 >
                     <SlSettings />
                     <span className="text-lg">Settings</span>
