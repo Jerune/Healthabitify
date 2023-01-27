@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Footer from './components/Footer'
 import HeaderNav from './components/HeaderNav'
 import Connection from './pages/Connection'
 import Dashboard from './pages/Dashboard'
@@ -11,7 +10,7 @@ function App() {
     return (
         <Router>
             <HeaderNav />
-            <main className="grow mx-[5%] bg-white w-[90%]">
+            <main className="grow w-full">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="data/:category" element={<DataPage />} />
@@ -20,7 +19,6 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
-            <Footer />
         </Router>
     )
 }
