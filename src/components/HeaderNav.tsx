@@ -38,7 +38,7 @@ function HeaderNav(): JSX.Element {
 
     return (
         <>
-            <header className="flex flex-row justify-between items-center h-16 w-[90%] mx-[5%] border-b border-solid border-palette-600">
+            <header className="flex flex-row justify-between items-center h-16 w-[90%] mx-[5%] bg-white border-b border-solid border-palette-600">
                 <div className="flex flex-row items-center">
                     <img className="h-16" src={logo} alt="Healthability logo" />
                     <span className="pt-1 logo-text">ealthabitify</span>
@@ -50,7 +50,7 @@ function HeaderNav(): JSX.Element {
                         {sideNavIcon}
                     </button>
                 </div>
-                <section className="flex flex-row gap-4 text-lg">
+                <section className="flex flex-row gap-4 mr-4 text-lg">
                     <Link to="/settings">
                         <SlSettings />
                     </Link>
@@ -59,7 +59,7 @@ function HeaderNav(): JSX.Element {
                 </section>
             </header>
             <nav
-                className={`w-auto flex flex-col fixed top-16 left-[5%] pt-3 pr-8 pl-1 pb-8 border-r border-b border-solid border-palette-600 z-50 ${sideNavClasses}`}
+                className={`w-auto flex flex-col fixed top-16 left-[5%] pt-3 pr-8 pl-1 pb-8 bg-white border-r border-b border-solid border-palette-600 z-50 ${sideNavClasses}`}
             >
                 {menuCategories}
                 <Link
