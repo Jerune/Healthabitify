@@ -1,13 +1,24 @@
 export interface Category {
     id: string
     name: string
-    iconName: string
+    iconName: string | unknown
 }
 
+type Range = [string, number] | [number, number]
 export interface Metric {
     id: string
     name: string
     categoryId: string
+    active: boolean
+    type: 'Fixed' | 'Manual'
+    frequency: 'Day' | 'Week'
+    conditionsMode: 'Higher' | 'Lower'
+    hasCustomRange: boolean
+    range?: {
+        good: Range
+        medium: Range
+        bad: Range
+    }
 }
 
 export interface Day {
@@ -20,7 +31,7 @@ export interface Day {
 
 export interface DataPoint {
     id: string
-    value: number
+    value: number | Date
     metricId: string
     dayId: string
 }
