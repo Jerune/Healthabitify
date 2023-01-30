@@ -1,11 +1,19 @@
-export interface Category {
+export type User = {
+    id: string
+    firstName: string
+    email: string
+    timeZone: string
+    password: string
+}
+
+export type Category = {
     id: string
     name: string
     iconName: string | unknown
 }
 
 type Range = [string, number] | [number, number]
-export interface Metric {
+export type Metric = {
     id: string
     name: string
     categoryId: string
@@ -21,17 +29,13 @@ export interface Metric {
     }
 }
 
-export interface Day {
+export type DataPoint = {
     id: string
+    value: number | Date
+    metricId: string
+    userId: string
     date: Date
     week: number
     month: number
     year: number
-}
-
-export interface DataPoint {
-    id: string
-    value: number | Date
-    metricId: string
-    dayId: string
 }
