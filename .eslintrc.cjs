@@ -22,6 +22,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/semi': 0,
         'react/react-in-jsx-scope': 0,
+        'jsx-a11y/label-has-associated-control': 0,
     },
     ignorePatterns: ['*.json', '*.html', '*.cjs'],
 }

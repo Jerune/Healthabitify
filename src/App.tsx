@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import HeaderNav from './components/HeaderNav'
-import Connection from './pages/Connection'
+import Connexion from './pages/Connexion'
 import Dashboard from './pages/Dashboard'
 import DataPage from './pages/DataPage'
 import NotFound from './pages/NotFound'
@@ -17,7 +17,7 @@ function App() {
                     <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="labs" element={<Labs />} />
-                    <Route path="login" element={<Connection />} />
+                    <Route path="login" element={<Connexion />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
