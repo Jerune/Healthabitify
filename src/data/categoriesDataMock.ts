@@ -25,8 +25,8 @@ const categoriesData = [
     },
     {
         name: 'Lifestyle',
-        iconName: 'RiCellphoneFill',
+        iconName: 'RiGobletFill',
     },
-]
+] as const
 
 export default categoriesData

@@ -4,10 +4,10 @@ import { SlLogout, SlSettings } from 'react-icons/sl'
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
-import { RiHeartPulseFill } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
-import logo from '../assets/logo_1b.jpg'
+import * as Icons from 'react-icons/ri'
 import categoriesData from '../data/categoriesDataMock'
+import logo from '../assets/logo_1b.jpg'
 
 function HeaderNav(): JSX.Element {
     const [sideNavOpen, setSideNavOpen] = useState(false)
@@ -23,6 +23,8 @@ function HeaderNav(): JSX.Element {
     }
 
     const menuCategories = categoriesData.map((category) => {
+        const IconElement = Icons[category.iconName]
+
         return (
             <Link
                 to={`/data/${category.name.toLowerCase()}`}
@@ -30,7 +32,9 @@ function HeaderNav(): JSX.Element {
                 className="flex flex-row items-center gap-3 py-2"
                 onClick={toggleMenu}
             >
-                <RiHeartPulseFill />
+                <span className="text-xl">
+                    <IconElement />
+                </span>
                 <span className="text-lg">{category.name}</span>
             </Link>
         )
