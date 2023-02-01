@@ -1,15 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
 import { signIn } from '../redux/reducers/usersReducer'
-import type { InputEvent, FormSubmit } from '../types.d.js'
+import type { InputEvent, FormSubmit, SignInData } from '../types.d.js'
 
 function Login() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const rememberCheckbox = useRef<HTMLInputElement>(null)
     const emailInLocalStorage = localStorage.getItem('email')
     const [errorIsShowing, setErrorIsShowing] = useState(false)
@@ -53,36 +54,55 @@ function Login() {
 
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
-        const loginData = await signInWithEmailAndPassword(
-            auth,
-            formData.email,
-            formData.password
-        ).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            return {
-                status: errorCode,
-                errorMessage,
-            }
-        })
+        let SignInDbResponse: SignInData = {
+            email: '',
+            userId: '',
+            errorMessage: '',
+        }
+        signInWithEmailAndPassword(auth, formData.email, formData.password)
+            .then((userCredential) => {
+                // Signed in
+                const { user } = userCredential
+                SignInDbResponse = {
+                    ...SignInDbResponse,
+                    email: user.email,
+                    userId: user.uid,
+                }
+            })
+            .catch((error) => {
+                const errorMessage = error.message
+                SignInDbResponse = {
+                    ...SignInDbResponse,
+                    errorMessage,
+                }
+            })
 
-        if (loginData.user && !loginData.status) {
+        if (SignInDbResponse.userId) {
             handleLocalStorage()
-            dispatch(signIn({ ...formData, ...data.body }))
+            dispatch(
+                signIn({
+                    email: SignInDbResponse.email,
+                    userId: SignInDbResponse.userId,
+                })
+            )
             setFormData({
                 email: '',
                 password: '',
                 errorMessage: '',
             })
             navigate('/')
-        } else if (loginData.status) {
+        } else if (SignInDbResponse.errorMessage) {
             let error = ''
-            switch (loginData.status) {
+            switch (SignInDbResponse.errorMessage) {
                 case 'auth/wrong-password':
                     error = 'Incorrect password, please try again'
                     break
                 case 'auth/user-not-found':
                     error = 'User does not exists, please sign up'
+                    break
+                case 'auth/internal-error':
+                    error =
+                        'Something went wrong, please verify both fields and try again'
                     break
                 default:
                     error = ''
@@ -96,7 +116,7 @@ function Login() {
     }
 
     if (isLoggedIn) {
-        navigate('/')
+        return <Navigate to="/" />
     }
 
     return (

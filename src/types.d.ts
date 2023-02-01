@@ -1,5 +1,11 @@
-declare module '../services/firebase'
+// User Data from FireBase
+export type SignInData = {
+    email: string | null
+    userId: string | null
+    errorMessage: string | null
+}
 
+// Events
 export type InputEvent = React.ChangeEvent<HTMLInputElement>
 export type FormSubmit = FormEvent<HTMLFormElement>
 
