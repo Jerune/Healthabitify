@@ -1,3 +1,8 @@
+declare module '../services/firebase'
+
+export type InputEvent = React.ChangeEvent<HTMLInputElement>
+export type FormSubmit = FormEvent<HTMLFormElement>
+
 export type User = {
     id: string
     firstName: string
