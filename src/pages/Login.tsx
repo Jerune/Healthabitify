@@ -1,11 +1,15 @@
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
+import { signIn } from '../redux/reducers/usersReducer'
 import type { InputEvent, FormSubmit } from '../types.d.js'
 
 function Login() {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const rememberCheckbox = useRef<HTMLInputElement>(null)
     const emailInLocalStorage = localStorage.getItem('email')
     const [errorIsShowing, setErrorIsShowing] = useState(false)
@@ -64,6 +68,7 @@ function Login() {
 
         if (loginData.user && !loginData.status) {
             handleLocalStorage()
+            dispatch(signIn({ ...formData, ...data.body }))
             setFormData({
                 email: '',
                 password: '',
@@ -88,6 +93,10 @@ function Login() {
             })
             setErrorIsShowing(true)
         }
+    }
+
+    if (isLoggedIn) {
+        navigate('/')
     }
 
     return (
