@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { auth } from '../services/firebase'
@@ -63,7 +61,7 @@ function Login() {
                 errorMessage,
             }
         })
-        console.log(loginData)
+
         if (loginData.user && !loginData.status) {
             handleLocalStorage()
             setFormData({

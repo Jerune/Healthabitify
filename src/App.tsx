@@ -17,8 +17,8 @@ function App() {
                     <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="labs" element={<Labs />} />
-                    <Route path="login" element={<Login />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="login" element={<Login />} />
                 </Routes>
             </main>
         </Router>
