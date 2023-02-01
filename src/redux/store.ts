@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from './reducers/usersReducer'
+import utilsReducer from './reducers/utilsReducer'
 
 const store = configureStore({
     reducer: {
         user: usersReducer,
+        utils: utilsReducer,
     },
 })
 

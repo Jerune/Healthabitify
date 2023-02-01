@@ -1,26 +1,23 @@
-/* eslint-disable react/jsx-no-bind */
-import { useState } from 'react'
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
 import { Link } from 'react-router-dom'
 import * as Icons from 'react-icons/ri'
+import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
+import { toggleMenu } from '../redux/reducers/utilsReducer'
 import categoriesData from '../data/categoriesDataMock'
 import logo from '../assets/logo_1b.jpg'
 
 function HeaderNav(): JSX.Element {
-    const [sideNavOpen, setSideNavOpen] = useState(false)
+    const dispatch = useAppDispatch()
+    const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <AiOutlineDoubleLeft />
     ) : (
         <AiOutlineDoubleRight />
     )
-
-    function toggleMenu() {
-        setSideNavOpen((prevState) => !prevState)
-    }
 
     const menuCategories = categoriesData.map((category) => {
         const IconElement = Icons[category.iconName]
@@ -30,7 +27,7 @@ function HeaderNav(): JSX.Element {
                 to={`/data/${category.name.toLowerCase()}`}
                 key={category.name}
                 className="flex flex-row items-center gap-3 py-2"
-                onClick={toggleMenu}
+                onClick={() => dispatch(toggleMenu())}
             >
                 <span className="text-xl">
                     <IconElement />
@@ -49,7 +46,7 @@ function HeaderNav(): JSX.Element {
                     <button
                         type="button"
                         className="ml-20 mt-4 text-base"
-                        onClick={toggleMenu}
+                        onClick={() => dispatch(toggleMenu())}
                     >
                         {sideNavIcon}
                     </button>
@@ -70,7 +67,7 @@ function HeaderNav(): JSX.Element {
                     <Link
                         to="/labs"
                         className="flex flex-row items-center gap-3 py-2"
-                        onClick={toggleMenu}
+                        onClick={() => dispatch(toggleMenu())}
                     >
                         <ImLab />
                         <span className="text-base">Labs</span>
@@ -78,7 +75,7 @@ function HeaderNav(): JSX.Element {
                     <Link
                         to="/settings"
                         className="flex flex-row items-center gap-3 py-2"
-                        onClick={toggleMenu}
+                        onClick={() => dispatch(toggleMenu())}
                     >
                         <SlSettings />
                         <span className="text-base">Settings</span>
