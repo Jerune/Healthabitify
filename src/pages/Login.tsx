@@ -58,7 +58,11 @@ function Login() {
             userId: '',
             errorMessage: '',
         }
-        signInWithEmailAndPassword(auth, formData.email, formData.password)
+        await signInWithEmailAndPassword(
+            auth,
+            formData.email,
+            formData.password
+        )
             .then((userCredential) => {
                 // Signed in
                 const { user } = userCredential
@@ -69,7 +73,7 @@ function Login() {
                 }
             })
             .catch((error) => {
-                const errorMessage = error.message
+                const errorMessage = error.code
                 SignInDbResponse = {
                     ...SignInDbResponse,
                     errorMessage,
