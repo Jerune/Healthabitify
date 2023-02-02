@@ -1,5 +1,15 @@
+import HeaderNav from '../components/HeaderNav'
+import MainContent from '../components/MainContent'
+
 function Settings() {
-    return <div>Settings</div>
+    return (
+        <>
+            <HeaderNav />
+            <MainContent>
+                <h1>Settings</h1>
+            </MainContent>
+        </>
+    )
 }
 
 export default Settings

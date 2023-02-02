@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
 import { signIn } from '../redux/reducers/usersReducer'
 import type { InputEvent, FormSubmit, SignInData } from '../types.d.js'
+import IntroVideo from '../assets/login_video.webm'
 
 function Login() {
     const navigate = useNavigate()
@@ -123,47 +124,52 @@ function Login() {
     }
 
     return (
-        <section>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder=""
-                        onChange={handleChange}
-                        value={formData.email}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder=""
-                        onChange={handleChange}
-                        value={formData.password}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        ref={rememberCheckbox}
-                        id="remember-me"
-                    />
-                    <label htmlFor="remember-me">Remember me</label>
-                </div>
-                <button type="submit">Sign In</button>
-                {errorIsShowing && (
-                    <p className="text-red-500 text-sm">
-                        {formData.errorMessage}
-                    </p>
-                )}
-            </form>
-        </section>
+        <div className="h-full w-full">
+            <video className="h-full w-screen" autoPlay muted>
+                <source src={IntroVideo} type="video/webm" />
+            </video>
+            <section>
+                <h1>Sign In</h1>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder=""
+                            onChange={handleChange}
+                            value={formData.email}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder=""
+                            onChange={handleChange}
+                            value={formData.password}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            ref={rememberCheckbox}
+                            id="remember-me"
+                        />
+                        <label htmlFor="remember-me">Remember me</label>
+                    </div>
+                    <button type="submit">Sign In</button>
+                    {errorIsShowing && (
+                        <p className="text-red-500 text-sm">
+                            {formData.errorMessage}
+                        </p>
+                    )}
+                </form>
+            </section>
+        </div>
     )
 }
 

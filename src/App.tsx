@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import HeaderNav from './components/HeaderNav'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import DataPage from './pages/DataPage'
@@ -10,17 +9,14 @@ import Labs from './pages/Labs'
 function App() {
     return (
         <Router>
-            <HeaderNav />
-            <main className="grow w-full py-6 px-9">
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="data/:category" element={<DataPage />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="labs" element={<Labs />} />
-                    <Route path="*" element={<NotFound />} />
-                    <Route path="login" element={<Login />} />
-                </Routes>
-            </main>
+            <Routes>
+                <Route path="login" element={<Login />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="data/:category" element={<DataPage />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="labs" element={<Labs />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
         </Router>
     )
 }
