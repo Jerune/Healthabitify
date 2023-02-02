@@ -8,6 +8,7 @@ import type { InputEvent, FormSubmit, SignInData } from '../types.d.js'
 import IntroVideo from '../assets/login_video_alt.webm'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from '../components/LogoText'
+import { capitalizeFirstLetterFromArray } from '../utils/capitalizeFirstLetter'
 
 function Login() {
     const navigate = useNavigate()
@@ -98,24 +99,14 @@ function Login() {
             })
             navigate('dashboard')
         } else if (SignInDbResponse.errorMessage) {
-            let error = ''
-            switch (SignInDbResponse.errorMessage) {
-                case 'auth/wrong-password':
-                    error = 'Incorrect password, please try again'
-                    break
-                case 'auth/user-not-found':
-                    error = 'User does not exists, please sign up'
-                    break
-                case 'auth/internal-error':
-                    error =
-                        'Something went wrong, please verify both fields and try again'
-                    break
-                default:
-                    error = ''
-            }
+            const errorMessageArray = SignInDbResponse.errorMessage
+                .split('/')[1]
+                .split('-')
+            const errorMessageCapitalized =
+                capitalizeFirstLetterFromArray(errorMessageArray)
             setFormData({
                 ...formData,
-                errorMessage: error,
+                errorMessage: errorMessageCapitalized,
             })
             setErrorIsShowing(true)
         }
