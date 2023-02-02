@@ -96,7 +96,7 @@ function Login() {
                 password: '',
                 errorMessage: '',
             })
-            navigate('/')
+            navigate('dashboard')
         } else if (SignInDbResponse.errorMessage) {
             let error = ''
             switch (SignInDbResponse.errorMessage) {

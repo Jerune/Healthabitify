@@ -10,8 +10,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="login" element={<Login />} />
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<Login />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="data/:category" element={<DataPage />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="labs" element={<Labs />} />
