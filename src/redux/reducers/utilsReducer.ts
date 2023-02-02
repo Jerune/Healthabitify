@@ -14,6 +14,7 @@ export const utilsSlice = createSlice({
     reducers: {
         toggleMenu: (state) => {
             return {
+                ...state,
                 sideNavOpen: !state.sideNavOpen,
             }
         },

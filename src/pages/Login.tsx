@@ -1,9 +1,9 @@
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { useState, useRef, useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
-import { signIn } from '../redux/reducers/usersReducer'
+import { localSignIn } from '../redux/reducers/usersReducer'
 import type { InputEvent, FormSubmit, SignInData } from '../types.d.js'
 import IntroVideo from '../assets/login_video_alt.webm'
 import logo from '../assets/logo_1b.jpg'
@@ -22,6 +22,21 @@ function Login() {
         password: '',
         errorMessage: '',
     })
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    dispatch(
+                        localSignIn({
+                            email: user.email,
+                            userId: user.uid,
+                        })
+                    )
+                }
+            })
+        }
+    }, [isLoggedIn])
 
     useEffect(() => {
         if (emailInLocalStorage) {
@@ -87,7 +102,7 @@ function Login() {
         if (SignInDbResponse.userId) {
             handleLocalStorage()
             dispatch(
-                signIn({
+                localSignIn({
                     email: SignInDbResponse.email,
                     userId: SignInDbResponse.userId,
                 })
@@ -113,9 +128,8 @@ function Login() {
     }
 
     if (isLoggedIn) {
-        return <Navigate to="/" />
+        return <Navigate to="dashboard" />
     }
-
     return (
         <div className="h-full w-full">
             <video className="h-auto w-screen" autoPlay muted loop>

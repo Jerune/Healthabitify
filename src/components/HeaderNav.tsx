@@ -1,17 +1,22 @@
+/* eslint-disable react/jsx-no-bind */
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as Icons from 'react-icons/ri'
+import { signOut } from 'firebase/auth'
+import { auth } from '../services/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { toggleMenu } from '../redux/reducers/utilsReducer'
 import categoriesData from '../data/categoriesDataMock'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
+import { localSignOut } from '../redux/reducers/usersReducer'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const sideNavClasses = sideNavOpen ? 'open' : ''
@@ -39,6 +44,13 @@ function HeaderNav(): JSX.Element {
         )
     })
 
+    function signOutUser() {
+        signOut(auth).then(() => {
+            dispatch(localSignOut())
+            navigate('/')
+        })
+    }
+
     return (
         <>
             <header className="flex flex-row justify-between items-center h-16 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
@@ -61,7 +73,13 @@ function HeaderNav(): JSX.Element {
                             <SlSettings />
                         </Link>
                         <TfiReload />
-                        <SlLogout />
+                        <button
+                            type="button"
+                            className="cursor-pointer"
+                            onClick={signOutUser}
+                        >
+                            <SlLogout />
+                        </button>
                     </section>
                 )}
             </header>
