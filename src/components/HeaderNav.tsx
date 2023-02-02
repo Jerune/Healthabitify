@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { toggleMenu } from '../redux/reducers/utilsReducer'
 import categoriesData from '../data/categoriesDataMock'
 import logo from '../assets/logo_1b.jpg'
+import LogoText from './LogoText'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -43,7 +44,7 @@ function HeaderNav(): JSX.Element {
             <header className="flex flex-row justify-between items-center h-16 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
                 <div className="flex flex-row items-center">
                     <img className="h-16" src={logo} alt="Healthability logo" />
-                    <span className="pt-4 -ml-1 logo-text">ealthabitify</span>
+                    <LogoText />
                     {isLoggedIn && (
                         <button
                             type="button"
