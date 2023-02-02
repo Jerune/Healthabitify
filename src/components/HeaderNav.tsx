@@ -12,6 +12,7 @@ import logo from '../assets/logo_1b.jpg'
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <AiOutlineDoubleLeft />
@@ -43,21 +44,25 @@ function HeaderNav(): JSX.Element {
                 <div className="flex flex-row items-center">
                     <img className="h-16" src={logo} alt="Healthability logo" />
                     <span className="pt-4 -ml-1 logo-text">ealthabitify</span>
-                    <button
-                        type="button"
-                        className="ml-20 mt-4 text-base"
-                        onClick={() => dispatch(toggleMenu())}
-                    >
-                        {sideNavIcon}
-                    </button>
+                    {isLoggedIn && (
+                        <button
+                            type="button"
+                            className="ml-20 mt-4 text-base"
+                            onClick={() => dispatch(toggleMenu())}
+                        >
+                            {sideNavIcon}
+                        </button>
+                    )}
                 </div>
-                <section className="flex flex-row gap-6 mr-8 text-lg">
-                    <Link to="/settings">
-                        <SlSettings />
-                    </Link>
-                    <TfiReload />
-                    <SlLogout />
-                </section>
+                {isLoggedIn && (
+                    <section className="flex flex-row gap-6 mr-8 text-lg">
+                        <Link to="/settings">
+                            <SlSettings />
+                        </Link>
+                        <TfiReload />
+                        <SlLogout />
+                    </section>
+                )}
             </header>
             <nav
                 className={`w-auto h-full flex flex-col fixed top-16 left-0 py-5 pl-8 pr-10 bg-white shadow-lg z-50 ${sideNavClasses}`}
