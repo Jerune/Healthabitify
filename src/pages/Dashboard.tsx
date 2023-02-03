@@ -6,6 +6,8 @@ import MainContent from '../components/MainContent'
 import { localSignIn } from '../redux/reducers/usersReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
+import TabsList from '../components/TabsList'
+import Tabs from '../data/tabs'
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -34,6 +36,7 @@ function Dashboard() {
             <HeaderNav />
             <MainContent>
                 <h1>Dashboard</h1>
+                <TabsList tabs={Tabs} />
             </MainContent>
         </>
     )
