@@ -8,6 +8,9 @@ import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
 import TabsList from '../components/TabsList'
 import Tabs from '../data/tabs'
+import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
+import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
+import dashboardItems from '../data/dashboardItems'
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -31,12 +34,17 @@ function Dashboard() {
         }
     }, [isLoggedIn])
 
+    const dashboardBlocks = dashboardItems.map((item) => (
+        <DashBoardMetricBlock metric={item} key={item.name} />
+    ))
+
     return (
         <>
             <HeaderNav />
             <MainContent>
                 <h1>Dashboard</h1>
                 <TabsList tabs={Tabs} />
+                <DashBoardContainer>{dashboardBlocks}</DashBoardContainer>
             </MainContent>
         </>
     )
