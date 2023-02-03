@@ -36,9 +36,9 @@ function HeaderNav(): JSX.Element {
                 className="flex flex-row items-center gap-3 py-2"
                 onClick={() => dispatch(toggleMenu())}
             >
-                <span className="text-xl">
+                <button type="button" className="text-xl">
                     <IconElement />
-                </span>
+                </button>
                 <span className="text-lg">{category.name}</span>
             </Link>
         )
