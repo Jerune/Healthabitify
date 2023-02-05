@@ -52,7 +52,7 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
 
     return (
         <section
-            className={`flex flex-col pb-6 w-72 h-72 rounded-xl drop-shadow-2xl ${bgColorClass} last:justify-self-start`}
+            className={`flex flex-col pb-6 w-72 h-72 rounded-xl shadow-2xl ${bgColorClass} last:justify-self-start`}
         >
             <div className="h-16 pt-1 bg-black-opacity text-white flex flex-col justify-center items-center rounded-tl-xl rounded-tr-xl">
                 <h2 className="text-2xl">{metric.name}</h2>
