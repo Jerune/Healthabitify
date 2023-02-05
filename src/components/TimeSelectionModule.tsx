@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
 import type { TabListProps } from '../types'
 
-function TabsList({ tabs }: TabListProps) {
+function TimeSelectionModule({ tabs }: TabListProps) {
     const [activeTab, setActiveTab] = useState(0)
     const listOfTabs = tabs.map((tab, index) => {
         const tabClasses =
@@ -43,4 +43,4 @@ function TabsList({ tabs }: TabListProps) {
     )
 }
 
-export default TabsList
+export default TimeSelectionModule

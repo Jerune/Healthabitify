@@ -6,7 +6,7 @@ import MainContent from '../components/MainContent'
 import { localSignIn } from '../redux/reducers/usersReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
-import TabsList from '../components/TabsList'
+import TimeSelectionModule from '../components/TimeSelectionModule'
 import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
@@ -42,7 +42,7 @@ function Dashboard() {
         <>
             <HeaderNav />
             <MainContent>
-                <TabsList tabs={Tabs} />
+                <TimeSelectionModule tabs={Tabs} />
                 <DashBoardContainer>{dashboardBlocks}</DashBoardContainer>
             </MainContent>
         </>
