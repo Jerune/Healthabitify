@@ -52,24 +52,24 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
 
     return (
         <section
-            className={`flex flex-col pb-6 w-72 h-72 rounded-xl ${bgColorClass} last:justify-self-start`}
+            className={`flex flex-col pb-6 w-72 h-72 rounded-xl drop-shadow-2xl ${bgColorClass} last:justify-self-start`}
         >
-            <div className="pt-6 bg-black-opacity text-white flex flex-col justify-center items-center pb-1 border-b border-solid border-black rounded-tl-xl rounded-tr-xl">
-                <h2 className="text-xl">{metric.name}</h2>
-                <p className="flex flex-row gap-x-2 py-1 items-center m-0 text-sm">
+            <div className="h-16 pt-1 bg-black-opacity text-white flex flex-col justify-center items-center rounded-tl-xl rounded-tr-xl">
+                <h2 className="text-2xl">{metric.name}</h2>
+            </div>
+            <div className="px-6 flex flex-col justify-center items-center grow">
+                <div className="flex flex-row justify-center items-center text-6xl">
+                    {metric.value.toString()}
+                    <span className="text-lg pt-8">{metric.valueType}</span>
+                </div>
+                <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
                     <GiGoalKeeper />
                     {metric.goal}
                 </p>
             </div>
-            <div className="px-6 flex flex-col grow">
-                <div className="flex flex-row justify-center grow items-center text-6xl">
-                    {metric.value.toString()}
-                    <span className="text-lg pt-8">{metric.valueType}</span>
-                </div>
-                <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm">
-                    {calculateDifference()}
-                </p>
-            </div>
+            <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm italic">
+                {calculateDifference()}
+            </p>
         </section>
     )
 }
