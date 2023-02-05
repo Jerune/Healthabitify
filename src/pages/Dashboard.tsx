@@ -42,7 +42,6 @@ function Dashboard() {
         <>
             <HeaderNav />
             <MainContent>
-                <h1>Dashboard</h1>
                 <TabsList tabs={Tabs} />
                 <DashBoardContainer>{dashboardBlocks}</DashBoardContainer>
             </MainContent>
