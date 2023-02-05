@@ -1,4 +1,8 @@
 {
     "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
-    "rules": { "at-rule-no-unknown": null, "font-family-name-quotes": null }
+    "rules": {
+        "at-rule-no-unknown": null,
+        "font-family-name-quotes": null,
+        "color-function-notation": null
+    }
 }

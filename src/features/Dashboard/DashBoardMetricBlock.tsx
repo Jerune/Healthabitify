@@ -8,13 +8,13 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
     let bgColorClass = ''
     switch (metric.comparisonStatus) {
         case 'good':
-            bgColorClass = 'bg-green-100'
+            bgColorClass = 'green-gradient'
             break
         case 'medium':
-            bgColorClass = 'bg-orange-100'
+            bgColorClass = 'orange-gradient'
             break
         case 'bad':
-            bgColorClass = 'bg-red-100'
+            bgColorClass = 'red-gradient'
             break
         default:
             bgColorClass = ''
@@ -51,18 +51,25 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
     }
 
     return (
-        <section className={`p-6 rounded-xl ${bgColorClass}`}>
-            <h2>{metric.name}</h2>
-            <p className="flex flex-row gap-x-2 text-sm">
-                <GiGoalKeeper />
-                {metric.goal}
-            </p>
-            <div className="flex justify-center items-center text-2xl">
-                {metric.value.toString()}
+        <section
+            className={`flex flex-col pb-6 w-72 h-72 rounded-xl ${bgColorClass} last:justify-self-start`}
+        >
+            <div className="pt-6 bg-black-opacity text-white flex flex-col justify-center items-center pb-1 border-b border-solid border-black rounded-tl-xl rounded-tr-xl">
+                <h2 className="text-xl">{metric.name}</h2>
+                <p className="flex flex-row gap-x-2 py-1 items-center m-0 text-sm">
+                    <GiGoalKeeper />
+                    {metric.goal}
+                </p>
             </div>
-            <p className="flex flex-row items-center gap-x-2 text-sm">
-                {calculateDifference()}
-            </p>
+            <div className="px-6 flex flex-col grow">
+                <div className="flex flex-row justify-center grow items-center text-6xl">
+                    {metric.value.toString()}
+                    <span className="text-lg pt-8">{metric.valueType}</span>
+                </div>
+                <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm">
+                    {calculateDifference()}
+                </p>
+            </div>
         </section>
     )
 }
