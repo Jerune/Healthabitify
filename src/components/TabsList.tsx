@@ -1,11 +1,5 @@
 import { useState } from 'react'
-
-type TabListProps = {
-    tabs: {
-        name: string
-        function: () => void
-    }[]
-}
+import type { TabListProps } from '../types'
 
 function TabsList({ tabs }: TabListProps) {
     const [activeTab, setActiveTab] = useState(0)
