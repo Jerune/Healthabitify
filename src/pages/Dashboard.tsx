@@ -41,8 +41,8 @@ function Dashboard() {
     return (
         <>
             <HeaderNav />
+            <TimeSelectionModule tabs={Tabs} />
             <MainContent>
-                <TimeSelectionModule tabs={Tabs} />
                 <DashBoardContainer>{dashboardBlocks}</DashBoardContainer>
             </MainContent>
         </>

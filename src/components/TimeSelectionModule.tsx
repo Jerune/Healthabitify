@@ -7,13 +7,13 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     const listOfTabs = tabs.map((tab, index) => {
         const tabClasses =
             index === activeTab
-                ? 'bg-primary-100 text-primary-700 hover:bg-primary-100'
-                : 'hover:bg-primary-100 hover:text-primary-700'
+                ? 'bg-palette-500 text-white hover:bg-palette-500'
+                : 'hover:bg-palette-500 hover:text-white'
         return (
             <li key={tab.name}>
                 <button
                     type="button"
-                    className={`relative inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 ${tabClasses}`}
+                    className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
                     onClick={() => {
                         tab.function()
                         setActiveTab(index)
@@ -26,9 +26,9 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     })
 
     return (
-        <div className="w-full flex flex-col items-center p-4 rounded-lg bg-gray-50">
+        <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
             <ul className="flex items-center gap-3">{listOfTabs}</ul>
-            <div className="flex flex-row items-center py-4">
+            <div className="flex flex-row items-center pt-4">
                 <button type="button">
                     <AiOutlineLeft />
                 </button>
