@@ -10,7 +10,7 @@ import TimeSelectionModule from '../components/TimeSelectionModule'
 import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
-import dashboardItems from '../data/dashboardItems'
+import dashboardItems from '../data/dashboardItemsMock'
 
 function Dashboard() {
     const navigate = useNavigate()
