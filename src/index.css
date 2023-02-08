@@ -49,7 +49,6 @@ h1 {
 }
 
 h2 {
-    font-family: 'Oooh Baby', cursive;
     font-size: 2.441rem;
 }
 
@@ -105,8 +104,4 @@ small,
 
 .bg-black-opacity {
     background: rgb(0, 0, 0, 70%);
-}
-
-.text-shadow {
-    text-shadow: 2px 4px 9px rgba(0, 0, 0, 43%);
 }

@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react'
 export type MetricDashboardData = {
     metric: {
         name: string
+        iconName: string
         goal: string
         value: number
         valueType: string

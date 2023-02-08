@@ -1,6 +1,7 @@
 import { GiGoalKeeper } from 'react-icons/gi'
 import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
 import { ReactNode } from 'react'
+import * as Icons from 'react-icons/ri'
 import type { MetricDashboardData } from './DashboardTypes'
 import hasDecimals from '../../utils/hasDecimals'
 
@@ -49,13 +50,19 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
             </>
         )
     }
+    const IconElement = Icons[metric.iconName]
 
     return (
         <section
             className={`flex flex-col pb-6 w-72 h-72 rounded-xl shadow-2xl ${bgColorClass} last:justify-self-start`}
         >
-            <div className="h-16 pt-1 bg-black-opacity text-white flex flex-col justify-center items-center rounded-tl-xl rounded-tr-xl">
-                <h2 className="text-2xl">{metric.name}</h2>
+            <div className="h-16 pt-1 px-6 bg-black-opacity text-white flex flex-row justify-center items-center rounded-tl-xl rounded-tr-xl">
+                <i className="text-3xl pr-2">
+                    <IconElement />
+                </i>
+                <h2 className="flex justify-center text-xl grow">
+                    {metric.name}
+                </h2>
             </div>
             <div className="px-6 flex flex-col justify-center items-center grow">
                 <div className="flex flex-row justify-center items-center text-6xl">

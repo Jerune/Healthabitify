@@ -27,6 +27,7 @@ export type Metric = {
     id: string
     name: string
     categoryId: string
+    categoryIcon: string
     active: boolean
     type: 'Fixed' | 'Manual'
     frequency: 'Day' | 'Week'

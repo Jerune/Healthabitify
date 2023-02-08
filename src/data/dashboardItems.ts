@@ -1,6 +1,7 @@
 const dashboardItems = [
     {
         name: 'Weight',
+        iconName: 'RiBodyScanFill',
         goal: 'Stay under 80kg',
         value: 80,
         valueType: 'kg',
@@ -10,6 +11,7 @@ const dashboardItems = [
     },
     {
         name: 'HRV',
+        iconName: 'RiHeartPulseFill',
         goal: 'HRV of munimum 65ms',
         value: 67,
         valueType: 'ms',
@@ -19,6 +21,7 @@ const dashboardItems = [
     },
     {
         name: 'Average Heart Rate',
+        iconName: 'RiHeartPulseFill',
         goal: 'Heart rate stays under 50bpm',
         value: 52,
         valueType: 'bpm',
@@ -28,6 +31,7 @@ const dashboardItems = [
     },
     {
         name: 'Body Fat',
+        iconName: 'RiBodyScanFill',
         goal: 'Stay under 20%',
         value: 20.02,
         valueType: '%',
@@ -37,6 +41,7 @@ const dashboardItems = [
     },
     {
         name: 'Respitory Rate',
+        iconName: 'RiHeartPulseFill',
         goal: 'Keep rate of more than 14/min',
         value: 13.6,
         valueType: 'inhales/min',
