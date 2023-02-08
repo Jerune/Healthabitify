@@ -80,7 +80,7 @@ small,
     background: linear-gradient(
         0deg,
         rgba(185, 247, 182, 80%) 0%,
-        rgba(43, 250, 0, 70%) 100%
+        rgba(43, 250, 0, 80%) 100%
     );
 }
 
@@ -89,7 +89,7 @@ small,
     background: linear-gradient(
         0deg,
         rgba(247, 224, 176, 80%) 0%,
-        rgba(247, 136, 1, 70%) 100%
+        rgba(247, 136, 1, 80%) 100%
     );
 }
 
@@ -98,7 +98,7 @@ small,
     background: linear-gradient(
         0deg,
         rgba(250, 184, 184, 80%) 0%,
-        rgba(251, 62, 1, 70%) 100%
+        rgba(251, 62, 1, 80%) 100%
     );
 }
 
