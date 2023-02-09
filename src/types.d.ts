@@ -23,20 +23,30 @@ export type Category = {
 }
 
 type Range = [string, number] | [number, number]
+
 export type Metric = {
-    id: string
-    name: string
-    categoryId: string
-    categoryIcon: string
-    active: boolean
-    type: 'Fixed' | 'Manual'
-    frequency: 'Day' | 'Week'
-    conditionsMode: 'Higher' | 'Lower'
-    hasCustomRange: boolean
-    range?: {
-        good: Range
-        medium: Range
-        bad: Range
+    metric: {
+        id: string
+        name: string
+        active: boolean
+        source: string
+        categoryId: string
+        categoryIcon: string
+        type: 'Fixed' | 'Manual'
+        frequency: 'Day' | 'Week'
+        goal: string
+        value: number
+        valueType: string
+        comparisonValue: number
+        comparisonStatus: string
+        comparisonType: string
+        conditionsMode: 'Higher' | 'Lower'
+        hasCustomRange: boolean
+        range?: {
+            good: Range
+            medium: Range
+            bad: Range
+        }
     }
 }
 
