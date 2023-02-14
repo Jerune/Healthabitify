@@ -2,6 +2,7 @@ const metricItem = {
     id: '1',
     name: 'Weight',
     active: true,
+    onDashboard: true,
     type: 'amount',
     source: 'Manual',
     categoryId: '1',

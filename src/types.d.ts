@@ -29,6 +29,7 @@ export type Metric = {
         id: string
         name: string
         active: boolean
+        onDashboard: boolean
         source: string
         categoryId: string
         categoryIcon: string

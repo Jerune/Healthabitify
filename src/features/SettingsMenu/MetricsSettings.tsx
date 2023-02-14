@@ -1,146 +1,193 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useState } from 'react'
+import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import type { Metric } from '../../types'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isOpen, setIsOpen] = useState(false)
+
+    const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
 
     return (
         <form className="flex flex-row">
-            <button type="button">Edit / Save</button>
-            <div className="relative flex flex-col items-start justify-center">
-                <input type="checkbox" className="toggle toggle-success" />
-                <button className="absolute top-2 right-4" type="button">
-                    StarIcon
-                </button>
-                <label>name</label>
-                <h2>{formData.name}</h2>
-                <div className="flex flex-row">
-                    <div className="flex flex-col">
-                        <label>source</label>
-                        <span>{formData.source}</span>
-                    </div>
-                    <div className="flex flex-col">
-                        <label>category</label>
-                        <span>{formData.categoryId}</span>
-                    </div>
-                </div>
-                <div className="flex flex-row">
-                    <div className="flex flex-col">
-                        <label htmlFor="type">type</label>
-                        <select name="type" defaultValue="Amount">
-                            <option>Amount</option>
-                            <option>Time</option>
-                            <option>Duration</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col">
-                        <label>frequency</label>
-                        <select name="type" defaultValue="Amount">
-                            <option>Daily</option>
-                            <option>Weekly</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="flex flex-col">
-                    <label>conditions mode</label>
-                    <select name="type">
-                        <option>Higher</option>
-                        <option>Lower</option>
-                        <option>Range</option>
-                    </select>
-                    {formData.hasCustomRange && (
-                        <div className="flex flex-col gap-3">
-                            <div className="flex flex-row gap-3">
-                                <i>GreenLight</i>
-                                <select
-                                    name="type"
-                                    defaultValue={
-                                        formData.range
-                                            ? formData.range.good[0]
-                                            : 0
-                                    }
-                                >
-                                    <option>More</option>
-                                    <option>Less</option>
-                                </select>
-                                <span>than</span>
-                                <input
-                                    name="good"
-                                    value={
-                                        formData.range
-                                            ? formData.range.good[1]
-                                            : 0
-                                    }
-                                />
-                            </div>
-                            <div>
-                                <i>OrangeLight</i>
-                                <span>between</span>
-                                <input
-                                    name="medium"
-                                    value={
-                                        formData.range
-                                            ? formData.range.medium[0]
-                                            : 0
-                                    }
-                                />
-                                <span>and</span>
-                                <input
-                                    name="medium"
-                                    value={
-                                        formData.range
-                                            ? formData.range.medium[1]
-                                            : 0
-                                    }
-                                />
-                            </div>
-                            <div>
-                                <i>RedLight</i>
-                                <select
-                                    name="type"
-                                    defaultValue={
-                                        formData.range
-                                            ? formData.range.bad[0]
-                                            : 0
-                                    }
-                                >
-                                    <option>More</option>
-                                    <option>Less</option>
-                                </select>
-                                <span>than</span>
-                                <input
-                                    name="bad"
-                                    value={
-                                        formData.range
-                                            ? formData.range.bad[1]
-                                            : 0
-                                    }
-                                />
-                            </div>
-                        </div>
-                    )}
-                    <div className="flex flex-col">
-                        <label htmlFor="goal">goal</label>
-                        <input name="goal" value={formData.goal} />
-                    </div>
-                    <div className="alert alert-error shadow-lg">
-                        <div>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="stroke-current flex-shrink-0 h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
+            <div tabIndex={0} className="collapse group focus:bg-inherit">
+                <div className="collapse-title hover:bg-white">
+                    <div className="flex flex-col items-start justify-center gap-4">
+                        <div className="flex flex-row w-full justify-between">
+                            <input
+                                type="checkbox"
+                                className="toggle toggle-success"
+                            />
+                            <button
+                                className="text-2xl"
+                                type="button"
+                                onClick={() =>
+                                    setFormData((prevState) => {
+                                        return {
+                                            ...prevState,
+                                            onDashboard: !formData.onDashboard,
+                                        }
+                                    })
+                                }
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            <span>Error! Task failed successfully.</span>
+                                {starIcon}
+                            </button>
                         </div>
+                        <h3>{formData.name}</h3>
+                        <div className="flex flex-row w-full justify-between">
+                            <span>{formData.source}</span>
+                            <span>{formData.categoryId}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="collapse-content">
+                    <div className="flex flex-row">
+                        <div className="flex flex-col">
+                            <label htmlFor="type">type</label>
+                            <select
+                                name="type"
+                                className="select select-bordered w-full max-w-xs"
+                            >
+                                <option disabled selected>
+                                    Amount
+                                </option>
+                                <option>Time</option>
+                                <option>Duration</option>
+                            </select>
+                        </div>
+                        <div className="flex flex-col">
+                            <label>frequency</label>
+                            <select
+                                name="type"
+                                className="select select-bordered w-full max-w-xs"
+                                defaultValue="Amount"
+                            >
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="flex flex-col">
+                        <label>conditions mode</label>
+                        <select
+                            name="type"
+                            className="select select-bordered w-full max-w-xs"
+                        >
+                            <option>Higher</option>
+                            <option>Lower</option>
+                            <option>Range</option>
+                        </select>
+                        {formData.hasCustomRange && (
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-green-600" />
+                                    <select
+                                        className="select select-bordered w-full max-w-xs"
+                                        name="type"
+                                        defaultValue={
+                                            formData.range
+                                                ? formData.range.good[0]
+                                                : 0
+                                        }
+                                    >
+                                        <option>More</option>
+                                        <option>Less</option>
+                                    </select>
+                                    <span>than</span>
+                                    <input
+                                        className="input input-bordered w-full max-w-xs"
+                                        name="good"
+                                        value={
+                                            formData.range
+                                                ? formData.range.good[1]
+                                                : 0
+                                        }
+                                    />
+                                </div>
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-orange-600" />
+                                    <span>between</span>
+                                    <input
+                                        className="input input-bordered w-full max-w-xs"
+                                        name="medium"
+                                        value={
+                                            formData.range
+                                                ? formData.range.medium[0]
+                                                : 0
+                                        }
+                                    />
+                                    <span>and</span>
+                                    <input
+                                        name="medium"
+                                        className="input input-bordered w-full max-w-xs"
+                                        value={
+                                            formData.range
+                                                ? formData.range.medium[1]
+                                                : 0
+                                        }
+                                    />
+                                </div>
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-red-600" />
+                                    <select
+                                        className="select select-bordered w-full max-w-xs"
+                                        name="type"
+                                        defaultValue={
+                                            formData.range
+                                                ? formData.range.bad[0]
+                                                : 0
+                                        }
+                                    >
+                                        <option>More</option>
+                                        <option>Less</option>
+                                    </select>
+                                    <span>than</span>
+                                    <input
+                                        className="input input-bordered w-full max-w-xs"
+                                        name="bad"
+                                        value={
+                                            formData.range
+                                                ? formData.range.bad[1]
+                                                : 0
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex flex-col">
+                            <label htmlFor="goal">goal</label>
+                            <input
+                                className="input input-bordered w-full max-w-xs"
+                                name="goal"
+                                value={formData.goal}
+                            />
+                        </div>
+                        <div className="alert alert-error shadow-lg">
+                            <div>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="stroke-current flex-shrink-0 h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>Error! Task failed successfully.</span>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            className="bg-red-600 h-full w-10"
+                        >
+                            Edit / Save
+                        </button>
                     </div>
                 </div>
             </div>
