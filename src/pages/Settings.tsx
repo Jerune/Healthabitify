@@ -10,6 +10,8 @@ import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import SettingsButton from '../features/SettingsMenu/SettingsButton'
 import categoriesData from '../data/categoriesDataMock'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
+import MetricSettings from '../features/SettingsMenu/MetricsSettings'
+import metricItem from '../data/metricsMock'
 
 function Settings() {
     const navigate = useNavigate()
@@ -48,7 +50,7 @@ function Settings() {
                     </SettingsMenuSection>
                     <SettingsMenuSection>{categoryButtons}</SettingsMenuSection>
                     <SettingsContentField>
-                        <p>Test</p>
+                        <MetricSettings metric={metricItem} />
                     </SettingsContentField>
                 </SettingsMenuContainer>
             </main>

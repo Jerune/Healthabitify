@@ -32,15 +32,10 @@ export type Metric = {
         source: string
         categoryId: string
         categoryIcon: string
-        type: 'Fixed' | 'Manual'
-        frequency: 'Day' | 'Week'
+        isFixed: boolean
+        hasDailyData: boolean
         goal: string
-        value: number
-        valueType: string
-        comparisonValue: number
-        comparisonStatus: string
-        comparisonType: string
-        conditionsMode: 'Higher' | 'Lower'
+        conditionsMode: string
         hasCustomRange: boolean
         range?: {
             good: Range
