@@ -35,20 +35,13 @@ function Settings() {
         }
     }, [isLoggedIn])
 
-    const categoryButtons = categoriesData.map((category) => {
-        return <SettingsButton item={category.name} key={category.name} />
-    })
-
     return (
         <>
             <HeaderNav />
             <main>
                 <SettingsMenuContainer>
-                    <SettingsMenuSection>
-                        <SettingsButton item="Markers" />
-                        <SettingsButton item="Wearables" />
-                    </SettingsMenuSection>
-                    <SettingsMenuSection>{categoryButtons}</SettingsMenuSection>
+                    <SettingsMenuSection>Options</SettingsMenuSection>
+                    <SettingsMenuSection>Categories</SettingsMenuSection>
                     <SettingsContentField>
                         <MetricSettings metric={metricItem} />
                     </SettingsContentField>

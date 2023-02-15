@@ -4,7 +4,7 @@ export type SettingsButtonType = {
     type: string
     active: boolean
     text: string
-    onClick: () => void
+    onClick?: () => void
 }
 
 export type SettingsLabelType = {

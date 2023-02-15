@@ -244,7 +244,7 @@ function MetricSettings({ metric }: Metric) {
                             {errorMessage}
                         </div>
                     </fieldset>
-                    <div className="flex flex-row gap-6">
+                    <div className="flex flex-row w-full gap-6">
                         <SettingsButton
                             type="button"
                             active={!editForm}
@@ -255,7 +255,7 @@ function MetricSettings({ metric }: Metric) {
                             type="submit"
                             active={editForm}
                             text="Save"
-                            onClick={() => {}}
+                            onClick={() => handleSubmit}
                         />
                     </div>
                 </>
