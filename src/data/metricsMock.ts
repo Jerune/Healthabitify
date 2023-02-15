@@ -11,19 +11,17 @@ const metricItem = {
     frequency: 'Weekly',
     goal: 'Stay under 80kg',
     conditionsMode: 'Range',
-    range: {
-        good: {
-            mode: 'Less',
-            value: 80,
-        },
-        medium: {
-            value1: 80,
-            value2: 85,
-        },
-        bad: {
-            mode: 'More',
-            value: 85,
-        },
+    good: {
+        mode: 'Less',
+        value: '80',
+    },
+    medium: {
+        value1: '80',
+        value2: '85',
+    },
+    bad: {
+        mode: 'More',
+        value: '85',
     },
 }
 

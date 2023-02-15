@@ -15,31 +15,29 @@ function MetricSettings({ metric }: Metric) {
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
     const submitButtonText = editForm ? 'Save' : 'Edit'
     const submitButtonStyles = editForm ? 'bg-green-600' : 'bg-orange-600'
-    const selectStyles = 'select select-bordered w-full max-w-xs text-sm'
-    const inputStyles = 'w-full input input-bordered max-w-xs text-sm'
+    const selectStyles = 'select select-bordered max-w-xs text-sm'
+    const inputStyles = 'input input-bordered max-w-xs text-sm'
 
     // Functions
-    function handleChange(
-        event: InputEvent,
-        type: string | undefined = undefined
-    ) {
-        if (typeof type === 'undefined') {
+    function handleChange(event: InputEvent) {
+        if (event.target.dataset.type) {
+            setFormData((prevFormData) => {
+                return {
+                    ...prevFormData,
+                    [event.target.name]: {
+                        ...prevFormData[event.target.name],
+                        [event.target.dataset.type]: event.target.value,
+                    },
+                }
+            })
+        } else {
             setFormData((prevFormData) => {
                 return {
                     ...prevFormData,
                     [event.target.name]: event.target.value,
                 }
             })
-        } else if (typeof type === 'string')
-            setFormData((prevFormData) => {
-                return {
-                    ...prevFormData,
-                    [event.target.name]: {
-                        ...prevFormData,
-                        [type]: event.target.value,
-                    },
-                }
-            })
+        }
     }
 
     function handleChangeSelect(event: SelectEvent) {
@@ -112,8 +110,8 @@ function MetricSettings({ metric }: Metric) {
                 </div>
             </header>
             {isOpen && (
-                <fieldset disabled={!editForm}>
-                    <div className="flex flex-row">
+                <fieldset disabled={!editForm} className="flex flex-col gap-4">
+                    <div className="flex flex-row gap-4">
                         <div className="flex flex-col">
                             <SettingsLabel name="dataType">type</SettingsLabel>
                             <select
@@ -159,113 +157,104 @@ function MetricSettings({ metric }: Metric) {
                             <option value="Lower">Lower</option>
                             <option value="Range">Range</option>
                         </select>
-                        {formData.conditionsMode === 'Range' && (
-                            <div className="flex flex-col gap-3">
-                                <div className="flex flex-row gap-3 items-center">
-                                    <i className="rounded-full h-5 w-5 bg-green-600" />
-                                    <select
-                                        className={selectStyles}
-                                        name="good"
-                                        value={formData.range.good.mode}
-                                        onChange={handleChangeSelect}
-                                    >
-                                        <option value="">-- Choose --</option>
-                                        <option value="More">More</option>
-                                        <option value="Less">Less</option>
-                                    </select>
-                                    <span>than</span>
-                                    <input
-                                        className={`${inputStyles}`}
-                                        name="good"
-                                        value={
-                                            formData.range.good.value &&
-                                            formData.range.good.value
-                                        }
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className="flex flex-row gap-3 items-center">
-                                    <i className="rounded-full h-5 w-5 bg-orange-600" />
-                                    <span>between</span>
-                                    <input
-                                        className={`${inputStyles}`}
-                                        name="medium"
-                                        value={
-                                            formData.range.medium.value1 &&
-                                            formData.range.medium.value1
-                                        }
-                                        onChange={handleChange}
-                                    />
-                                    <span>and</span>
-                                    <input
-                                        name="medium"
-                                        className={`${inputStyles}`}
-                                        value={
-                                            formData.range.medium.value2 &&
-                                            formData.range.medium.value2
-                                        }
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className="flex flex-row gap-3 items-center">
-                                    <i className="rounded-full h-5 w-5 bg-red-600" />
-                                    <select
-                                        className={selectStyles}
-                                        name="bad"
-                                        value={formData.range.bad.mode}
-                                        onChange={handleChangeSelect}
-                                    >
-                                        <option value="">-- Choose --</option>
-                                        <option value="More">More</option>
-                                        <option value="Less">Less</option>
-                                    </select>
-                                    <span>than</span>
-                                    <input
-                                        className={`${inputStyles}`}
-                                        name="bad-value"
-                                        value={
-                                            formData.range.bad.value &&
-                                            formData.range.bad.value
-                                        }
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                        <div className="flex flex-col">
-                            <SettingsLabel name="goal">goal</SettingsLabel>
-                            <input
-                                className={`${inputStyles}`}
-                                name="goal"
-                                value={formData.goal}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="alert alert-error shadow-lg">
-                            <div>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="stroke-current flex-shrink-0 h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span>Error! Task failed successfully.</span>
-                            </div>
-                        </div>
-                        <button
-                            type="submit"
-                            className={`w-fit px-5 py-3 text-white text-base rounded-lg ${submitButtonStyles}`}
-                        >
-                            {submitButtonText}
-                        </button>
                     </div>
+                    {formData.conditionsMode === 'Range' && (
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-row gap-3 items-center">
+                                <i className="rounded-full h-5 w-5 bg-green-600" />
+                                <select
+                                    className={`${selectStyles}`}
+                                    name="good"
+                                    value={formData.good.mode}
+                                    onChange={handleChangeSelect}
+                                    data-type="mode"
+                                >
+                                    <option value="">-- Choose --</option>
+                                    <option value="More">More</option>
+                                    <option value="Less">Less</option>
+                                </select>
+                                <span>than</span>
+                                <input
+                                    className={`${inputStyles}`}
+                                    name="good"
+                                    value={
+                                        formData.good.value &&
+                                        formData.good.value
+                                    }
+                                    onChange={handleChange}
+                                    data-type="value"
+                                />
+                            </div>
+                            <div className="flex flex-row gap-3 items-center">
+                                <i className="rounded-full h-5 w-5 bg-orange-600" />
+                                <span>between</span>
+                                <input
+                                    className={`${inputStyles} w-32`}
+                                    name="medium"
+                                    value={
+                                        formData.medium.value1 &&
+                                        formData.medium.value1
+                                    }
+                                    onChange={handleChange}
+                                    data-type="value1"
+                                />
+                                <span>and</span>
+                                <input
+                                    name="medium"
+                                    className={`${inputStyles} w-32`}
+                                    value={
+                                        formData.medium.value2 &&
+                                        formData.medium.value2
+                                    }
+                                    onChange={handleChange}
+                                    data-type="value2"
+                                />
+                            </div>
+                            <div className="flex flex-row gap-3 items-center">
+                                <i className="rounded-full h-5 w-5 bg-red-600" />
+                                <select
+                                    className={selectStyles}
+                                    name="bad"
+                                    value={formData.bad.mode}
+                                    onChange={handleChangeSelect}
+                                    data-type="mode"
+                                >
+                                    <option value="">-- Choose --</option>
+                                    <option value="More">More</option>
+                                    <option value="Less">Less</option>
+                                </select>
+                                <span>than</span>
+                                <input
+                                    className={`${inputStyles}`}
+                                    name="bad"
+                                    value={
+                                        formData.bad.value && formData.bad.value
+                                    }
+                                    onChange={handleChange}
+                                    data-type="value"
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="flex flex-col">
+                        <SettingsLabel name="goal">goal</SettingsLabel>
+                        <input
+                            className={`${inputStyles}`}
+                            name="goal"
+                            value={formData.goal}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="flex flex-row gap-2 text-red-600">
+                        {errorMessage}
+                    </div>
+                    <button
+                        type="submit"
+                        className={`w-fit px-5 py-3 text-white text-base rounded-lg ${submitButtonStyles}`}
+                    >
+                        {submitButtonText}
+                    </button>
                 </fieldset>
             )}
         </form>

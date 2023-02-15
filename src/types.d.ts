@@ -37,19 +37,17 @@ export type Metric = {
         frequency: string
         goal: string
         conditionsMode: string
-        range: {
-            good: {
-                mode: string | undefined
-                value: number | undefined
-            }
-            medium: {
-                value1: number | undefined
-                value2: number | undefined
-            }
-            bad: {
-                mode: string | undefined
-                value: number | undefined
-            }
+        good: {
+            mode: string
+            value: string
+        }
+        medium: {
+            value1: string
+            value2: string
+        }
+        bad: {
+            mode: string
+            value: string
         }
     }
 }
