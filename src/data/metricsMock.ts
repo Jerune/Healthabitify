@@ -3,7 +3,7 @@ const metricItem = {
     name: 'Weight',
     active: true,
     onDashboard: true,
-    dataType: 'amount',
+    dataType: 'Amount',
     source: 'Manual',
     categoryId: '1',
     categoryIcon: 'RiBodyScanFill',

@@ -7,7 +7,7 @@ import SettingsLabel from './SettingsLabel'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
-    const [editForm, setEditForm] = useState(false)
+    const [editForm, setEditForm] = useState(true)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -119,10 +119,10 @@ function MetricSettings({ metric }: Metric) {
                             <select
                                 name="dataType"
                                 className={selectStyles}
-                                defaultValue="Amount"
                                 value={formData.dataType}
                                 onChange={handleChangeSelect}
                             >
+                                <option value="">-- Choose --</option>
                                 <option value="Amount">Amount</option>
                                 <option value="Time">Time</option>
                                 <option value="Duration">Duration</option>
@@ -135,10 +135,10 @@ function MetricSettings({ metric }: Metric) {
                             <select
                                 name="frequency"
                                 className={selectStyles}
-                                defaultValue="Daily"
                                 value={formData.frequency}
                                 onChange={handleChangeSelect}
                             >
+                                <option value="">-- Choose --</option>
                                 <option value="Daily">Daily</option>
                                 <option value="Weekly">Weekly</option>
                             </select>
@@ -151,10 +151,10 @@ function MetricSettings({ metric }: Metric) {
                         <select
                             name="conditionsMode"
                             className={selectStyles}
-                            defaultValue="Higher"
                             value={formData.conditionsMode}
                             onChange={handleChangeSelect}
                         >
+                            <option value="">-- Choose --</option>
                             <option value="Higher">Higher</option>
                             <option value="Lower">Lower</option>
                             <option value="Range">Range</option>
@@ -165,21 +165,18 @@ function MetricSettings({ metric }: Metric) {
                                     <i className="rounded-full h-5 w-5 bg-green-600" />
                                     <select
                                         className={selectStyles}
-                                        name="good-mode"
-                                        defaultValue="More"
-                                        value={
-                                            formData.range.good.mode &&
-                                            formData.range.good.mode
-                                        }
+                                        name="good"
+                                        value={formData.range.good.mode}
                                         onChange={handleChangeSelect}
                                     >
+                                        <option value="">-- Choose --</option>
                                         <option value="More">More</option>
-                                        <option value="More">Less</option>
+                                        <option value="Less">Less</option>
                                     </select>
                                     <span>than</span>
                                     <input
                                         className={`${inputStyles}`}
-                                        name="good-value"
+                                        name="good"
                                         value={
                                             formData.range.good.value &&
                                             formData.range.good.value
@@ -192,15 +189,16 @@ function MetricSettings({ metric }: Metric) {
                                     <span>between</span>
                                     <input
                                         className={`${inputStyles}`}
-                                        name="medium-value1"
+                                        name="medium"
                                         value={
                                             formData.range.medium.value1 &&
                                             formData.range.medium.value1
                                         }
+                                        onChange={handleChange}
                                     />
                                     <span>and</span>
                                     <input
-                                        name="medium-value2"
+                                        name="medium"
                                         className={`${inputStyles}`}
                                         value={
                                             formData.range.medium.value2 &&
@@ -213,13 +211,11 @@ function MetricSettings({ metric }: Metric) {
                                     <i className="rounded-full h-5 w-5 bg-red-600" />
                                     <select
                                         className={selectStyles}
-                                        name="bad-mode"
-                                        value={
-                                            formData.range.bad.mode &&
-                                            formData.range.bad.mode
-                                        }
+                                        name="bad"
+                                        value={formData.range.bad.mode}
                                         onChange={handleChangeSelect}
                                     >
+                                        <option value="">-- Choose --</option>
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
                                     </select>
