@@ -7,11 +7,13 @@ import SettingsLabel from './SettingsLabel'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
-    const [notEditForm, setNotEditForm] = useState(true)
+    const [editForm, setEditForm] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
+    const submitButtonText = editForm ? 'Save' : 'Edit'
+    const submitButtonStyles = editForm ? 'bg-green-600' : 'bg-orange-600'
     const selectStyles = 'select select-bordered w-full max-w-xs text-sm'
     const inputStyles = 'w-full input input-bordered max-w-xs text-sm'
 
@@ -66,7 +68,7 @@ function MetricSettings({ metric }: Metric) {
                 </div>
             </header>
             {isOpen && (
-                <fieldset disabled={notEditForm}>
+                <fieldset disabled={!editForm}>
                     <div className="flex flex-row">
                         <div className="flex flex-col">
                             <SettingsLabel name="dataType">type</SettingsLabel>
@@ -209,10 +211,10 @@ function MetricSettings({ metric }: Metric) {
                             </div>
                         </div>
                         <button
-                            type="button"
-                            className="bg-red-600 h-full w-10"
+                            type="submit"
+                            className={`w-fit px-5 py-3 text-white text-base rounded-lg ${submitButtonStyles}`}
                         >
-                            Edit / Save
+                            {submitButtonText}
                         </button>
                     </div>
                 </fieldset>
