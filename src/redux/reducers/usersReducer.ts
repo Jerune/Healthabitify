@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const activeUser = {
     email: '',
     userId: '',
+    displayName: '',
     isLoggedIn: false,
 }
 

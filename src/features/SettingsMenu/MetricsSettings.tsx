@@ -5,12 +5,16 @@ import type { Metric } from '../../types'
 import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
+import getUser from '../../services/getUser'
+import { useAppSelector } from '../../redux/reduxHooks'
+import addUser from '../../services/addUser'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const user = useAppSelector((state) => state.user)
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />

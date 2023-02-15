@@ -11,10 +11,9 @@ export type SelectEvent = ChangeEventHandler<HTMLSelectElement>
 export type FormSubmit = FormEvent<HTMLFormElement>
 
 export type User = {
-    id: string
-    firstName: string
+    userId: string
+    displayName: string
     email: string
-    password: string
 }
 
 export type Category = {
