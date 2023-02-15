@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
+import type { InputEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
 
 function MetricSettings({ metric }: Metric) {
@@ -11,14 +12,41 @@ function MetricSettings({ metric }: Metric) {
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
+    // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
     const submitButtonText = editForm ? 'Save' : 'Edit'
     const submitButtonStyles = editForm ? 'bg-green-600' : 'bg-orange-600'
     const selectStyles = 'select select-bordered w-full max-w-xs text-sm'
     const inputStyles = 'w-full input input-bordered max-w-xs text-sm'
 
+    // Functions
+    function handleChange(event: InputEvent) {
+        setFormData((prevFormData) => {
+            return {
+                ...prevFormData,
+                [event.target.name]: event.target.value,
+            }
+        })
+    }
+
+    function handleChangeSelect(event: InputEvent, name: string) {
+        setFormData((prevFormData) => {
+            return {
+                ...prevFormData,
+                [name]: event.target.value,
+            }
+        })
+    }
+
+    async function handleSubmit(event: FormSubmit) {
+        event.preventDefault()
+    }
+
     return (
-        <form className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm">
+        <form
+            className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm"
+            onSubmit={handleSubmit}
+        >
             <header className="flex flex-row w-full justify-start gap-4">
                 <button
                     type="button"
