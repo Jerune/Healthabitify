@@ -22,7 +22,7 @@ export type Category = {
     iconName: string | unknown
 }
 
-type Range = [string, number] | [number, number]
+type Range = [string, number] | [number, number] | undefined
 
 export type Metric = {
     metric: {
@@ -35,11 +35,10 @@ export type Metric = {
         categoryId: string
         categoryIcon: string
         isFixed: boolean
-        hasDailyData: boolean
+        frequency: string
         goal: string
         conditionsMode: string
-        hasCustomRange: boolean
-        range?: {
+        range: {
             good: Range
             medium: Range
             bad: Range

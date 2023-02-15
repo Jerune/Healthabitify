@@ -12,9 +12,11 @@ function MetricSettings({ metric }: Metric) {
     const [errorMessage, setErrorMessage] = useState('')
 
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
+    const selectStyles = 'select select-bordered w-full max-w-xs text-sm'
+    const inputStyles = 'w-full input input-bordered max-w-xs text-sm'
 
     return (
-        <form className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4">
+        <form className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm">
             <header className="flex flex-row w-full justify-start gap-4">
                 <button
                     type="button"
@@ -70,26 +72,27 @@ function MetricSettings({ metric }: Metric) {
                             <SettingsLabel name="dataType">type</SettingsLabel>
                             <select
                                 name="dataType"
-                                className="select select-bordered w-full max-w-xs"
+                                className={selectStyles}
+                                defaultValue="Amount"
+                                value={formData.dataType}
                             >
-                                <option disabled selected>
-                                    Amount
-                                </option>
-                                <option>Time</option>
-                                <option>Duration</option>
+                                <option value="Amount">Amount</option>
+                                <option value="Time">Time</option>
+                                <option value="Duration">Duration</option>
                             </select>
                         </div>
                         <div className="flex flex-col">
-                            <SettingsLabel name="hasDailyData">
+                            <SettingsLabel name="frequency">
                                 frequency
                             </SettingsLabel>
                             <select
-                                name="hasDailyData"
-                                className="select select-bordered w-full max-w-xs"
+                                name="frequency"
+                                className={selectStyles}
                                 defaultValue="Daily"
+                                value={formData.frequency}
                             >
-                                <option>Daily</option>
-                                <option>Weekly</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Weekly">Weekly</option>
                             </select>
                         </div>
                     </div>
@@ -99,36 +102,37 @@ function MetricSettings({ metric }: Metric) {
                         </SettingsLabel>
                         <select
                             name="conditionsMode"
-                            className="select select-bordered w-full max-w-xs"
+                            className={selectStyles}
+                            defaultValue="Higher"
+                            value={formData.conditionsMode}
                         >
-                            <option>Higher</option>
-                            <option>Lower</option>
-                            <option>Range</option>
+                            <option value="Higher">Higher</option>
+                            <option value="Lower">Lower</option>
+                            <option value="Range">Range</option>
                         </select>
-                        {formData.hasCustomRange && (
+                        {formData.conditionsMode === 'Range' && (
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-row gap-3 items-center">
                                     <i className="rounded-full h-5 w-5 bg-green-600" />
                                     <select
-                                        className="select select-bordered w-full max-w-xs"
-                                        name="type"
-                                        defaultValue={
-                                            formData.range
-                                                ? formData.range.good[0]
-                                                : 0
+                                        className={selectStyles}
+                                        name="good-1"
+                                        defaultValue="More"
+                                        value={
+                                            formData.range.good &&
+                                            formData.range.good[0]
                                         }
                                     >
-                                        <option>More</option>
-                                        <option>Less</option>
+                                        <option value="More">More</option>
+                                        <option value="More">Less</option>
                                     </select>
                                     <span>than</span>
                                     <input
-                                        className="input input-bordered w-full max-w-xs"
-                                        name="good"
+                                        className={`${inputStyles}`}
+                                        name="good-2"
                                         value={
-                                            formData.range
-                                                ? formData.range.good[1]
-                                                : 0
+                                            formData.range.good &&
+                                            formData.range.good[1]
                                         }
                                     />
                                 </div>
@@ -136,47 +140,43 @@ function MetricSettings({ metric }: Metric) {
                                     <i className="rounded-full h-5 w-5 bg-orange-600" />
                                     <span>between</span>
                                     <input
-                                        className="input input-bordered w-full max-w-xs"
-                                        name="medium"
+                                        className={`${inputStyles}`}
+                                        name="medium-1"
                                         value={
-                                            formData.range
-                                                ? formData.range.medium[0]
-                                                : 0
+                                            formData.range.medium &&
+                                            formData.range.medium[0]
                                         }
                                     />
                                     <span>and</span>
                                     <input
-                                        name="medium"
-                                        className="input input-bordered w-full max-w-xs"
+                                        name="medium-2"
+                                        className={`${inputStyles}`}
                                         value={
-                                            formData.range
-                                                ? formData.range.medium[1]
-                                                : 0
+                                            formData.range.medium &&
+                                            formData.range.medium[1]
                                         }
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
                                     <i className="rounded-full h-5 w-5 bg-red-600" />
                                     <select
-                                        className="select select-bordered w-full max-w-xs"
-                                        name="type"
-                                        defaultValue={
-                                            formData.range
-                                                ? formData.range.bad[0]
-                                                : 0
+                                        className={selectStyles}
+                                        name="bad-1"
+                                        value={
+                                            formData.range.bad &&
+                                            formData.range.bad[0]
                                         }
                                     >
-                                        <option>More</option>
-                                        <option>Less</option>
+                                        <option value="More">More</option>
+                                        <option value="Less">Less</option>
                                     </select>
                                     <span>than</span>
                                     <input
-                                        className="input input-bordered w-full max-w-xs"
-                                        name="bad"
+                                        className={`${inputStyles}`}
+                                        name="bad-2"
                                         value={
-                                            formData.range
-                                                ? formData.range.bad[1]
-                                                : 0
+                                            formData.range.bad &&
+                                            formData.range.bad[1]
                                         }
                                     />
                                 </div>
@@ -185,7 +185,7 @@ function MetricSettings({ metric }: Metric) {
                         <div className="flex flex-col">
                             <SettingsLabel name="goal">goal</SettingsLabel>
                             <input
-                                className="input input-bordered w-full max-w-xs"
+                                className={`${inputStyles}`}
                                 name="goal"
                                 value={formData.goal}
                             />
