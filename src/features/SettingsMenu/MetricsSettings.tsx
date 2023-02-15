@@ -1,53 +1,75 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useState } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
+import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
+import SettingsLabel from './SettingsLabel'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [notEditForm, setNotEditForm] = useState(true)
     const [isOpen, setIsOpen] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
 
     return (
-        <form className="flex flex-row">
-            <div tabIndex={0} className="collapse group focus:bg-inherit">
-                <div className="collapse-title hover:bg-white">
-                    <div className="flex flex-col items-start justify-center gap-4">
-                        <div className="flex flex-row w-full justify-between">
-                            <input
-                                type="checkbox"
-                                className="toggle toggle-success"
-                            />
-                            <button
-                                className="text-2xl"
-                                type="button"
-                                onClick={() =>
-                                    setFormData((prevState) => {
-                                        return {
-                                            ...prevState,
-                                            onDashboard: !formData.onDashboard,
-                                        }
-                                    })
-                                }
-                            >
-                                {starIcon}
-                            </button>
-                        </div>
-                        <h3>{formData.name}</h3>
-                        <div className="flex flex-row w-full justify-between">
-                            <span>{formData.source}</span>
-                            <span>{formData.categoryId}</span>
-                        </div>
-                    </div>
+        <form className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4">
+            <header className="flex flex-row w-full justify-start gap-4">
+                <button
+                    type="button"
+                    className="rotate-90"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {isOpen ? (
+                        <AiOutlineDoubleLeft />
+                    ) : (
+                        <AiOutlineDoubleRight />
+                    )}
+                </button>
+
+                <div className="flex flex-col">
+                    <h3>{formData.name}</h3>
+                    <span className="pl-2">{formData.source}</span>
                 </div>
-                <div className="collapse-content">
+                <div className="flex flex-col justify-between items-end grow">
+                    <input
+                        type="checkbox"
+                        className="toggle toggle-success"
+                        checked={formData.active}
+                        onChange={() =>
+                            setFormData((prevState) => {
+                                return {
+                                    ...prevState,
+                                    active: !prevState.active,
+                                    onDashboard: false,
+                                }
+                            })
+                        }
+                    />
+                    <button
+                        className="text-2xl text-yellow-400"
+                        type="button"
+                        onClick={() =>
+                            setFormData((prevState) => {
+                                return {
+                                    ...prevState,
+                                    onDashboard: !formData.onDashboard,
+                                }
+                            })
+                        }
+                    >
+                        {starIcon}
+                    </button>
+                </div>
+            </header>
+            {isOpen && (
+                <fieldset disabled={notEditForm}>
                     <div className="flex flex-row">
                         <div className="flex flex-col">
-                            <label htmlFor="type">type</label>
+                            <SettingsLabel name="dataType">type</SettingsLabel>
                             <select
-                                name="type"
+                                name="dataType"
                                 className="select select-bordered w-full max-w-xs"
                             >
                                 <option disabled selected>
@@ -58,11 +80,13 @@ function MetricSettings({ metric }: Metric) {
                             </select>
                         </div>
                         <div className="flex flex-col">
-                            <label>frequency</label>
+                            <SettingsLabel name="hasDailyData">
+                                frequency
+                            </SettingsLabel>
                             <select
-                                name="type"
+                                name="hasDailyData"
                                 className="select select-bordered w-full max-w-xs"
-                                defaultValue="Amount"
+                                defaultValue="Daily"
                             >
                                 <option>Daily</option>
                                 <option>Weekly</option>
@@ -70,9 +94,11 @@ function MetricSettings({ metric }: Metric) {
                         </div>
                     </div>
                     <div className="flex flex-col">
-                        <label>conditions mode</label>
+                        <SettingsLabel name="conditionsMode">
+                            conditions mode
+                        </SettingsLabel>
                         <select
-                            name="type"
+                            name="conditionsMode"
                             className="select select-bordered w-full max-w-xs"
                         >
                             <option>Higher</option>
@@ -157,7 +183,7 @@ function MetricSettings({ metric }: Metric) {
                             </div>
                         )}
                         <div className="flex flex-col">
-                            <label htmlFor="goal">goal</label>
+                            <SettingsLabel name="goal">goal</SettingsLabel>
                             <input
                                 className="input input-bordered w-full max-w-xs"
                                 name="goal"
@@ -189,8 +215,8 @@ function MetricSettings({ metric }: Metric) {
                             Edit / Save
                         </button>
                     </div>
-                </div>
-            </div>
+                </fieldset>
+            )}
         </form>
     )
 }
