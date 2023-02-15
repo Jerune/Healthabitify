@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useState } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
-import type { InputEvent, FormSubmit } from '../../types.d.js'
+import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
 
 function MetricSettings({ metric }: Metric) {
@@ -20,20 +19,34 @@ function MetricSettings({ metric }: Metric) {
     const inputStyles = 'w-full input input-bordered max-w-xs text-sm'
 
     // Functions
-    function handleChange(event: InputEvent) {
-        setFormData((prevFormData) => {
-            return {
-                ...prevFormData,
-                [event.target.name]: event.target.value,
-            }
-        })
+    function handleChange(
+        event: InputEvent,
+        type: string | undefined = undefined
+    ) {
+        if (typeof type === 'undefined') {
+            setFormData((prevFormData) => {
+                return {
+                    ...prevFormData,
+                    [event.target.name]: event.target.value,
+                }
+            })
+        } else if (typeof type === 'string')
+            setFormData((prevFormData) => {
+                return {
+                    ...prevFormData,
+                    [event.target.name]: {
+                        ...prevFormData,
+                        [type]: event.target.value,
+                    },
+                }
+            })
     }
 
-    function handleChangeSelect(event: InputEvent, name: string) {
+    function handleChangeSelect(event: SelectEvent) {
         setFormData((prevFormData) => {
             return {
                 ...prevFormData,
-                [name]: event.target.value,
+                [event.name]: event.value,
             }
         })
     }
@@ -41,6 +54,9 @@ function MetricSettings({ metric }: Metric) {
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
     }
+
+    // eslint-disable-next-line no-console
+    console.log(formData)
 
     return (
         <form
@@ -105,6 +121,7 @@ function MetricSettings({ metric }: Metric) {
                                 className={selectStyles}
                                 defaultValue="Amount"
                                 value={formData.dataType}
+                                onChange={handleChangeSelect}
                             >
                                 <option value="Amount">Amount</option>
                                 <option value="Time">Time</option>
@@ -120,6 +137,7 @@ function MetricSettings({ metric }: Metric) {
                                 className={selectStyles}
                                 defaultValue="Daily"
                                 value={formData.frequency}
+                                onChange={handleChangeSelect}
                             >
                                 <option value="Daily">Daily</option>
                                 <option value="Weekly">Weekly</option>
@@ -135,6 +153,7 @@ function MetricSettings({ metric }: Metric) {
                             className={selectStyles}
                             defaultValue="Higher"
                             value={formData.conditionsMode}
+                            onChange={handleChangeSelect}
                         >
                             <option value="Higher">Higher</option>
                             <option value="Lower">Lower</option>
@@ -146,12 +165,13 @@ function MetricSettings({ metric }: Metric) {
                                     <i className="rounded-full h-5 w-5 bg-green-600" />
                                     <select
                                         className={selectStyles}
-                                        name="good-1"
+                                        name="good-mode"
                                         defaultValue="More"
                                         value={
-                                            formData.range.good &&
-                                            formData.range.good[0]
+                                            formData.range.good.mode &&
+                                            formData.range.good.mode
                                         }
+                                        onChange={handleChangeSelect}
                                     >
                                         <option value="More">More</option>
                                         <option value="More">Less</option>
@@ -159,11 +179,12 @@ function MetricSettings({ metric }: Metric) {
                                     <span>than</span>
                                     <input
                                         className={`${inputStyles}`}
-                                        name="good-2"
+                                        name="good-value"
                                         value={
-                                            formData.range.good &&
-                                            formData.range.good[1]
+                                            formData.range.good.value &&
+                                            formData.range.good.value
                                         }
+                                        onChange={handleChange}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
@@ -171,31 +192,33 @@ function MetricSettings({ metric }: Metric) {
                                     <span>between</span>
                                     <input
                                         className={`${inputStyles}`}
-                                        name="medium-1"
+                                        name="medium-value1"
                                         value={
-                                            formData.range.medium &&
-                                            formData.range.medium[0]
+                                            formData.range.medium.value1 &&
+                                            formData.range.medium.value1
                                         }
                                     />
                                     <span>and</span>
                                     <input
-                                        name="medium-2"
+                                        name="medium-value2"
                                         className={`${inputStyles}`}
                                         value={
-                                            formData.range.medium &&
-                                            formData.range.medium[1]
+                                            formData.range.medium.value2 &&
+                                            formData.range.medium.value2
                                         }
+                                        onChange={handleChange}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
                                     <i className="rounded-full h-5 w-5 bg-red-600" />
                                     <select
                                         className={selectStyles}
-                                        name="bad-1"
+                                        name="bad-mode"
                                         value={
-                                            formData.range.bad &&
-                                            formData.range.bad[0]
+                                            formData.range.bad.mode &&
+                                            formData.range.bad.mode
                                         }
+                                        onChange={handleChangeSelect}
                                     >
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
@@ -203,11 +226,12 @@ function MetricSettings({ metric }: Metric) {
                                     <span>than</span>
                                     <input
                                         className={`${inputStyles}`}
-                                        name="bad-2"
+                                        name="bad-value"
                                         value={
-                                            formData.range.bad &&
-                                            formData.range.bad[1]
+                                            formData.range.bad.value &&
+                                            formData.range.bad.value
                                         }
+                                        onChange={handleChange}
                                     />
                                 </div>
                             </div>
@@ -218,6 +242,7 @@ function MetricSettings({ metric }: Metric) {
                                 className={`${inputStyles}`}
                                 name="goal"
                                 value={formData.goal}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="alert alert-error shadow-lg">

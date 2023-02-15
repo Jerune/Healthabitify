@@ -7,6 +7,7 @@ export type SignInData = {
 
 // Events
 export type InputEvent = React.ChangeEvent<HTMLInputElement>
+export type SelectEvent = ChangeEventHandler<HTMLSelectElement>
 export type FormSubmit = FormEvent<HTMLFormElement>
 
 export type User = {
@@ -21,8 +22,6 @@ export type Category = {
     name: string
     iconName: string | unknown
 }
-
-type Range = [string, number] | [number, number] | undefined
 
 export type Metric = {
     metric: {
@@ -39,9 +38,18 @@ export type Metric = {
         goal: string
         conditionsMode: string
         range: {
-            good: Range
-            medium: Range
-            bad: Range
+            good: {
+                mode: string | undefined
+                value: number | undefined
+            }
+            medium: {
+                value1: number | undefined
+                value2: number | undefined
+            }
+            bad: {
+                mode: string | undefined
+                value: number | undefined
+            }
         }
     }
 }

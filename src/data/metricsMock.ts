@@ -12,9 +12,18 @@ const metricItem = {
     goal: 'Stay under 80kg',
     conditionsMode: 'Range',
     range: {
-        good: ['less', 80],
-        medium: [80, 85],
-        bad: ['more', 85],
+        good: {
+            mode: 'Less',
+            value: 80,
+        },
+        medium: {
+            value1: 80,
+            value2: 85,
+        },
+        bad: {
+            mode: 'More',
+            value: 85,
+        },
     },
 }
 
