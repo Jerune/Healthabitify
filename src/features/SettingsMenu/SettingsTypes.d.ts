@@ -1,7 +1,10 @@
 import { ReactNode } from 'react'
 
 export type SettingsButtonType = {
-    item: string
+    type: string
+    active: boolean
+    text: string
+    onClick: () => void
 }
 
 export type SettingsLabelType = {

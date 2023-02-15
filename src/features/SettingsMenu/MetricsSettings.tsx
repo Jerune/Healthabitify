@@ -4,22 +4,21 @@ import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
 import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
+import SettingsButton from './SettingsButton'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
-    const [editForm, setEditForm] = useState(true)
+    const [editForm, setEditForm] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
-    const submitButtonText = editForm ? 'Save' : 'Edit'
-    const submitButtonStyles = editForm ? 'bg-green-600' : 'bg-orange-600'
-    const selectStyles = 'select select-bordered max-w-xs text-sm'
-    const inputStyles = 'input input-bordered max-w-xs text-sm'
+    const generalSelectStyles = 'select select-bordered max-w-xs text-sm'
+    const generalInputStyles = 'input input-bordered max-w-xs text-sm'
 
     // Functions
-    function handleChange(event: InputEvent) {
+    function handleChange(event: InputEvent | SelectEvent) {
         if (event.target.dataset.type) {
             setFormData((prevFormData) => {
                 return {
@@ -40,21 +39,9 @@ function MetricSettings({ metric }: Metric) {
         }
     }
 
-    function handleChangeSelect(event: SelectEvent) {
-        setFormData((prevFormData) => {
-            return {
-                ...prevFormData,
-                [event.name]: event.value,
-            }
-        })
-    }
-
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
     }
-
-    // eslint-disable-next-line no-console
-    console.log(formData)
 
     return (
         <form
@@ -110,152 +97,168 @@ function MetricSettings({ metric }: Metric) {
                 </div>
             </header>
             {isOpen && (
-                <fieldset disabled={!editForm} className="flex flex-col gap-4">
-                    <div className="flex flex-row gap-4">
-                        <div className="flex flex-col">
-                            <SettingsLabel name="dataType">type</SettingsLabel>
-                            <select
-                                name="dataType"
-                                className={selectStyles}
-                                value={formData.dataType}
-                                onChange={handleChangeSelect}
-                            >
-                                <option value="">-- Choose --</option>
-                                <option value="Amount">Amount</option>
-                                <option value="Time">Time</option>
-                                <option value="Duration">Duration</option>
-                            </select>
+                <>
+                    <fieldset
+                        disabled={!editForm}
+                        className="flex flex-col gap-4"
+                    >
+                        <div className="flex flex-row gap-4">
+                            <div className="flex flex-col">
+                                <SettingsLabel name="dataType">
+                                    type
+                                </SettingsLabel>
+                                <select
+                                    name="dataType"
+                                    className={generalSelectStyles}
+                                    value={formData.dataType}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">-- Choose --</option>
+                                    <option value="Amount">Amount</option>
+                                    <option value="Time">Time</option>
+                                    <option value="Duration">Duration</option>
+                                </select>
+                            </div>
+                            <div className="flex flex-col">
+                                <SettingsLabel name="frequency">
+                                    frequency
+                                </SettingsLabel>
+                                <select
+                                    name="frequency"
+                                    className={generalSelectStyles}
+                                    value={formData.frequency}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">-- Choose --</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                </select>
+                            </div>
                         </div>
                         <div className="flex flex-col">
-                            <SettingsLabel name="frequency">
-                                frequency
+                            <SettingsLabel name="conditionsMode">
+                                conditions mode
                             </SettingsLabel>
                             <select
-                                name="frequency"
-                                className={selectStyles}
-                                value={formData.frequency}
-                                onChange={handleChangeSelect}
+                                name="conditionsMode"
+                                className={generalSelectStyles}
+                                value={formData.conditionsMode}
+                                onChange={handleChange}
                             >
                                 <option value="">-- Choose --</option>
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
+                                <option value="Higher">Higher</option>
+                                <option value="Lower">Lower</option>
+                                <option value="Range">Range</option>
                             </select>
                         </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <SettingsLabel name="conditionsMode">
-                            conditions mode
-                        </SettingsLabel>
-                        <select
-                            name="conditionsMode"
-                            className={selectStyles}
-                            value={formData.conditionsMode}
-                            onChange={handleChangeSelect}
-                        >
-                            <option value="">-- Choose --</option>
-                            <option value="Higher">Higher</option>
-                            <option value="Lower">Lower</option>
-                            <option value="Range">Range</option>
-                        </select>
-                    </div>
-                    {formData.conditionsMode === 'Range' && (
-                        <div className="flex flex-col gap-4">
-                            <div className="flex flex-row gap-3 items-center">
-                                <i className="rounded-full h-5 w-5 bg-green-600" />
-                                <select
-                                    className={`${selectStyles}`}
-                                    name="good"
-                                    value={formData.good.mode}
-                                    onChange={handleChangeSelect}
-                                    data-type="mode"
-                                >
-                                    <option value="">-- Choose --</option>
-                                    <option value="More">More</option>
-                                    <option value="Less">Less</option>
-                                </select>
-                                <span>than</span>
-                                <input
-                                    className={`${inputStyles}`}
-                                    name="good"
-                                    value={
-                                        formData.good.value &&
-                                        formData.good.value
-                                    }
-                                    onChange={handleChange}
-                                    data-type="value"
-                                />
+                        {formData.conditionsMode === 'Range' && (
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-green-600" />
+                                    <select
+                                        className={`${generalSelectStyles}`}
+                                        name="good"
+                                        value={formData.good.mode}
+                                        onChange={handleChange}
+                                        data-type="mode"
+                                    >
+                                        <option value="">-- Choose --</option>
+                                        <option value="More">More</option>
+                                        <option value="Less">Less</option>
+                                    </select>
+                                    <span>than</span>
+                                    <input
+                                        className={`${generalInputStyles}`}
+                                        name="good"
+                                        value={
+                                            formData.good.value &&
+                                            formData.good.value
+                                        }
+                                        onChange={handleChange}
+                                        data-type="value"
+                                    />
+                                </div>
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-orange-600" />
+                                    <span>between</span>
+                                    <input
+                                        className={`${generalInputStyles} w-32`}
+                                        name="medium"
+                                        value={
+                                            formData.medium.value1 &&
+                                            formData.medium.value1
+                                        }
+                                        onChange={handleChange}
+                                        data-type="value1"
+                                    />
+                                    <span>and</span>
+                                    <input
+                                        name="medium"
+                                        className={`${generalInputStyles} w-32`}
+                                        value={
+                                            formData.medium.value2 &&
+                                            formData.medium.value2
+                                        }
+                                        onChange={handleChange}
+                                        data-type="value2"
+                                    />
+                                </div>
+                                <div className="flex flex-row gap-3 items-center">
+                                    <i className="rounded-full h-5 w-5 bg-red-600" />
+                                    <select
+                                        className={generalSelectStyles}
+                                        name="bad"
+                                        value={formData.bad.mode}
+                                        onChange={handleChange}
+                                        data-type="mode"
+                                    >
+                                        <option value="">-- Choose --</option>
+                                        <option value="More">More</option>
+                                        <option value="Less">Less</option>
+                                    </select>
+                                    <span>than</span>
+                                    <input
+                                        className={`${generalInputStyles}`}
+                                        name="bad"
+                                        value={
+                                            formData.bad.value &&
+                                            formData.bad.value
+                                        }
+                                        onChange={handleChange}
+                                        data-type="value"
+                                    />
+                                </div>
                             </div>
-                            <div className="flex flex-row gap-3 items-center">
-                                <i className="rounded-full h-5 w-5 bg-orange-600" />
-                                <span>between</span>
-                                <input
-                                    className={`${inputStyles} w-32`}
-                                    name="medium"
-                                    value={
-                                        formData.medium.value1 &&
-                                        formData.medium.value1
-                                    }
-                                    onChange={handleChange}
-                                    data-type="value1"
-                                />
-                                <span>and</span>
-                                <input
-                                    name="medium"
-                                    className={`${inputStyles} w-32`}
-                                    value={
-                                        formData.medium.value2 &&
-                                        formData.medium.value2
-                                    }
-                                    onChange={handleChange}
-                                    data-type="value2"
-                                />
-                            </div>
-                            <div className="flex flex-row gap-3 items-center">
-                                <i className="rounded-full h-5 w-5 bg-red-600" />
-                                <select
-                                    className={selectStyles}
-                                    name="bad"
-                                    value={formData.bad.mode}
-                                    onChange={handleChangeSelect}
-                                    data-type="mode"
-                                >
-                                    <option value="">-- Choose --</option>
-                                    <option value="More">More</option>
-                                    <option value="Less">Less</option>
-                                </select>
-                                <span>than</span>
-                                <input
-                                    className={`${inputStyles}`}
-                                    name="bad"
-                                    value={
-                                        formData.bad.value && formData.bad.value
-                                    }
-                                    onChange={handleChange}
-                                    data-type="value"
-                                />
-                            </div>
-                        </div>
-                    )}
+                        )}
 
-                    <div className="flex flex-col">
-                        <SettingsLabel name="goal">goal</SettingsLabel>
-                        <input
-                            className={`${inputStyles}`}
-                            name="goal"
-                            value={formData.goal}
-                            onChange={handleChange}
+                        <div className="flex flex-col">
+                            <SettingsLabel name="goal">goal</SettingsLabel>
+                            <input
+                                className={`${generalInputStyles}`}
+                                name="goal"
+                                value={formData.goal}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="flex flex-row gap-2 text-red-600">
+                            {errorMessage}
+                        </div>
+                    </fieldset>
+                    <div className="flex flex-row gap-6">
+                        <SettingsButton
+                            type="button"
+                            active={!editForm}
+                            text="Edit"
+                            onClick={() => setEditForm(true)}
+                        />
+                        <SettingsButton
+                            type="submit"
+                            active={editForm}
+                            text="Save"
+                            onClick={() => {}}
                         />
                     </div>
-                    <div className="flex flex-row gap-2 text-red-600">
-                        {errorMessage}
-                    </div>
-                    <button
-                        type="submit"
-                        className={`w-fit px-5 py-3 text-white text-base rounded-lg ${submitButtonStyles}`}
-                    >
-                        {submitButtonText}
-                    </button>
-                </fieldset>
+                </>
             )}
         </form>
     )

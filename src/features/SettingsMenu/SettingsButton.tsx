@@ -1,12 +1,26 @@
 import type { SettingsButtonType } from './SettingsTypes'
 
-function SettingsButton({ item }: SettingsButtonType): JSX.Element {
+function SettingsButton({
+    type,
+    active,
+    text,
+    onClick,
+}: SettingsButtonType): JSX.Element {
+    const genericStyles = 'w-[50%] px-5 py-3 text-base'
+    const activeStyles =
+        'bg-green-600 hover:opacity-90 text-white pointer cursor-pointer'
+    const nonActiveStyles =
+        'bg-white border border-solid border-gray-300 text-gray-300'
+    const buttonStateStyles = active ? activeStyles : nonActiveStyles
+
     return (
         <button
-            type="button"
-            className="flex justify-center items-center py-4 px-6 border-b border-solid border-black hover:bg-palette-500 hover:text-white"
+            type={type === 'submit' ? 'submit' : 'button'}
+            onClick={onClick}
+            className={`${genericStyles} ${buttonStateStyles}`}
+            disabled={!active}
         >
-            {item}
+            {text}
         </button>
     )
 }
