@@ -5,24 +5,35 @@ import type { Metric } from '../../types'
 import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
-import getUser from '../../services/getUser'
-import { useAppSelector } from '../../redux/reduxHooks'
-import addUser from '../../services/addUser'
 
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const user = useAppSelector((state) => state.user)
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
     const generalSelectStyles = 'select select-bordered max-w-xs text-sm'
     const generalInputStyles = 'input input-bordered max-w-xs text-sm'
+    let regExPattern = ''
+    switch (formData.dataType) {
+        case 'Amount':
+            regExPattern = '[0-9]+'
+            break
+        case 'Duration':
+            regExPattern = '[0-9]+'
+            break
+        case 'Time':
+            regExPattern = '[0-9]+'
+            break
+        default:
+            regExPattern = ''
+    }
 
     // Functions
     function handleChange(event: InputEvent | SelectEvent) {
+        setErrorMessage('')
         if (event.target.dataset.type) {
             setFormData((prevFormData) => {
                 return {
@@ -180,6 +191,7 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value"
+                                        pattern={regExPattern}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
@@ -194,6 +206,7 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value1"
+                                        pattern={regExPattern}
                                     />
                                     <span>and</span>
                                     <input
@@ -205,6 +218,7 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value2"
+                                        pattern={regExPattern}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
@@ -230,6 +244,7 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value"
+                                        pattern={regExPattern}
                                     />
                                 </div>
                             </div>
@@ -244,7 +259,7 @@ function MetricSettings({ metric }: Metric) {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="flex flex-row gap-2 text-red-600">
+                        <div className="text-red-600 text-sm">
                             {errorMessage}
                         </div>
                     </fieldset>
