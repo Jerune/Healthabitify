@@ -30,6 +30,7 @@ export type Metric = {
         onDashboard: boolean
         source: string
         dataType: string
+        unit: string
         categoryId: string
         categoryIcon: string
         isFixed: boolean

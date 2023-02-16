@@ -21,8 +21,12 @@ function MetricSettings({ metric }: Metric) {
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
-    const generalSelectStyles = 'select select-bordered text-sm'
-    const generalInputStyles = 'input input-bordered text-sm'
+    const generalSelectStyles = `text-sm select select-bordered font-normal ${
+        !editForm && 'opacity-100 bg-gray-100 cursor-not-allowed'
+    }`
+    const generalInputStyles = `text-sm input input-bordered ${
+        !editForm && 'opacity-100 bg-gray-100 cursor-not-allowed'
+    }`
     let regExPattern = ''
     switch (formData.dataType) {
         case 'Amount':
@@ -69,7 +73,9 @@ function MetricSettings({ metric }: Metric) {
 
     return (
         <form
-            className="w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm"
+            className={`w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
+                !isOpen ? 'opacity-80 hover:opacity-100' : 'opacity-100'
+            }`}
             onSubmit={handleSubmit}
         >
             <header className="flex flex-row w-full justify-start gap-4">
@@ -86,7 +92,10 @@ function MetricSettings({ metric }: Metric) {
                 </button>
 
                 <div className="flex flex-col">
-                    <h3>{formData.name}</h3>
+                    <h3>
+                        {formData.name}
+                        <span className="pl-2 text-sm italic">{`(${formData.unit})`}</span>
+                    </h3>
                     <span className="pl-2">{formData.source}</span>
                 </div>
                 <div className="flex flex-col justify-between items-end grow">
@@ -204,8 +213,8 @@ function MetricSettings({ metric }: Metric) {
                                 </div>
                                 <div className="w-full flex flex-row gap-3 justify-end items-center">
                                     <i className="rounded-full h-5 w-5 bg-orange-600" />
-                                    <span className="flex grow justify-center">
-                                        between
+                                    <span className="flex grow justify-start pl-1">
+                                        Between
                                     </span>
                                     <input
                                         className={`${generalInputStyles} w-[30%]`}

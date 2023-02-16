@@ -1,9 +1,10 @@
 const metricItem = {
-    id: '1',
+    id: 'Weight',
     name: 'Weight',
     active: true,
     onDashboard: true,
     dataType: 'Amount',
+    unit: 'kg',
     source: 'Manual',
     categoryId: '1',
     categoryIcon: 'RiBodyScanFill',
