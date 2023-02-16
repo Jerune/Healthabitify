@@ -75,13 +75,15 @@ function MetricSettings({ metric }: Metric) {
         <form
             className={`w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
                 !isOpen ? 'opacity-80 hover:opacity-100' : 'opacity-100'
-            }`}
+            } ${!formData.active && 'opacity-50 hover:opacity-50'}`}
             onSubmit={handleSubmit}
         >
             <header className="flex flex-row w-full justify-start gap-4">
                 <button
                     type="button"
-                    className="rotate-90"
+                    className={`rotate-90 ${
+                        formData.active ? 'visible' : 'invisible'
+                    }`}
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? (
@@ -94,7 +96,7 @@ function MetricSettings({ metric }: Metric) {
                 <div className="flex flex-col">
                     <h3>
                         {formData.name}
-                        <span className="pl-2 text-sm italic">{`(${formData.unit})`}</span>
+                        <span className="pl-2 text-sm italic in">{`(${formData.unit})`}</span>
                     </h3>
                     <span className="pl-2">{formData.source}</span>
                 </div>
@@ -116,14 +118,16 @@ function MetricSettings({ metric }: Metric) {
                     <button
                         className="text-2xl text-yellow-400"
                         type="button"
-                        onClick={() =>
-                            setFormData((prevState) => {
-                                return {
-                                    ...prevState,
-                                    onDashboard: !formData.onDashboard,
-                                }
-                            })
-                        }
+                        onClick={() => {
+                            if (formData.active) {
+                                setFormData((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        onDashboard: !formData.onDashboard,
+                                    }
+                                })
+                            }
+                        }}
                     >
                         {starIcon}
                     </button>

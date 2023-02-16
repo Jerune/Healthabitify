@@ -39,6 +39,10 @@ function Settings() {
                 <SettingsMenuContainer>
                     <SettingsContentField>
                         <MetricSettings metric={metricItem} />
+                        <MetricSettings metric={metricItem} />
+                        <MetricSettings metric={metricItem} />
+                        <MetricSettings metric={metricItem} />
+                        <MetricSettings metric={metricItem} />
                     </SettingsContentField>
                 </SettingsMenuContainer>
             </main>
