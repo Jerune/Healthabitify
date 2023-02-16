@@ -40,8 +40,6 @@ function Settings() {
             <HeaderNav />
             <main>
                 <SettingsMenuContainer>
-                    <SettingsMenuSection>Options</SettingsMenuSection>
-                    <SettingsMenuSection>Categories</SettingsMenuSection>
                     <SettingsContentField>
                         <MetricSettings metric={metricItem} />
                     </SettingsContentField>

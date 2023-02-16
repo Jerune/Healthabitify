@@ -21,8 +21,8 @@ function MetricSettings({ metric }: Metric) {
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
-    const generalSelectStyles = 'select select-bordered max-w-xs text-sm'
-    const generalInputStyles = 'input input-bordered max-w-xs text-sm'
+    const generalSelectStyles = 'select select-bordered text-sm'
+    const generalInputStyles = 'input input-bordered text-sm'
     let regExPattern = ''
     switch (formData.dataType) {
         case 'Amount':
@@ -69,7 +69,7 @@ function MetricSettings({ metric }: Metric) {
 
     return (
         <form
-            className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm"
+            className="w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm"
             onSubmit={handleSubmit}
         >
             <header className="flex flex-row w-full justify-start gap-4">
@@ -124,10 +124,10 @@ function MetricSettings({ metric }: Metric) {
                 <>
                     <fieldset
                         disabled={!editForm}
-                        className="flex flex-col gap-4"
+                        className="w-full flex flex-col gap-4"
                     >
-                        <div className="flex flex-row gap-4">
-                            <div className="flex flex-col">
+                        <div className="w-full flex flex-row gap-4">
+                            <div className="w-[50%] flex flex-col">
                                 <SettingsLabel name="dataType">
                                     type
                                 </SettingsLabel>
@@ -142,7 +142,7 @@ function MetricSettings({ metric }: Metric) {
                                     <option value="Duration">Duration</option>
                                 </select>
                             </div>
-                            <div className="flex flex-col">
+                            <div className="w-[50%] flex flex-col">
                                 <SettingsLabel name="frequency">
                                     frequency
                                 </SettingsLabel>
@@ -174,10 +174,10 @@ function MetricSettings({ metric }: Metric) {
                         </div>
                         {formData.conditionsMode === 'Range' && (
                             <div className="flex flex-col gap-4">
-                                <div className="flex flex-row gap-3 items-center">
+                                <div className="w-full flex flex-row gap-3 justify-end items-center">
                                     <i className="rounded-full h-5 w-5 bg-green-600" />
                                     <select
-                                        className={`${generalSelectStyles}`}
+                                        className={`${generalSelectStyles} grow`}
                                         name="good"
                                         value={formData.good.mode}
                                         onChange={handleChange}
@@ -186,9 +186,11 @@ function MetricSettings({ metric }: Metric) {
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
                                     </select>
-                                    <span>than</span>
+                                    <span className="w-8 flex justify-center">
+                                        than
+                                    </span>
                                     <input
-                                        className={`${generalInputStyles}`}
+                                        className={`w-[30%] ${generalInputStyles}`}
                                         name="good"
                                         value={
                                             formData.good.value &&
@@ -200,11 +202,13 @@ function MetricSettings({ metric }: Metric) {
                                         ref={goodRef}
                                     />
                                 </div>
-                                <div className="flex flex-row gap-3 items-center">
+                                <div className="w-full flex flex-row gap-3 justify-end items-center">
                                     <i className="rounded-full h-5 w-5 bg-orange-600" />
-                                    <span>between</span>
+                                    <span className="flex grow justify-center">
+                                        between
+                                    </span>
                                     <input
-                                        className={`${generalInputStyles} w-32`}
+                                        className={`${generalInputStyles} w-[30%]`}
                                         name="medium"
                                         value={
                                             formData.medium.value1 &&
@@ -215,10 +219,12 @@ function MetricSettings({ metric }: Metric) {
                                         pattern={regExPattern}
                                         ref={mediumRef1}
                                     />
-                                    <span>and</span>
+                                    <span className="w-8 flex justify-center">
+                                        and
+                                    </span>
                                     <input
                                         name="medium"
-                                        className={`${generalInputStyles} w-32`}
+                                        className={`${generalInputStyles} w-[30%]`}
                                         value={
                                             formData.medium.value2 &&
                                             formData.medium.value2
@@ -229,10 +235,10 @@ function MetricSettings({ metric }: Metric) {
                                         ref={mediumRef2}
                                     />
                                 </div>
-                                <div className="flex flex-row gap-3 items-center">
+                                <div className="w-full flex flex-row gap-3 justify-end items-center">
                                     <i className="rounded-full h-5 w-5 bg-red-600" />
                                     <select
-                                        className={generalSelectStyles}
+                                        className={`grow ${generalSelectStyles}`}
                                         name="bad"
                                         value={formData.bad.mode}
                                         onChange={handleChange}
@@ -241,9 +247,11 @@ function MetricSettings({ metric }: Metric) {
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
                                     </select>
-                                    <span>than</span>
+                                    <span className="w-8 flex justify-center">
+                                        than
+                                    </span>
                                     <input
-                                        className={`${generalInputStyles}`}
+                                        className={`${generalInputStyles} w-[30%]`}
                                         name="bad"
                                         value={
                                             formData.bad.value &&
@@ -258,7 +266,7 @@ function MetricSettings({ metric }: Metric) {
                             </div>
                         )}
 
-                        <div className="flex flex-col">
+                        <div className="w-full flex flex-col">
                             <SettingsLabel name="goal">goal</SettingsLabel>
                             <input
                                 className={`${generalInputStyles}`}
@@ -271,7 +279,7 @@ function MetricSettings({ metric }: Metric) {
                             {errorMessage}
                         </div>
                     </fieldset>
-                    <div className="flex flex-row w-full gap-6">
+                    <div className="w-full flex flex-row gap-6">
                         <SettingsButton
                             type="button"
                             active={!editForm}
