@@ -7,13 +7,14 @@ import { ImLab } from 'react-icons/im'
 import * as Icons from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { auth } from '../services/firebase'
+import { collection, query, getDocs } from 'firebase/firestore'
+import { auth, db } from '../services/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { toggleMenu } from '../redux/reducers/utilsReducer'
-import categoriesData from '../data/categoriesMock'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
+import categoriesData from '../data/categoriesMock'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -26,6 +27,17 @@ function HeaderNav(): JSX.Element {
     ) : (
         <AiOutlineDoubleRight />
     )
+
+    async function getCategories() {
+        const q = query(collection(db, 'categories'))
+        const categoriesData = []
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            categoriesData.push(doc.data())
+        })
+
+        return categoriesData
+    }
 
     const menuCategories = categoriesData.map((category) => {
         const IconElement = Icons[category.iconName]
