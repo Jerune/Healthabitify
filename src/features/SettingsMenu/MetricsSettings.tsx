@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
@@ -11,6 +11,13 @@ function MetricSettings({ metric }: Metric) {
     const [editForm, setEditForm] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+
+    // References
+    const goodRef = useRef(null)
+    const mediumRef1 = useRef(null)
+    const mediumRef2 = useRef(null)
+    const badRef = useRef(null)
+    const references = [goodRef, mediumRef1, mediumRef2, badRef]
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
@@ -53,6 +60,8 @@ function MetricSettings({ metric }: Metric) {
             })
         }
     }
+
+    function handleErrors() {}
 
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
@@ -128,7 +137,6 @@ function MetricSettings({ metric }: Metric) {
                                     value={formData.dataType}
                                     onChange={handleChange}
                                 >
-                                    <option value="">-- Choose --</option>
                                     <option value="Amount">Amount</option>
                                     <option value="Time">Time</option>
                                     <option value="Duration">Duration</option>
@@ -144,7 +152,6 @@ function MetricSettings({ metric }: Metric) {
                                     value={formData.frequency}
                                     onChange={handleChange}
                                 >
-                                    <option value="">-- Choose --</option>
                                     <option value="Daily">Daily</option>
                                     <option value="Weekly">Weekly</option>
                                 </select>
@@ -160,7 +167,6 @@ function MetricSettings({ metric }: Metric) {
                                 value={formData.conditionsMode}
                                 onChange={handleChange}
                             >
-                                <option value="">-- Choose --</option>
                                 <option value="Higher">Higher</option>
                                 <option value="Lower">Lower</option>
                                 <option value="Range">Range</option>
@@ -177,7 +183,6 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="mode"
                                     >
-                                        <option value="">-- Choose --</option>
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
                                     </select>
@@ -192,6 +197,7 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="value"
                                         pattern={regExPattern}
+                                        ref={goodRef}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
@@ -207,6 +213,7 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="value1"
                                         pattern={regExPattern}
+                                        ref={mediumRef1}
                                     />
                                     <span>and</span>
                                     <input
@@ -219,6 +226,7 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="value2"
                                         pattern={regExPattern}
+                                        ref={mediumRef2}
                                     />
                                 </div>
                                 <div className="flex flex-row gap-3 items-center">
@@ -230,7 +238,6 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="mode"
                                     >
-                                        <option value="">-- Choose --</option>
                                         <option value="More">More</option>
                                         <option value="Less">Less</option>
                                     </select>
@@ -245,6 +252,7 @@ function MetricSettings({ metric }: Metric) {
                                         onChange={handleChange}
                                         data-type="value"
                                         pattern={regExPattern}
+                                        ref={badRef}
                                     />
                                 </div>
                             </div>
