@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import { MdDashboard } from 'react-icons/md'
 import { TfiReload } from 'react-icons/tfi'
@@ -7,8 +6,7 @@ import { ImLab } from 'react-icons/im'
 import * as Icons from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { collection, query, getDocs } from 'firebase/firestore'
-import { auth, db } from '../services/firebase'
+import { auth } from '../services/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { toggleMenu } from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
@@ -27,17 +25,6 @@ function HeaderNav(): JSX.Element {
     ) : (
         <AiOutlineDoubleRight />
     )
-
-    async function getCategories() {
-        const q = query(collection(db, 'categories'))
-        const categoriesData = []
-        const querySnapshot = await getDocs(q)
-        querySnapshot.forEach((doc) => {
-            categoriesData.push(doc.data())
-        })
-
-        return categoriesData
-    }
 
     const menuCategories = categoriesData.map((category) => {
         const IconElement = Icons[category.iconName]
