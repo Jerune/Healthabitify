@@ -106,3 +106,11 @@ small,
 .bg-black-opacity {
     background: rgb(0, 0, 0, 70%);
 }
+
+input:required:valid {
+    border-color: green;
+}
+
+input:required:invalid {
+    border-color: red;
+}

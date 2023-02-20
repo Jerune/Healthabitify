@@ -86,9 +86,6 @@ function MetricSettings({ metric }: Metric) {
         event.preventDefault()
     }
 
-    // eslint-disable-next-line no-console
-    console.log(inputValidationData)
-
     return (
         <form
             className={`w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
@@ -224,6 +221,9 @@ function MetricSettings({ metric }: Metric) {
                                     </span>
                                     <input
                                         className={`w-[30%] ${generalInputStyles}`}
+                                        required={
+                                            formData.conditionsMode === 'Range'
+                                        }
                                         name="good"
                                         value={
                                             formData.good.value &&
@@ -244,6 +244,9 @@ function MetricSettings({ metric }: Metric) {
                                     </span>
                                     <input
                                         className={`${generalInputStyles} w-[30%]`}
+                                        required={
+                                            formData.conditionsMode === 'Range'
+                                        }
                                         name="medium"
                                         value={
                                             formData.medium.value1 &&
@@ -262,6 +265,9 @@ function MetricSettings({ metric }: Metric) {
                                     <input
                                         name="medium"
                                         className={`${generalInputStyles} w-[30%]`}
+                                        required={
+                                            formData.conditionsMode === 'Range'
+                                        }
                                         value={
                                             formData.medium.value2 &&
                                             formData.medium.value2
@@ -291,6 +297,9 @@ function MetricSettings({ metric }: Metric) {
                                     </span>
                                     <input
                                         className={`${generalInputStyles} w-[30%]`}
+                                        required={
+                                            formData.conditionsMode === 'Range'
+                                        }
                                         name="bad"
                                         value={
                                             formData.bad.value &&
@@ -304,12 +313,12 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                     />
                                 </div>
+                                <div className="text-orange-700 text-sm italic text-right">
+                                    {`Format: ${inputValidationData.typeReference}`}
+                                </div>
                             </div>
                         )}
 
-                        <div className="text-orange-700 text-sm italic underline">
-                            {`Format: ${inputValidationData.typeReference}`}
-                        </div>
                         <div className="w-full flex flex-col">
                             <SettingsLabel name="goal">goal</SettingsLabel>
                             <input
