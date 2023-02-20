@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react'
+/* eslint-disable no-useless-escape */
+import { useState, useEffect } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { Metric } from '../../types'
@@ -9,42 +10,58 @@ import SettingsButton from './SettingsButton'
 function MetricSettings({ metric }: Metric) {
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
-
-    // References
-    const goodRef = useRef(null)
-    const mediumRef1 = useRef(null)
-    const mediumRef2 = useRef(null)
-    const badRef = useRef(null)
-    const references = [goodRef, mediumRef1, mediumRef2, badRef]
+    const [detailsAreVisible, setDetailsAreVisible] = useState(false)
+    const [inputValidationData, setInputValidationData] = useState({
+        regEx: '^[0-9]*$',
+        placeholder: '',
+        typeReference: '',
+    })
 
     // Constants
     const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
     const generalSelectStyles = `text-sm select select-bordered font-normal ${
         !editForm && 'opacity-100 bg-gray-100 cursor-not-allowed'
     }`
-    const generalInputStyles = `text-sm input input-bordered ${
+    const generalInputStyles = `text-sm input input-bordered placeholder:italic ${
         !editForm && 'opacity-100 bg-gray-100 cursor-not-allowed'
     }`
-    let regExPattern = ''
-    switch (formData.dataType) {
-        case 'Amount':
-            regExPattern = '^[0-9]+$'
-            break
-        case 'Duration':
-            regExPattern = '^(?:(?:([01]?d|2[0-3]):)?([0-5]?d):)?([0-5]?d)$'
-            break
-        case 'Time':
-            regExPattern = '/^([01][0-9]|2[0-3]):([0-5][0-9])$/'
-            break
-        default:
-            regExPattern = ''
-    }
+
+    useEffect(() => {
+        switch (formData.dataType) {
+            case 'Amount':
+                setInputValidationData({
+                    regEx: '^[0-9]+$',
+                    placeholder: 'ex. 2, 9, 58',
+                    typeReference: 'amount in complete numbers',
+                })
+                break
+            case 'Duration':
+                setInputValidationData({
+                    // eslint-disable-next-line prettier/prettier
+                    regEx: '^([0-5][0-9]):([0-5][0-9]):([0-5][0-9])$',
+                    placeholder: 'ex. 01:10:20',
+                    typeReference: 'duration in the HH:MM:SS format',
+                })
+                break
+            case 'Time':
+                setInputValidationData({
+                    regEx: '^([01][0-9]|2[0-3]):([0-5][0-9])$',
+                    placeholder: 'ex. 13:32',
+                    typeReference: '24H time in HH:MM',
+                })
+                break
+            default:
+                setInputValidationData({
+                    regEx: '^[0-9]+$',
+                    placeholder: '',
+                    typeReference: '',
+                })
+                break
+        }
+    }, [formData.dataType])
 
     // Functions
     function handleChange(event: InputEvent | SelectEvent) {
-        setErrorMessage('')
         if (event.target.dataset.type) {
             setFormData((prevFormData) => {
                 return {
@@ -65,16 +82,19 @@ function MetricSettings({ metric }: Metric) {
         }
     }
 
-    function handleErrors() {}
-
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
     }
 
+    // eslint-disable-next-line no-console
+    console.log(inputValidationData)
+
     return (
         <form
             className={`w-[50%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
-                !isOpen ? 'opacity-80 hover:opacity-100' : 'opacity-100'
+                !detailsAreVisible
+                    ? 'opacity-80 hover:opacity-100'
+                    : 'opacity-100'
             } ${!formData.active && 'opacity-50 hover:opacity-50'}`}
             onSubmit={handleSubmit}
         >
@@ -84,9 +104,9 @@ function MetricSettings({ metric }: Metric) {
                     className={`rotate-90 ${
                         formData.active ? 'visible' : 'invisible'
                     }`}
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setDetailsAreVisible(!detailsAreVisible)}
                 >
-                    {isOpen ? (
+                    {detailsAreVisible ? (
                         <AiOutlineDoubleLeft />
                     ) : (
                         <AiOutlineDoubleRight />
@@ -133,7 +153,7 @@ function MetricSettings({ metric }: Metric) {
                     </button>
                 </div>
             </header>
-            {isOpen && (
+            {detailsAreVisible && (
                 <>
                     <fieldset
                         disabled={!editForm}
@@ -211,8 +231,10 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value"
-                                        pattern={regExPattern}
-                                        ref={goodRef}
+                                        pattern={inputValidationData.regEx}
+                                        placeholder={
+                                            inputValidationData.placeholder
+                                        }
                                     />
                                 </div>
                                 <div className="w-full flex flex-row gap-3 justify-end items-center">
@@ -229,8 +251,10 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value1"
-                                        pattern={regExPattern}
-                                        ref={mediumRef1}
+                                        pattern={inputValidationData.regEx}
+                                        placeholder={
+                                            inputValidationData.placeholder
+                                        }
                                     />
                                     <span className="w-8 flex justify-center">
                                         and
@@ -244,8 +268,10 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value2"
-                                        pattern={regExPattern}
-                                        ref={mediumRef2}
+                                        pattern={inputValidationData.regEx}
+                                        placeholder={
+                                            inputValidationData.placeholder
+                                        }
                                     />
                                 </div>
                                 <div className="w-full flex flex-row gap-3 justify-end items-center">
@@ -272,13 +298,18 @@ function MetricSettings({ metric }: Metric) {
                                         }
                                         onChange={handleChange}
                                         data-type="value"
-                                        pattern={regExPattern}
-                                        ref={badRef}
+                                        pattern={inputValidationData.regEx}
+                                        placeholder={
+                                            inputValidationData.placeholder
+                                        }
                                     />
                                 </div>
                             </div>
                         )}
 
+                        <div className="text-orange-700 text-sm italic underline">
+                            {`Format: ${inputValidationData.typeReference}`}
+                        </div>
                         <div className="w-full flex flex-col">
                             <SettingsLabel name="goal">goal</SettingsLabel>
                             <input
@@ -287,9 +318,6 @@ function MetricSettings({ metric }: Metric) {
                                 value={formData.goal}
                                 onChange={handleChange}
                             />
-                        </div>
-                        <div className="text-red-600 text-sm">
-                            {errorMessage}
                         </div>
                     </fieldset>
                     <div className="w-full flex flex-row gap-6">
