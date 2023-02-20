@@ -161,6 +161,7 @@ function Login() {
                                 placeholder="you@email.com"
                                 onChange={handleChange}
                                 value={formData.email}
+                                required
                             />
                         </div>
                         <div>
@@ -178,6 +179,7 @@ function Login() {
                                 placeholder="Password"
                                 onChange={handleChange}
                                 value={formData.password}
+                                required
                             />
                         </div>
                         <div className="flex items-center space-x-2">

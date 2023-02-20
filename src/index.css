@@ -69,9 +69,12 @@ p {
     margin-bottom: 1rem;
 }
 
-small,
-.text-small {
-    font-size: 0.8rem;
+input:required:valid {
+    border-color: green;
+}
+
+input:required:invalid {
+    border-color: red;
 }
 
 /* Gradient Backgrounds */
@@ -105,12 +108,4 @@ small,
 
 .bg-black-opacity {
     background: rgb(0, 0, 0, 70%);
-}
-
-input:required:valid {
-    border-color: green;
-}
-
-input:required:invalid {
-    border-color: red;
 }
