@@ -2,12 +2,12 @@
 import { useState, useEffect } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
-import type { Metric } from '../../types'
+import type { MetricProps } from '../../types'
 import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
 
-function MetricSettings({ metric }: Metric) {
+function MetricSettings({ metric }: MetricProps) {
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
     const [detailsAreVisible, setDetailsAreVisible] = useState(false)
@@ -122,7 +122,9 @@ function MetricSettings({ metric }: Metric) {
                         type="checkbox"
                         className="toggle toggle-success"
                         checked={formData.active}
-                        onChange={() =>
+                        onChange={() => {
+                            setEditForm(false)
+                            setDetailsAreVisible(false)
                             setFormData((prevState) => {
                                 return {
                                     ...prevState,
@@ -130,7 +132,7 @@ function MetricSettings({ metric }: Metric) {
                                     onDashboard: false,
                                 }
                             })
-                        }
+                        }}
                     />
                     <button
                         className="text-2xl text-yellow-400"

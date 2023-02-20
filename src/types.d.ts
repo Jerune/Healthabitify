@@ -23,33 +23,35 @@ export type Category = {
 }
 
 export type Metric = {
-    metric: {
-        id: string
-        name: string
-        active: boolean
-        onDashboard: boolean
-        source: string
-        dataType: string
-        unit: string
-        categoryId: string
-        categoryIcon: string
-        isFixed: boolean
-        frequency: string
-        goal: string
-        conditionsMode: string
-        good: {
-            mode: string
-            value: string
-        }
-        medium: {
-            value1: string
-            value2: string
-        }
-        bad: {
-            mode: string
-            value: string
-        }
+    id: string
+    name: string
+    active: boolean
+    onDashboard: boolean
+    source: string
+    dataType: string
+    unit: string
+    categoryId: string
+    categoryIcon: string
+    isFixed: boolean
+    frequency: string
+    goal: string
+    conditionsMode: string
+    good: {
+        mode: string
+        value: string
     }
+    medium: {
+        value1: string
+        value2: string
+    }
+    bad: {
+        mode: string
+        value: string
+    }
+}
+
+export type MetricProps = {
+    metric: Metric
 }
 
 export type DataPoint = {
