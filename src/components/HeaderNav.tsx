@@ -12,7 +12,7 @@ import { toggleMenu } from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
-import categoriesData from '../data/categoriesMock'
+import categoriesList from '../data/categories'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -26,7 +26,7 @@ function HeaderNav(): JSX.Element {
         <AiOutlineDoubleRight />
     )
 
-    const menuCategories = categoriesData.map((category) => {
+    const menuCategories = categoriesList.map((category) => {
         const IconElement = Icons[category.iconName]
 
         return (

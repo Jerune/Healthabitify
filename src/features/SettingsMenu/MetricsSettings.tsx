@@ -30,13 +30,13 @@ function MetricSettings({ metric }: Metric) {
     let regExPattern = ''
     switch (formData.dataType) {
         case 'Amount':
-            regExPattern = '[0-9]+'
+            regExPattern = '^[0-9]+$'
             break
         case 'Duration':
-            regExPattern = '[0-9]+'
+            regExPattern = '^(?:(?:([01]?d|2[0-3]):)?([0-5]?d):)?([0-5]?d)$'
             break
         case 'Time':
-            regExPattern = '[0-9]+'
+            regExPattern = '/^([01][0-9]|2[0-3]):([0-5][0-9])$/'
             break
         default:
             regExPattern = ''

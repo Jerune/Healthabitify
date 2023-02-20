@@ -1,4 +1,4 @@
-const categoriesData = [
+const categoriesList = [
     {
         id: '1',
         name: 'Vitals',
@@ -36,4 +36,4 @@ const categoriesData = [
     },
 ] as const
 
-export default categoriesData
+export default categoriesList
