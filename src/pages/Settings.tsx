@@ -14,7 +14,7 @@ import categoriesList from '../data/categories'
 
 function Settings() {
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

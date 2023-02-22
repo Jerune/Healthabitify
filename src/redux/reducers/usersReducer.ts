@@ -12,7 +12,7 @@ const activeUser = {
 // Reducer
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: 'users',
     initialState: activeUser,
     reducers: {
         localSignIn: (state, action) => {

@@ -11,7 +11,7 @@ function DataPage() {
     const { category } = useParams()
     const title: string = category || 'Title'
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

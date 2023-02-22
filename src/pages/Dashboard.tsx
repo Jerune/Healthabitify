@@ -14,7 +14,7 @@ import dashboardItems from '../data/dashboardItemsMock'
 
 function Dashboard() {
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

@@ -9,7 +9,7 @@ import { auth } from '../services/firebase'
 
 function Labs() {
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
