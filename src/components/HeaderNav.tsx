@@ -6,19 +6,22 @@ import { ImLab } from 'react-icons/im'
 import * as Icons from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
+import { useEffect } from 'react'
 import { auth } from '../services/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { toggleMenu } from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
-import categoriesList from '../data/categories'
+import getCategories from '../services/getCategories'
+import { initCategories } from '../redux/reducers/categoriesReducer'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const categories = useAppSelector((state) => state.categories)
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <AiOutlineDoubleLeft />
@@ -26,23 +29,39 @@ function HeaderNav(): JSX.Element {
         <AiOutlineDoubleRight />
     )
 
-    const menuCategories = categoriesList.map((category) => {
-        const IconElement = Icons[category.iconName]
+    useEffect(() => {
+        if (categories.length < 2) {
+            const fetchCategories = async () => {
+                const categoriesList = await getCategories()
+                dispatch(initCategories(categoriesList))
+            }
+            fetchCategories()
+        }
+    }, [categories])
 
-        return (
-            <Link
-                to={`/data/${category.name.toLowerCase()}`}
-                key={category.name}
-                className="flex flex-row items-center gap-3 py-2"
-                onClick={() => dispatch(toggleMenu())}
-            >
-                <button type="button" className="text-xl">
-                    <IconElement />
-                </button>
-                <span className="text-lg">{category.name}</span>
-            </Link>
-        )
-    })
+    function menuCategories() {
+        if (categories.length > 2) {
+            const categoriesList = categories.map((category) => {
+                const IconElement = Icons[category.iconName]
+
+                return (
+                    <Link
+                        to={`/data/${category.name.toLowerCase()}`}
+                        key={category.name}
+                        className="flex flex-row items-center gap-3 py-2"
+                        onClick={() => dispatch(toggleMenu())}
+                    >
+                        <button type="button" className="text-xl">
+                            <IconElement />
+                        </button>
+                        <span className="text-lg">{category.name}</span>
+                    </Link>
+                )
+            })
+            return categoriesList
+        }
+        return <div> </div>
+    }
 
     function signOutUser() {
         signOut(auth).then(() => {
@@ -102,7 +121,7 @@ function HeaderNav(): JSX.Element {
                     </button>
                     <span className="text-lg">Dashboard</span>
                 </Link>
-                <div>{menuCategories}</div>
+                <div>{menuCategories()}</div>
                 <div className="mt-6">
                     <Link
                         to="/labs"
