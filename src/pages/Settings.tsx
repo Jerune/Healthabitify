@@ -10,11 +10,11 @@ import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
 import MetricSettings from '../features/SettingsMenu/MetricsSettings'
 import metricItem from '../data/metricsMock'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
+import categoriesList from '../data/categories'
 
 function Settings() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
-    const categories = useAppSelector((state) => state.categories)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -34,9 +34,9 @@ function Settings() {
         }
     }, [isLoggedIn])
 
-    const categoriesList = categories.map((category) => (
-        <li key={category.order}>{category.name}</li>
-    ))
+    const categories = categoriesList.map((category) => {
+        return <li key={category.name}>{category.name}</li>
+    })
 
     return (
         <>
@@ -44,11 +44,7 @@ function Settings() {
             <main>
                 <SettingsMenuContainer>
                     <SettingsMenuSection>
-                        <ul>
-                            {categoriesList.length > 1
-                                ? categoriesList
-                                : 'loading'}
-                        </ul>
+                        <ul>{categories}</ul>
                     </SettingsMenuSection>
                     <SettingsContentField>
                         <MetricSettings metric={metricItem} />

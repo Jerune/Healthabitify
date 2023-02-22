@@ -1,39 +1,39 @@
 const categoriesList = [
     {
-        id: '1',
+        id: 'vitals',
         name: 'Vitals',
         iconName: 'RiHeartPulseFill',
     },
     {
-        id: '2',
+        id: 'body',
         name: 'Body',
         iconName: 'RiBodyScanFill',
     },
     {
-        id: '3',
+        id: 'sleep',
         name: 'Sleep',
         iconName: 'RiHotelBedFill',
     },
     {
-        id: '4',
+        id: 'metabolism',
         name: 'Metabolism',
         iconName: 'RiLungsFill',
     },
     {
-        id: '5',
+        id: 'stress',
         name: 'Stress',
         iconName: 'RiMentalHealthFill',
     },
     {
-        id: '6',
+        id: 'strength-training',
         name: 'Strength & Training',
         iconName: 'RiRunFill',
     },
     {
-        id: '7',
+        id: 'lifestyle',
         name: 'Lifestyle',
         iconName: 'RiGobletFill',
     },
-] as const
+]
 
 export default categoriesList
