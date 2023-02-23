@@ -11,6 +11,7 @@ import MetricSettings from '../features/SettingsMenu/MetricsSettings'
 import metricItem from '../data/metricsMock'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
+import getMetrics from '../services/getMetrics'
 
 function Settings() {
     const navigate = useNavigate()
@@ -38,6 +39,8 @@ function Settings() {
         return <li key={category.name}>{category.name}</li>
     })
 
+    getMetrics('vitals')
+
     return (
         <>
             <HeaderNav />
@@ -47,11 +50,7 @@ function Settings() {
                         <ul>{categories}</ul>
                     </SettingsMenuSection>
                     <SettingsContentField>
-                        <MetricSettings metric={metricItem} />
-                        <MetricSettings metric={metricItem} />
-                        <MetricSettings metric={metricItem} />
-                        <MetricSettings metric={metricItem} />
-                        <MetricSettings metric={metricItem} />
+                        <p>test</p>
                     </SettingsContentField>
                 </SettingsMenuContainer>
             </main>
