@@ -55,10 +55,13 @@ function Settings() {
     const categories = (categoriesArray: Category[]) => {
         const categoryList = categoriesArray.map((category) => {
             const IconElement = Icons[category.iconName]
-            console.log(IconElement)
             return (
                 <button
-                    className="w-56 flex flex-row gap-2 justify-center items-center text-2xl py-7 pl-6 pr-12 rounded-lg bg-white "
+                    className={`w-72 flex flex-row gap-2 justify-start items-center text-2xl py-7 pl-8 rounded-lg ${
+                        activeCategory[0].id === category.id
+                            ? 'bg-red-300'
+                            : 'bg-white'
+                    } hover:bg-red-300`}
                     type="button"
                     key={category.name}
                     onClick={() => setMetrics(category.id)}
