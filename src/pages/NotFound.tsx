@@ -6,6 +6,8 @@ import MainContent from '../components/MainContent'
 import { localSignIn } from '../redux/reducers/usersReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
+import getMetrics from '../services/getMetrics'
+import { initMetrics } from '../redux/reducers/metricsReducer'
 
 function NotFound() {
     const navigate = useNavigate()
@@ -13,20 +15,25 @@ function NotFound() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    dispatch(
-                        localSignIn({
-                            email: user.email,
-                            userId: user.uid,
-                        })
-                    )
-                } else {
-                    navigate('/')
-                }
-            })
+        async function initApp() {
+            if (!isLoggedIn) {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        dispatch(
+                            localSignIn({
+                                email: user.email,
+                                userId: user.uid,
+                            })
+                        )
+                    } else {
+                        navigate('/')
+                    }
+                })
+                const metricList = await getMetrics()
+                dispatch(initMetrics(metricList))
+            }
         }
+        initApp()
     }, [isLoggedIn])
 
     return (

@@ -12,6 +12,7 @@ import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import { initMetrics } from '../redux/reducers/metricsReducer'
+import getMetrics from '../services/getMetrics'
 
 function Settings() {
     const navigate = useNavigate()
@@ -24,25 +25,26 @@ function Settings() {
     ])
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    dispatch(
-                        localSignIn({
-                            email: user.email,
-                            userId: user.uid,
-                        })
-                    )
-                } else {
-                    navigate('/')
-                }
-            })
+        async function initApp() {
+            if (!isLoggedIn) {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        dispatch(
+                            localSignIn({
+                                email: user.email,
+                                userId: user.uid,
+                            })
+                        )
+                    } else {
+                        navigate('/')
+                    }
+                })
+                const metricList = await getMetrics()
+                dispatch(initMetrics(metricList))
+            }
         }
+        initApp()
     }, [isLoggedIn])
-
-    useEffect(() => {
-        dispatch(initMetrics())
-    }, [])
 
     async function setMetrics(categoryId: string) {
         const activeCat = categoriesList.filter(

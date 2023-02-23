@@ -1,23 +1,52 @@
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from './firebase'
+import type { Metric } from '../types'
 
-async function getMetrics(categoryId: string) {
+async function getMetrics() {
     const querySnapshot = await getDocs(collection(db, 'metrics'))
-    const metricsList = []
+    const metricsList: Metric[] = []
     querySnapshot.forEach((doc) => {
-        const data = { id: doc.id, ...doc.data() }
+        const {
+            order,
+            name,
+            active,
+            onDashboard,
+            source,
+            dataType,
+            unit,
+            categoryId,
+            categoryIcon,
+            isFixed,
+            frequency,
+            goal,
+            conditionsMode,
+            good,
+            medium,
+            bad,
+        } = doc.data()
+        const data: Metric = {
+            id: doc.id,
+            order,
+            name,
+            active,
+            onDashboard,
+            source,
+            dataType,
+            unit,
+            categoryId,
+            categoryIcon,
+            isFixed,
+            frequency,
+            goal,
+            conditionsMode,
+            good,
+            medium,
+            bad,
+        }
         metricsList.push(data)
     })
 
-    const metricsArray = metricsList.filter(
-        (metric) => metric.categoryId === categoryId
-    )
-
-    const sortedMetrics = metricsArray.sort((a, b) => {
-        return a.order - b.order
-    })
-
-    console.log(sortedMetrics)
+    return metricsList
 }
 
 export default getMetrics

@@ -11,6 +11,8 @@ import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
 import dashboardItems from '../data/dashboardItemsMock'
+import getMetrics from '../services/getMetrics'
+import { initMetrics } from '../redux/reducers/metricsReducer'
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -18,20 +20,25 @@ function Dashboard() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    dispatch(
-                        localSignIn({
-                            email: user.email,
-                            userId: user.uid,
-                        })
-                    )
-                } else {
-                    navigate('/')
-                }
-            })
+        async function initApp() {
+            if (!isLoggedIn) {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        dispatch(
+                            localSignIn({
+                                email: user.email,
+                                userId: user.uid,
+                            })
+                        )
+                    } else {
+                        navigate('/')
+                    }
+                })
+                const metricList = await getMetrics()
+                dispatch(initMetrics(metricList))
+            }
         }
+        initApp()
     }, [isLoggedIn])
 
     const dashboardBlocks = dashboardItems.map((item) => (
