@@ -8,17 +8,16 @@ import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { auth } from '../services/firebase'
 import SettingsMenuContainer from '../features/SettingsMenu/SettingsMenuContainer'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
-import MetricSettings from '../features/SettingsMenu/MetricsSettings'
+import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import getMetrics from '../services/getMetrics'
 import { updateMetric } from '../redux/reducers/metricsReducer'
-import type { Category } from '../types'
 
 function Settings() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
-    const activeMetrics = useAppSelector((state) => state.metrics)
+    const metrics = useAppSelector((state) => state.metrics)
     const dispatch = useAppDispatch()
     const [metricsView, setMetricsView] = useState(false)
     const [activeCategory, setActiveCategory] = useState([
@@ -52,16 +51,16 @@ function Settings() {
         setMetricsView(true)
     }
 
-    const categories = (categoriesArray: Category[]) => {
-        const categoryList = categoriesArray.map((category) => {
+    function showCategories() {
+        const categories = categoriesList.map((category) => {
             const IconElement = Icons[category.iconName]
             return (
                 <button
                     className={`w-72 flex flex-row gap-2 justify-start items-center text-2xl py-7 pl-8 rounded-lg ${
                         activeCategory[0].id === category.id
-                            ? 'bg-red-300'
+                            ? 'bg-green-400'
                             : 'bg-white'
-                    } hover:bg-red-300`}
+                    } hover:bg-green-400`}
                     type="button"
                     key={category.name}
                     onClick={() => setMetrics(category.id)}
@@ -74,15 +73,20 @@ function Settings() {
             )
         })
 
-        return categoryList
+        return categories
     }
 
-    const metrics = activeMetrics.map((metric) => {
-        if (metricsView) {
-            return <MetricSettings key={metric.id} metric={metric} />
-        }
-        return null
-    })
+    function showActiveMetrics() {
+        const filteredMetrics = metrics.filter(
+            (metric) => metric.categoryId === activeCategory[0].id
+        )
+
+        const activeMetrics = filteredMetrics.map((metric) => {
+            return <MetricCard key={metric.id} metric={metric} />
+        })
+
+        return activeMetrics
+    }
 
     return (
         <>
@@ -90,12 +94,12 @@ function Settings() {
             <main>
                 <SettingsMenuContainer>
                     <SettingsMenuSection>
-                        {metricsView
-                            ? categories(activeCategory)
-                            : categories(categoriesList)}
+                        {showCategories()}
                     </SettingsMenuSection>
                     {metricsView && (
-                        <SettingsContentField>{metrics}</SettingsContentField>
+                        <SettingsContentField>
+                            {showActiveMetrics()}
+                        </SettingsContentField>
                     )}
                 </SettingsMenuContainer>
             </main>

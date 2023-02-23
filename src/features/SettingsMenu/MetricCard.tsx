@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react'
 import { RiStarLine, RiStarFill } from 'react-icons/ri'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import type { MetricProps } from '../../types'
-import type { InputEvent, SelectEvent, FormSubmit } from '../../types.d.js'
+import type { InputEvent, SelectEvent, FormSubmit } from '../../types.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter'
 
-function MetricSettings({ metric }: MetricProps) {
+function MetricCard({ metric }: MetricProps) {
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
     const [detailsAreVisible, setDetailsAreVisible] = useState(false)
@@ -28,22 +29,22 @@ function MetricSettings({ metric }: MetricProps) {
 
     useEffect(() => {
         switch (formData.dataType) {
-            case 'Amount':
+            case 'amount':
                 setInputValidationData({
                     regEx: '^[0-9]+$',
                     placeholder: 'ex. 2, 9, 58',
                     typeReference: 'amount in complete numbers',
                 })
                 break
-            case 'Duration':
+            case 'duration':
                 setInputValidationData({
                     // eslint-disable-next-line prettier/prettier
-                    regEx: '^([0-5][0-9]):([0-5][0-9]):([0-5][0-9])$',
-                    placeholder: 'ex. 01:10:20',
-                    typeReference: 'duration in the HH:MM:SS format',
+                    regEx: '^([0-9][0-9]):([0-5][0-9])$',
+                    placeholder: 'ex. 01:10',
+                    typeReference: 'duration in the HH:MM format',
                 })
                 break
-            case 'Time':
+            case 'time':
                 setInputValidationData({
                     regEx: '^([01][0-9]|2[0-3]):([0-5][0-9])$',
                     placeholder: 'ex. 13:32',
@@ -115,7 +116,7 @@ function MetricSettings({ metric }: MetricProps) {
                         {formData.name}
                         <span className="pl-2 text-sm italic in">{`(${formData.unit})`}</span>
                     </h3>
-                    <span className="pl-2">{formData.source}</span>
+                    <span>{capitalizeFirstLetter(formData.source)}</span>
                 </div>
                 <div className="flex flex-col justify-between items-end grow">
                     <input
@@ -169,9 +170,9 @@ function MetricSettings({ metric }: MetricProps) {
                                     value={formData.dataType}
                                     onChange={handleChange}
                                 >
-                                    <option value="Amount">Amount</option>
-                                    <option value="Time">Time</option>
-                                    <option value="Duration">Duration</option>
+                                    <option value="amount">Amount</option>
+                                    <option value="time">Time</option>
+                                    <option value="duration">Duration</option>
                                 </select>
                             </div>
                             <div className="w-[50%] flex flex-col">
@@ -184,8 +185,8 @@ function MetricSettings({ metric }: MetricProps) {
                                     value={formData.frequency}
                                     onChange={handleChange}
                                 >
-                                    <option value="Daily">Daily</option>
-                                    <option value="Weekly">Weekly</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
                                 </select>
                             </div>
                         </div>
@@ -199,12 +200,12 @@ function MetricSettings({ metric }: MetricProps) {
                                 value={formData.conditionsMode}
                                 onChange={handleChange}
                             >
-                                <option value="Higher">Higher</option>
-                                <option value="Lower">Lower</option>
-                                <option value="Range">Range</option>
+                                <option value="higher">Higher</option>
+                                <option value="lower">Lower</option>
+                                <option value="range">Range</option>
                             </select>
                         </div>
-                        {formData.conditionsMode === 'Range' && (
+                        {formData.conditionsMode === 'range' && (
                             <div className="flex flex-col gap-4">
                                 <div className="w-full flex flex-row gap-3 justify-end items-center">
                                     <i className="rounded-full h-5 w-5 bg-green-600" />
@@ -224,7 +225,7 @@ function MetricSettings({ metric }: MetricProps) {
                                     <input
                                         className={`w-[30%] ${generalInputStyles}`}
                                         required={
-                                            formData.conditionsMode === 'Range'
+                                            formData.conditionsMode === 'range'
                                         }
                                         name="good"
                                         value={
@@ -247,7 +248,7 @@ function MetricSettings({ metric }: MetricProps) {
                                     <input
                                         className={`${generalInputStyles} w-[30%]`}
                                         required={
-                                            formData.conditionsMode === 'Range'
+                                            formData.conditionsMode === 'range'
                                         }
                                         name="medium"
                                         value={
@@ -268,7 +269,7 @@ function MetricSettings({ metric }: MetricProps) {
                                         name="medium"
                                         className={`${generalInputStyles} w-[30%]`}
                                         required={
-                                            formData.conditionsMode === 'Range'
+                                            formData.conditionsMode === 'range'
                                         }
                                         value={
                                             formData.medium.value2 &&
@@ -300,7 +301,7 @@ function MetricSettings({ metric }: MetricProps) {
                                     <input
                                         className={`${generalInputStyles} w-[30%]`}
                                         required={
-                                            formData.conditionsMode === 'Range'
+                                            formData.conditionsMode === 'range'
                                         }
                                         name="bad"
                                         value={
@@ -351,4 +352,4 @@ function MetricSettings({ metric }: MetricProps) {
     )
 }
 
-export default MetricSettings
+export default MetricCard
