@@ -51,6 +51,12 @@ function Settings() {
         setMetricsView(true)
     }
 
+    function resetSettings() {
+        const emptyCategoryData = { id: '', name: '', iconName: '' }
+        setMetricsView(false)
+        setActiveCategory([emptyCategoryData])
+    }
+
     const categories = (categoriesArray: Category[]) => {
         const categoryList = categoriesArray.map((category) => {
             return (
@@ -73,8 +79,6 @@ function Settings() {
         }
         return null
     })
-
-    console.log(activeCategory, metricsView)
 
     return (
         <>
