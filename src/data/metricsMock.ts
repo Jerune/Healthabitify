@@ -2,6 +2,7 @@ const metricItems = [
     {
         body: [
             {
+                order: '1',
                 id: 'weight',
                 name: 'Weight',
                 active: true,
@@ -29,6 +30,7 @@ const metricItems = [
                 },
             },
             {
+                order: '2',
                 id: 'body-fat',
                 name: 'Body Fat',
                 active: true,
@@ -58,6 +60,7 @@ const metricItems = [
         ],
         sleep: [
             {
+                order: '1',
                 id: 'amount-of-sleep',
                 name: 'Amount of Sleep',
                 active: true,
@@ -85,6 +88,7 @@ const metricItems = [
                 },
             },
             {
+                order: '2',
                 id: 'amount-of-rem-sleep',
                 name: 'Amount of REM Sleep',
                 active: true,
@@ -112,6 +116,7 @@ const metricItems = [
                 },
             },
             {
+                order: '3',
                 id: 'amount-of-deep-sleep',
                 name: 'Amount of Sleep',
                 active: true,
@@ -139,13 +144,14 @@ const metricItems = [
                 },
             },
             {
+                order: '4',
                 id: 'total-beneficial-sleep',
                 name: 'Amount of Sleep',
                 active: true,
                 onDashboard: true,
                 dataType: 'duration',
                 unit: 'hrs',
-                source: 'none',
+                source: 'auto',
                 categoryId: 'sleep',
                 categoryIcon: 'RiHotelBedFill',
                 isFixed: true,
@@ -166,6 +172,7 @@ const metricItems = [
                 },
             },
             {
+                order: '5',
                 id: 'average-time-to-bed',
                 name: 'Average Time to Bed',
                 active: true,
@@ -193,6 +200,7 @@ const metricItems = [
                 },
             },
             {
+                order: '6',
                 id: 'average-wake-up',
                 name: 'Average Wake Up',
                 active: true,
@@ -220,13 +228,14 @@ const metricItems = [
                 },
             },
             {
+                order: '7',
                 id: 'sleep-coificient',
                 name: 'Sleep Coificient',
                 active: true,
                 onDashboard: true,
                 dataType: 'amount',
                 unit: '%',
-                source: 'none',
+                source: 'auto',
                 categoryId: 'sleep',
                 categoryIcon: 'RiHotelBedFill',
                 isFixed: true,
@@ -249,6 +258,7 @@ const metricItems = [
         ],
         vitals: [
             {
+                order: '1',
                 id: 'average-resting-heart-rate',
                 name: 'Average Resting Heart Rate',
                 active: true,
@@ -276,6 +286,7 @@ const metricItems = [
                 },
             },
             {
+                order: '2',
                 id: 'average-resting-hrv',
                 name: 'Average Resting Heart Rate Variability',
                 active: true,
@@ -303,6 +314,7 @@ const metricItems = [
                 },
             },
             {
+                order: '3',
                 id: 'blood-oxygen',
                 name: 'Blood Oxygen',
                 active: true,
@@ -330,6 +342,7 @@ const metricItems = [
                 },
             },
             {
+                order: '4',
                 id: 'respitory-rate',
                 name: 'Respitory Rate',
                 active: true,
@@ -357,6 +370,7 @@ const metricItems = [
                 },
             },
             {
+                order: '5',
                 id: 'blood-pressure-above',
                 name: 'Blood Pressure Above',
                 active: true,
@@ -384,6 +398,7 @@ const metricItems = [
                 },
             },
             {
+                order: '6',
                 id: 'blood-pressure-below',
                 name: 'Blood Pressure Below',
                 active: true,
@@ -413,6 +428,7 @@ const metricItems = [
         ],
         metabolism: [
             {
+                order: '1',
                 id: 'average-fasting-window',
                 name: 'Average Fasting Window',
                 active: true,
@@ -440,6 +456,7 @@ const metricItems = [
                 },
             },
             {
+                order: '2',
                 id: 'fasted-blood-sugar',
                 name: 'Fasted Blood Sugar',
                 active: true,
@@ -467,6 +484,7 @@ const metricItems = [
                 },
             },
             {
+                order: '3',
                 id: 'fasted-keytones',
                 name: 'Fasted Keytones',
                 active: true,
@@ -496,6 +514,7 @@ const metricItems = [
         ],
         stress: [
             {
+                order: '1',
                 id: 'smartphone-screen-time',
                 name: 'Smartphone Screen Time',
                 active: true,
@@ -523,6 +542,7 @@ const metricItems = [
                 },
             },
             {
+                order: '2',
                 id: 'daily-average-heart-rate',
                 name: 'Daily Average Heart Rate',
                 active: true,
@@ -550,6 +570,7 @@ const metricItems = [
                 },
             },
             {
+                order: '3',
                 id: 'average-resting-heart-rate',
                 name: 'Average Resting Heart Rate',
                 active: true,
@@ -577,6 +598,7 @@ const metricItems = [
                 },
             },
             {
+                order: '4',
                 id: 'stress-management-score',
                 name: 'Stress Management Score',
                 active: true,
@@ -604,6 +626,7 @@ const metricItems = [
                 },
             },
             {
+                order: '5',
                 id: 'total-average-calorie-burn',
                 name: 'Total Average Calorie Burn',
                 active: true,
