@@ -17,12 +17,13 @@ export type User = {
 }
 
 export type Category = {
-    order: string
+    id: string
     name: string
     iconName: string | unknown
 }
 
 export type Metric = {
+    order: number
     id: string
     name: string
     active: boolean

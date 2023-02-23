@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import HeaderNav from '../components/HeaderNav'
@@ -8,15 +8,21 @@ import { auth } from '../services/firebase'
 import SettingsMenuContainer from '../features/SettingsMenu/SettingsMenuContainer'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
 import MetricSettings from '../features/SettingsMenu/MetricsSettings'
-import metricItem from '../data/metricsMock'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import getMetrics from '../services/getMetrics'
+import { updateMetric } from '../redux/reducers/metricsReducer'
+import type { Category } from '../types'
 
 function Settings() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+    const activeMetrics = useAppSelector((state) => state.metrics)
     const dispatch = useAppDispatch()
+    const [metricsView, setMetricsView] = useState(false)
+    const [activeCategory, setActiveCategory] = useState([
+        { id: '', name: '', iconName: '' },
+    ])
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -35,11 +41,40 @@ function Settings() {
         }
     }, [isLoggedIn])
 
-    const categories = categoriesList.map((category) => {
-        return <li key={category.name}>{category.name}</li>
+    async function setMetrics(categoryId: string) {
+        const activeCat = categoriesList.filter(
+            (category) => category.id === categoryId
+        )
+        setActiveCategory(activeCat)
+        const metricsList = await getMetrics(categoryId)
+        dispatch(updateMetric(metricsList))
+        setMetricsView(true)
+    }
+
+    const categories = (categoriesArray: Category[]) => {
+        const categoryList = categoriesArray.map((category) => {
+            return (
+                <button
+                    type="button"
+                    key={category.name}
+                    onClick={() => setMetrics(category.id)}
+                >
+                    {category.name}
+                </button>
+            )
+        })
+
+        return categoryList
+    }
+
+    const metrics = activeMetrics.map((metric) => {
+        if (metricsView) {
+            return <MetricSettings key={metric.id} metric={metric} />
+        }
+        return null
     })
 
-    getMetrics('vitals')
+    console.log(activeCategory, metricsView)
 
     return (
         <>
@@ -47,11 +82,11 @@ function Settings() {
             <main>
                 <SettingsMenuContainer>
                     <SettingsMenuSection>
-                        <ul>{categories}</ul>
+                        {metricsView
+                            ? categories(activeCategory)
+                            : categories(categoriesList)}
                     </SettingsMenuSection>
-                    <SettingsContentField>
-                        <p>test</p>
-                    </SettingsContentField>
+                    <SettingsContentField>{metrics}</SettingsContentField>
                 </SettingsMenuContainer>
             </main>
         </>

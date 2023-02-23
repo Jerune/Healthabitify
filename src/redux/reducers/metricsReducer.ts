@@ -2,7 +2,36 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // Initial State
 
-const defaultState = []
+const defaultState = [
+    {
+        order: 0,
+        id: '',
+        name: '',
+        active: true,
+        onDashboard: true,
+        dataType: '',
+        unit: '',
+        source: '',
+        categoryId: '',
+        categoryIcon: '',
+        isFixed: true,
+        frequency: '',
+        goal: '',
+        conditionsMode: '',
+        good: {
+            mode: '',
+            value: '',
+        },
+        medium: {
+            value1: '',
+            value2: '',
+        },
+        bad: {
+            mode: '',
+            value: '',
+        },
+    },
+]
 
 // Reducer
 
@@ -15,10 +44,7 @@ export const metricSlice = createSlice({
         },
         updateMetric: (state, action) => {
             const newState = action.payload
-            return {
-                ...state,
-                ...newState,
-            }
+            return [...newState]
         },
         default: (state) => {
             return state

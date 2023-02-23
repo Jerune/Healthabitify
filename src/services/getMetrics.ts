@@ -9,15 +9,15 @@ async function getMetrics(categoryId: string) {
     //     const data = doc.data()
     //     categoryList.push(data)
     // })
-    const metricsArray = Object.keys(metricItems).find(
-        (key) => metricItems[key] === categoryId
+    const metricsArray = metricItems.filter(
+        (metric) => metric.categoryId === categoryId
     )
 
-    // const sortedCategories = categoryList.sort((a, b) => {
-    //     return a.order - b.order
-    // })
+    const sortedMetrics = metricsArray.sort((a, b) => {
+        return a.order - b.order
+    })
 
-    console.log(metricsArray)
+    return sortedMetrics
 }
 
 export default getMetrics
