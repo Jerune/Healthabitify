@@ -64,6 +64,10 @@ function MetricCard({ metric }: MetricProps) {
         }
     }, [formData.dataType])
 
+    useEffect(() => {
+        dispatch(updateMetric(formData))
+    }, [formData.active, formData.onDashboard])
+
     // Functions
     function handleChange(event: InputEvent | SelectEvent) {
         if (event.target.dataset.type) {
