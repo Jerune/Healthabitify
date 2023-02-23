@@ -1,15 +1,15 @@
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from './firebase'
-import metricItems from '../data/metricsMock'
 
 async function getMetrics(categoryId: string) {
-    // const querySnapshot = await getDocs(collection(db, 'categories'))
-    // const categoryList = []
-    // querySnapshot.forEach((doc) => {
-    //     const data = doc.data()
-    //     categoryList.push(data)
-    // })
-    const metricsArray = metricItems.filter(
+    const querySnapshot = await getDocs(collection(db, 'metrics'))
+    const metricsList = []
+    querySnapshot.forEach((doc) => {
+        const data = { id: doc.id, ...doc.data() }
+        metricsList.push(data)
+    })
+
+    const metricsArray = metricsList.filter(
         (metric) => metric.categoryId === categoryId
     )
 
@@ -17,7 +17,7 @@ async function getMetrics(categoryId: string) {
         return a.order - b.order
     })
 
-    return sortedMetrics
+    console.log(sortedMetrics)
 }
 
 export default getMetrics

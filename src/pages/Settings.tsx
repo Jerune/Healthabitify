@@ -11,8 +11,7 @@ import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
 import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
-import getMetrics from '../services/getMetrics'
-import { initMetrics, updateMetric } from '../redux/reducers/metricsReducer'
+import { initMetrics } from '../redux/reducers/metricsReducer'
 
 function Settings() {
     const navigate = useNavigate()
