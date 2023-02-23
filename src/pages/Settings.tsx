@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import * as Icons from 'react-icons/ri'
 import HeaderNav from '../components/HeaderNav'
 import { localSignIn } from '../redux/reducers/usersReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
@@ -51,21 +52,21 @@ function Settings() {
         setMetricsView(true)
     }
 
-    function resetSettings() {
-        const emptyCategoryData = { id: '', name: '', iconName: '' }
-        setMetricsView(false)
-        setActiveCategory([emptyCategoryData])
-    }
-
     const categories = (categoriesArray: Category[]) => {
         const categoryList = categoriesArray.map((category) => {
+            const IconElement = Icons[category.iconName]
+            console.log(IconElement)
             return (
                 <button
+                    className="w-56 flex flex-row gap-2 justify-center items-center text-2xl py-7 pl-6 pr-12 rounded-lg bg-white "
                     type="button"
                     key={category.name}
                     onClick={() => setMetrics(category.id)}
                 >
-                    {category.name}
+                    <i>
+                        <IconElement />
+                    </i>
+                    <h2 className="text-2xl font-normal">{category.name}</h2>
                 </button>
             )
         })
@@ -90,7 +91,9 @@ function Settings() {
                             ? categories(activeCategory)
                             : categories(categoriesList)}
                     </SettingsMenuSection>
-                    <SettingsContentField>{metrics}</SettingsContentField>
+                    {metricsView && (
+                        <SettingsContentField>{metrics}</SettingsContentField>
+                    )}
                 </SettingsMenuContainer>
             </main>
         </>

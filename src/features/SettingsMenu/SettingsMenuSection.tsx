@@ -2,9 +2,9 @@ import type { PropsWithChildren } from 'react'
 
 function SettingsMenuSection({ children }: PropsWithChildren) {
     return (
-        <div className="flex flex-col justify-start h-vh border-r border-solid overflow-y-auto border-black">
+        <section className="flex flex-col justify-start items-center gap-4 h-vh overflow-y-auto pt-6 pl-6">
             {children}
-        </div>
+        </section>
     )
 }
 
