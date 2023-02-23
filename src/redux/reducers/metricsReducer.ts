@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import metricItems from '../../data/metricsMock'
 
 // Initial State
 
@@ -39,12 +40,16 @@ export const metricSlice = createSlice({
     name: 'metric',
     initialState: defaultState,
     reducers: {
-        initMetrics: (state, action) => {
-            return action.payload
+        initMetrics: () => {
+            return metricItems
         },
         updateMetric: (state, action) => {
-            const newState = action.payload
-            return [...newState]
+            const updatedMetric = action.payload
+            const remainingMetrics = state.filter(
+                (metric) => metric.id !== updatedMetric.id
+            )
+
+            return [...remainingMetrics, updatedMetric]
         },
         default: (state) => {
             return state

@@ -561,34 +561,6 @@ const metricItems = [
     },
     {
         order: 3,
-        id: 'average-resting-heart-rate',
-        name: 'Average Resting Heart Rate',
-        active: true,
-        onDashboard: true,
-        dataType: 'amount',
-        unit: 'bpm',
-        source: 'oura',
-        categoryId: 'stress',
-        categoryIcon: 'RiMentalHealthFill',
-        isFixed: true,
-        frequency: 'daily',
-        goal: '',
-        conditionsMode: 'lower',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
-    },
-    {
-        order: 4,
         id: 'stress-management-score',
         name: 'Stress Management Score',
         active: true,
@@ -616,7 +588,7 @@ const metricItems = [
         },
     },
     {
-        order: 5,
+        order: 4,
         id: 'total-average-calorie-burn',
         name: 'Total Average Calorie Burn',
         active: true,

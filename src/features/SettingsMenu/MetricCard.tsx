@@ -7,8 +7,11 @@ import type { InputEvent, SelectEvent, FormSubmit } from '../../types.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter'
+import { useAppDispatch } from '../../redux/reduxHooks'
+import { updateMetric } from '../../redux/reducers/metricsReducer'
 
 function MetricCard({ metric }: MetricProps) {
+    const dispatch = useAppDispatch()
     const [formData, setFormData] = useState(metric)
     const [editForm, setEditForm] = useState(false)
     const [detailsAreVisible, setDetailsAreVisible] = useState(false)
@@ -85,6 +88,9 @@ function MetricCard({ metric }: MetricProps) {
 
     async function handleSubmit(event: FormSubmit) {
         event.preventDefault()
+        dispatch(updateMetric(formData))
+        setEditForm(false)
+        setDetailsAreVisible(false)
     }
 
     return (

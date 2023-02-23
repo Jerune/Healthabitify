@@ -12,7 +12,7 @@ import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import getMetrics from '../services/getMetrics'
-import { updateMetric } from '../redux/reducers/metricsReducer'
+import { initMetrics, updateMetric } from '../redux/reducers/metricsReducer'
 
 function Settings() {
     const navigate = useNavigate()
@@ -41,13 +41,15 @@ function Settings() {
         }
     }, [isLoggedIn])
 
+    useEffect(() => {
+        dispatch(initMetrics())
+    }, [])
+
     async function setMetrics(categoryId: string) {
         const activeCat = categoriesList.filter(
             (category) => category.id === categoryId
         )
         setActiveCategory(activeCat)
-        const metricsList = await getMetrics(categoryId)
-        dispatch(updateMetric(metricsList))
         setMetricsView(true)
     }
 
@@ -81,7 +83,20 @@ function Settings() {
             (metric) => metric.categoryId === activeCategory[0].id
         )
 
-        const activeMetrics = filteredMetrics.map((metric) => {
+        const sortedMetrics = filteredMetrics.sort((a, b) => {
+            if (a.active > b.active) return -1
+            if (a.active < b.active) return 1
+
+            if (a.onDashboard > b.onDashboard) return -1
+            if (a.onDashboard < b.onDashboard) return 1
+
+            if (a.order < b.order) return -1
+            if (a.order > b.order) return 1
+
+            return 0
+        })
+
+        const activeMetrics = sortedMetrics.map((metric) => {
             return <MetricCard key={metric.id} metric={metric} />
         })
 
