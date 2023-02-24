@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import * as Icons from 'react-icons/ri'
-import HeaderNav from '../components/HeaderNav'
 import { useAppSelector } from '../redux/reduxHooks'
 import SettingsMenuContainer from '../features/SettingsMenu/SettingsMenuContainer'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
 import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
+import MainContent from '../components/MainContent'
 
 function Settings() {
     const metrics = useAppSelector((state) => state.metrics)
@@ -74,21 +74,16 @@ function Settings() {
     }
 
     return (
-        <>
-            <HeaderNav />
-            <main>
-                <SettingsMenuContainer>
-                    <SettingsMenuSection>
-                        {showCategories()}
-                    </SettingsMenuSection>
-                    {metricsView && (
-                        <SettingsContentField>
-                            {showActiveMetrics()}
-                        </SettingsContentField>
-                    )}
-                </SettingsMenuContainer>
-            </main>
-        </>
+        <MainContent>
+            <SettingsMenuContainer>
+                <SettingsMenuSection>{showCategories()}</SettingsMenuSection>
+                {metricsView && (
+                    <SettingsContentField>
+                        {showActiveMetrics()}
+                    </SettingsContentField>
+                )}
+            </SettingsMenuContainer>
+        </MainContent>
     )
 }
 

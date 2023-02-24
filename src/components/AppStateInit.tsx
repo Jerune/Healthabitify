@@ -37,17 +37,18 @@ function AppState() {
     }
 
     function initApp() {
+        console.log('is Running')
         setIsLoading(true)
         CheckIfUserIsAuthenticated()
         initializeMetrics()
         setIsLoading(false)
     }
 
-    // useEffect(() => {
-    //     if (isLoggedIn) {
-    //         initApp()
-    //     }
-    // }, [isLoggedIn])
+    useEffect(() => {
+        if (isLoggedIn) {
+            initApp()
+        }
+    }, [isLoggedIn])
 
     if (isLoading) {
         return (

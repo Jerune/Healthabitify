@@ -9,8 +9,6 @@ import IntroVideo from '../assets/login_video_alt.webm'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from '../components/LogoText'
 import { capitalizeFirstLetterFromArray } from '../utils/capitalizeFirstLetter'
-import getMetrics from '../services/getMetrics'
-import { initMetrics } from '../redux/reducers/metricsReducer'
 
 function Login() {
     const navigate = useNavigate()
@@ -99,9 +97,7 @@ function Login() {
                 password: '',
                 errorMessage: '',
             })
-            const metrics = await getMetrics()
-            dispatch(initMetrics(metrics))
-            navigate('dashboard')
+            navigate('/dashboard')
         } else if (SignInDbResponse.errorMessage) {
             const errorMessageArray = SignInDbResponse.errorMessage
                 .split('/')[1]
