@@ -37,7 +37,6 @@ function AppState() {
     }
 
     function initApp() {
-        console.log('is Running')
         setIsLoading(true)
         CheckIfUserIsAuthenticated()
         initializeMetrics()
