@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, useRef, useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
@@ -24,27 +24,6 @@ function Login() {
         password: '',
         errorMessage: '',
     })
-
-    useEffect(() => {
-        async function initApp() {
-            if (!isLoggedIn) {
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        dispatch(
-                            localSignIn({
-                                email: user.email,
-                                userId: user.uid,
-                            })
-                        )
-                    }
-                })
-                const metricList = await getMetrics()
-                dispatch(initMetrics(metricList))
-            }
-        }
-
-        initApp()
-    }, [isLoggedIn])
 
     useEffect(() => {
         if (emailInLocalStorage) {

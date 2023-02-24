@@ -1,50 +1,19 @@
-import { useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import * as Icons from 'react-icons/ri'
 import HeaderNav from '../components/HeaderNav'
-import { localSignIn } from '../redux/reducers/usersReducer'
-import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
-import { auth } from '../services/firebase'
+import { useAppSelector } from '../redux/reduxHooks'
 import SettingsMenuContainer from '../features/SettingsMenu/SettingsMenuContainer'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
 import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
-import { initMetrics } from '../redux/reducers/metricsReducer'
-import getMetrics from '../services/getMetrics'
 
 function Settings() {
-    const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const metrics = useAppSelector((state) => state.metrics)
-    const dispatch = useAppDispatch()
     const [metricsView, setMetricsView] = useState(false)
     const [activeCategory, setActiveCategory] = useState([
         { id: '', name: '', iconName: '' },
     ])
-
-    useEffect(() => {
-        async function initApp() {
-            if (!isLoggedIn) {
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        dispatch(
-                            localSignIn({
-                                email: user.email,
-                                userId: user.uid,
-                            })
-                        )
-                    } else {
-                        navigate('/')
-                    }
-                })
-                const metricList = await getMetrics()
-                dispatch(initMetrics(metricList))
-            }
-        }
-        initApp()
-    }, [isLoggedIn])
 
     async function setMetrics(categoryId: string) {
         const activeCat = categoriesList.filter(
