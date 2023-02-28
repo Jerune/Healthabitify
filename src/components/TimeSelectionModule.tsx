@@ -98,8 +98,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                     type="button"
                     onClick={() => changeTimeView('next', activeTab)}
                 >
-                    {currentTimeData.currentDate.weekNumber <
-                        DateTime.now().weekNumber && <AiOutlineRight />}
+                    <AiOutlineRight />
                 </button>
             </div>
         </div>
