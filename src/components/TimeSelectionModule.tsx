@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
+import getWeeks from '../features/TimesDatesModule/getWeeks'
 import type { TabListProps } from '../types'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
@@ -34,30 +35,32 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         )
     })
 
-    function getCorrectWeekDates(): void {
-        let lastDayOfTheWeek = currentTimeData.currentDate
-        const { weekNumber, year } = currentTimeData.currentDate
-        for (let i = 1; i < 7; i += 1) {
-            const newDate = currentTimeData.currentDate.plus({ days: i })
-            if (newDate.weekNumber === weekNumber) {
-                lastDayOfTheWeek = newDate
-            }
+    async function getCorrectDates() {
+        const { weekNumber, month, year } = currentTimeData.currentDate
+        let datesData = {}
+        switch (activeTab) {
+            case 'week':
+                datesData = await getWeeks(
+                    currentTimeData.currentDate,
+                    weekNumber
+                )
+                break
+            default:
+                datesData = {}
         }
-        const firstDayOfTheWeek = lastDayOfTheWeek.minus({ days: 7 })
 
-        setCurrentTimeData((prevState) => {
-            return {
-                ...prevState,
-                weekNumber,
-                year,
-                firstDayOfTheWeek,
-                lastDayOfTheWeek,
-            }
-        })
+        if (datesData) {
+            setCurrentTimeData((prevState) => {
+                return {
+                    ...prevState,
+                    ...datesData,
+                }
+            })
+        }
     }
 
     useEffect(() => {
-        getCorrectWeekDates()
+        getCorrectDates()
     }, [currentTimeData.currentDate])
 
     function changeTimeView(direction: string) {
@@ -81,9 +84,6 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
             <ul className="flex items-center gap-3">{listOfTabs}</ul>
-            <span className="flex justify-center w-content pt-3 italic">
-                {`Week ${currentTimeData.weekNumber}, ${currentTimeData.year}`}
-            </span>
             <div className="flex flex-row items-center pt-2">
                 <button
                     type="button"
@@ -92,9 +92,9 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                     <AiOutlineLeft />
                 </button>
                 <span className="flex justify-center gap-6 px-8 italic">
-                    {currentTimeData.firstDayOfTheWeek.toFormat('LLL d')}{' '}
+                    {currentTimeData.firstDayOfTheWeek.toFormat('d LLL, yyyy')}{' '}
                     <span>-</span>{' '}
-                    {currentTimeData.lastDayOfTheWeek.toFormat('LLL d')}
+                    {currentTimeData.lastDayOfTheWeek.toFormat('d LLL, yyyy')}
                 </span>
                 <button type="button" onClick={() => changeTimeView('next')}>
                     {currentTimeData.currentDate.weekNumber <
