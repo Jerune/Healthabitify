@@ -4,7 +4,7 @@ import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
 import type { TabListProps } from '../types'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
-    const [activeTab, setActiveTab] = useState(0)
+    const [activeTab, setActiveTab] = useState('week')
     const [currentTimeData, setCurrentTimeData] = useState({
         currentDate: DateTime.now(),
         year: 0,
@@ -13,8 +13,9 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         lastDayOfTheWeek: DateTime.now(),
     })
     const listOfTabs = tabs.map((tab, index) => {
+        const buttonNames = ['week', 'month', 'year']
         const tabClasses =
-            index === activeTab
+            buttonNames[index] === activeTab
                 ? 'bg-palette-500 text-white hover:bg-palette-500'
                 : 'hover:bg-palette-500 hover:text-white'
         return (
@@ -24,7 +25,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                     className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
                     onClick={() => {
                         tab.function()
-                        setActiveTab(index)
+                        setActiveTab(buttonNames[index])
                     }}
                 >
                     {tab.name}
