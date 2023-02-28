@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon'
 
-function getWeeks(currentDate: DateTime, currentWeekNumber: number) {
+function getWeekDays(currentDate: DateTime) {
     let lastDayOfTheWeek = currentDate
 
     for (let i = 1; i < 7; i += 1) {
         const newDate = currentDate.plus({ days: i })
-        if (newDate.weekNumber === currentWeekNumber) {
+        if (newDate.weekNumber === currentDate.weekNumber) {
             lastDayOfTheWeek = newDate
         }
     }
@@ -17,4 +17,4 @@ function getWeeks(currentDate: DateTime, currentWeekNumber: number) {
     }
 }
 
-export default getWeeks
+export default getWeekDays

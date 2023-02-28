@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
-import getWeeks from '../features/TimesDatesModule/getWeeks'
+import getAmountToAdjustWith from '../features/TimesDatesModule/getamountToAdjustWith'
+import getWeekDays from '../features/TimesDatesModule/getWeeks'
 import type { TabListProps } from '../types'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
@@ -40,7 +41,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         const { weekNumber, month, year } = currentTimeData.currentDate
         let datesData = {}
         if (activeTab === 'week') {
-            datesData = await getWeeks(currentTimeData.currentDate, weekNumber)
+            datesData = await getWeekDays(currentTimeData.currentDate)
         }
 
         setCurrentTimeData((prevState) => {
@@ -54,27 +55,29 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         })
     }
 
-    useEffect(() => {
-        getCorrectDates()
-    }, [currentTimeData.currentDate])
-
-    function changeTimeView(direction: string) {
+    async function changeTimeView(direction: string, tabState: string) {
+        const amountToAdjustWith = await getAmountToAdjustWith(tabState)
         if (direction === 'previous') {
             setCurrentTimeData((prevState) => {
                 return {
                     ...prevState,
-                    currentDate: prevState.currentDate.minus({ days: 7 }),
+                    currentDate:
+                        prevState.currentDate.minus(amountToAdjustWith),
                 }
             })
         } else if (direction === 'next') {
             setCurrentTimeData((prevState) => {
                 return {
                     ...prevState,
-                    currentDate: prevState.currentDate.plus({ days: 7 }),
+                    currentDate: prevState.currentDate.plus(amountToAdjustWith),
                 }
             })
         }
     }
+
+    useEffect(() => {
+        getCorrectDates()
+    }, [currentTimeData.currentDate])
 
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
@@ -82,7 +85,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
             <div className="flex flex-row items-center pt-2">
                 <button
                     type="button"
-                    onClick={() => changeTimeView('previous')}
+                    onClick={() => changeTimeView('previous', activeTab)}
                 >
                     <AiOutlineLeft />
                 </button>
@@ -91,7 +94,10 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                     <span>-</span>{' '}
                     {currentTimeData.lastDayOfTheWeek.toFormat('d LLL, yyyy')}
                 </span>
-                <button type="button" onClick={() => changeTimeView('next')}>
+                <button
+                    type="button"
+                    onClick={() => changeTimeView('next', activeTab)}
+                >
                     {currentTimeData.currentDate.weekNumber <
                         DateTime.now().weekNumber && <AiOutlineRight />}
                 </button>
