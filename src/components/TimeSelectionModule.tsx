@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
@@ -15,6 +16,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         firstDayOfTheWeek: DateTime.now(),
         lastDayOfTheWeek: DateTime.now(),
     })
+
     const listOfTabs = tabs.map((tab, index) => {
         const buttonNames = ['week', 'month', 'year']
         const tabClasses =
@@ -36,6 +38,17 @@ function TimeSelectionModule({ tabs }: TabListProps) {
             </li>
         )
     })
+
+    const datesTitles =
+        activeTab === 'week'
+            ? `${currentTimeData.firstDayOfTheWeek.toFormat(
+                  'd LLL, yyyy'
+              )} - ${currentTimeData.lastDayOfTheWeek.toFormat('d LLL, yyyy')}`
+            : activeTab === 'month'
+            ? `${currentTimeData.currentDate.toFormat('LLLL, y')}`
+            : activeTab === 'year'
+            ? `${currentTimeData.currentDate.toFormat('y')}`
+            : ''
 
     async function getCorrectDates() {
         const { weekNumber, month, year } = currentTimeData.currentDate
@@ -77,7 +90,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
 
     useEffect(() => {
         getCorrectDates()
-    }, [currentTimeData.currentDate])
+    }, [currentTimeData.currentDate, activeTab])
 
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
@@ -90,9 +103,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                     <AiOutlineLeft />
                 </button>
                 <span className="flex justify-center gap-6 px-8 italic">
-                    {currentTimeData.firstDayOfTheWeek.toFormat('d LLL, yyyy')}{' '}
-                    <span>-</span>{' '}
-                    {currentTimeData.lastDayOfTheWeek.toFormat('d LLL, yyyy')}
+                    {datesTitles}
                 </span>
                 <button
                     type="button"
