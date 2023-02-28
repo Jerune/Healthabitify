@@ -1,5 +1,5 @@
 import MainContent from '../components/MainContent'
-import TimeSelectionModule from '../components/TimeSelectionModule'
+import TimeSelectionModule from '../features/TimesDatesModule/TimeSelectionModule'
 import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'

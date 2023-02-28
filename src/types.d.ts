@@ -65,10 +65,3 @@ export type DataPoint = {
     month: number
     year: number
 }
-
-export type TabListProps = {
-    tabs: {
-        name: string
-        function: () => void
-    }[]
-}

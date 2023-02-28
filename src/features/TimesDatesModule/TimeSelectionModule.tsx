@@ -2,9 +2,9 @@
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
-import getAmountToAdjustWith from '../features/TimesDatesModule/getamountToAdjustWith'
-import getWeekDays from '../features/TimesDatesModule/getWeeks'
-import type { TabListProps } from '../types'
+import getAmountToAdjustWith from './getamountToAdjustWith'
+import getWeekDays from './getWeeks'
+import type { TabListProps } from './TimesDatesTypes'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
     const [activeTab, setActiveTab] = useState('week')
@@ -17,27 +17,29 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         lastDayOfTheWeek: DateTime.now(),
     })
 
-    const listOfTabs = tabs.map((tab, index) => {
-        const buttonNames = ['week', 'month', 'year']
-        const tabClasses =
-            buttonNames[index] === activeTab
-                ? 'bg-palette-500 text-white hover:bg-palette-500'
-                : 'hover:bg-palette-500 hover:text-white'
-        return (
-            <li key={tab.name}>
-                <button
-                    type="button"
-                    className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
-                    onClick={() => {
-                        tab.function()
-                        setActiveTab(buttonNames[index])
-                    }}
-                >
-                    {tab.name}
-                </button>
-            </li>
-        )
-    })
+    const listOfTabs =
+        tabs !== undefined &&
+        tabs.map((tab, index) => {
+            const buttonNames = ['week', 'month', 'year']
+            const tabClasses =
+                buttonNames[index] === activeTab
+                    ? 'bg-palette-500 text-white hover:bg-palette-500'
+                    : 'hover:bg-palette-500 hover:text-white'
+            return (
+                <li key={tab.name}>
+                    <button
+                        type="button"
+                        className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
+                        onClick={() => {
+                            tab.function()
+                            setActiveTab(buttonNames[index])
+                        }}
+                    >
+                        {tab.name}
+                    </button>
+                </li>
+            )
+        })
 
     const datesTitles =
         activeTab === 'week'
@@ -94,8 +96,10 @@ function TimeSelectionModule({ tabs }: TabListProps) {
 
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
-            <ul className="flex items-center gap-3">{listOfTabs}</ul>
-            <div className="flex flex-row items-center pt-2">
+            {tabs !== undefined && (
+                <ul className="flex items-center gap-3 pb-6">{listOfTabs}</ul>
+            )}
+            <div className="flex flex-row items-center">
                 <button
                     type="button"
                     onClick={() => changeTimeView('previous', activeTab)}
