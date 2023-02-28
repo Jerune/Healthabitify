@@ -9,6 +9,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     const [currentTimeData, setCurrentTimeData] = useState({
         currentDate: DateTime.now(),
         year: 0,
+        month: 0,
         weekNumber: 0,
         firstDayOfTheWeek: DateTime.now(),
         lastDayOfTheWeek: DateTime.now(),
@@ -38,25 +39,19 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     async function getCorrectDates() {
         const { weekNumber, month, year } = currentTimeData.currentDate
         let datesData = {}
-        switch (activeTab) {
-            case 'week':
-                datesData = await getWeeks(
-                    currentTimeData.currentDate,
-                    weekNumber
-                )
-                break
-            default:
-                datesData = {}
+        if (activeTab === 'week') {
+            datesData = await getWeeks(currentTimeData.currentDate, weekNumber)
         }
 
-        if (datesData) {
-            setCurrentTimeData((prevState) => {
-                return {
-                    ...prevState,
-                    ...datesData,
-                }
-            })
-        }
+        setCurrentTimeData((prevState) => {
+            return {
+                ...prevState,
+                weekNumber,
+                month,
+                year,
+                ...datesData,
+            }
+        })
     }
 
     useEffect(() => {
