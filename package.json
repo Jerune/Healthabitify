@@ -11,6 +11,7 @@
     "stylelint": "npx stylelint '**/*.css'"
   },
   "dependencies": {
+    "@inovua/reactdatagrid-community": "^5.8.5",
     "@reduxjs/toolkit": "^1.9.1",
     "firebase": "^9.15.0",
     "luxon": "^3.2.1",
