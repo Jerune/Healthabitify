@@ -1,20 +1,22 @@
 /* eslint-disable no-nested-ternary */
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
+import DatePicker from 'react-date-picker'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
-import getAmountToAdjustWith from './getamountToAdjustWith'
+import { TfiCalendar } from 'react-icons/tfi'
+import getAmountToAdjustWith from './getAmountToAdjustWith'
 import getWeekDays from './getWeeks'
 import type { TabListProps } from './TimesDatesTypes'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
     const [activeTab, setActiveTab] = useState('week')
     const [currentTimeData, setCurrentTimeData] = useState({
-        currentDate: DateTime.now(),
+        currentDate: DateTime.now().minus({ days: 7 }),
         year: 0,
         month: 0,
         weekNumber: 0,
-        firstDayOfTheWeek: DateTime.now(),
-        lastDayOfTheWeek: DateTime.now(),
+        firstDayOfTheWeek: DateTime.now().minus({ days: 7 }),
+        lastDayOfTheWeek: DateTime.now().minus({ days: 7 }),
     })
 
     const listOfTabs =
@@ -100,6 +102,20 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                 <ul className="flex items-center gap-3 pb-6">{listOfTabs}</ul>
             )}
             <div className="flex flex-row items-center">
+                <DatePicker
+                    onChange={(value: Date) =>
+                        setCurrentTimeData((prevState) => {
+                            return {
+                                ...prevState,
+                                currentDate: DateTime.fromJSDate(value),
+                            }
+                        })
+                    }
+                    value={currentTimeData.currentDate.toJSDate()}
+                    clearIcon={null}
+                    calendarIcon={<TfiCalendar />}
+                    minDetail="month"
+                />
                 <button
                     type="button"
                     onClick={() => changeTimeView('previous', activeTab)}

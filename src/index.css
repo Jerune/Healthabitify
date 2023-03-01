@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 /* stylelint-disable color-function-notation */
 @tailwind base;
 @tailwind components;
@@ -109,4 +110,14 @@ input:required:invalid {
 
 .bg-black-opacity {
     background: rgb(0, 0, 0, 70%);
+}
+
+/* React Date Picker Rewrites */
+
+.react-date-picker__wrapper {
+    border: none;
+}
+
+.react-date-picker__inputGroup {
+    display: none;
 }
