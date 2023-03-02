@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from './reducers/usersReducer'
 import utilsReducer from './reducers/utilsReducer'
 import metricsReducer from './reducers/metricsReducer'
-import { useOuraAPI } from '../hooks/useAPI'
+import { useOuraAPI } from '../hooks/useOuraAPI'
 
 const store = configureStore({
     reducer: {
