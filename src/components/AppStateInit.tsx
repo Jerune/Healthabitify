@@ -7,12 +7,14 @@ import { localSignIn } from '../redux/reducers/usersReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import getMetrics from '../services/getMetrics'
 import Loading from './Loading'
+import { useGetUserDataQuery } from '../hooks/useOuraAPI'
 
 function AppState() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
     const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState(false)
+    const getUserDetails = useGetUserDataQuery()
 
     function CheckIfUserIsAuthenticated() {
         if (!isLoggedIn) {
@@ -36,8 +38,14 @@ function AppState() {
         dispatch(initMetrics(metricList))
     }
 
+    async function getOuraData() {
+        const results = await getUserDetails
+        console.log(results)
+    }
+
     function initApp() {
         setIsLoading(true)
+        getOuraData()
         CheckIfUserIsAuthenticated()
         initializeMetrics()
         setIsLoading(false)

@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Query } from '../redux/ReduxTypes'
 
 type UserInfo = {
     id: string
@@ -15,7 +14,7 @@ export const useOuraAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.ouraring.com/v2/usercollection/',
         prepareHeaders: (headers, { getState }) => {
-            const token = 'IEKR4SNJH3V6TM3JYSPKFJPIQFQF7NQP' // To change with const { token } = getState().users.token
+            const token = 'MAW2MA3PSS7NDOCDN4S7MFHHIXMRCJAT' // To change with const { token } = getState().users.token
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
             }

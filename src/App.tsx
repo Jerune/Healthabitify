@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { OAuthPopup } from '@tasoskakour/react-use-oauth2'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import DataPage from './pages/DataPage'
@@ -15,6 +16,7 @@ function App() {
             <AppState />
             <Routes>
                 <Route path="/" element={<Login />} />
+                <Route element={<OAuthPopup />} path="/callback" />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="data/:category" element={<DataPage />} />
                 <Route path="settings" element={<Settings />} />
