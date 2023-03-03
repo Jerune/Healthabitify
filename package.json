@@ -13,6 +13,7 @@
   "dependencies": {
     "@inovua/reactdatagrid-community": "^5.8.5",
     "@reduxjs/toolkit": "^1.9.1",
+    "@tasoskakour/react-use-oauth2": "^1.0.14",
     "firebase": "^9.15.0",
     "luxon": "^3.2.1",
     "prop-types": "^15.8.1",
