@@ -8,12 +8,15 @@ import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import HeaderNav from './components/HeaderNav'
 import AppState from './components/AppStateInit'
+import { useAppSelector } from './redux/reduxHooks'
 
 function App() {
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+
     return (
         <Router>
             <HeaderNav />
-            <AppState />
+            {isLoggedIn && <AppState />}
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route element={<OAuthPopup />} path="/callback" />

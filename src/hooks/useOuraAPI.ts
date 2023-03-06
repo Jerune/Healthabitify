@@ -14,7 +14,8 @@ export const useOuraAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.ouraring.com/v2/usercollection/',
         prepareHeaders: (headers, { getState }) => {
-            const token = 'MAW2MA3PSS7NDOCDN4S7MFHHIXMRCJAT' // To change with const { token } = getState().users.token
+            const { token } = getState().users.devices.oura.token
+            console.log(token)
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
             }
@@ -22,8 +23,8 @@ export const useOuraAPI = createApi({
             return headers
         },
     }),
-    endpoints: (build) => ({
-        getUserData: build.query<UserInfo, void>({
+    endpoints: (builder) => ({
+        getUserData: builder.query<UserInfo, void>({
             query: () => 'personal_info',
         }),
     }),

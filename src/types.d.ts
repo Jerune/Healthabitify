@@ -22,6 +22,13 @@ export type Category = {
     iconName: string | unknown
 }
 
+export type Wearable = {
+    id: string
+    userId: string
+    token: string
+    lastUpdated: string
+}
+
 export type Metric = {
     order: number
     id: string
