@@ -7,6 +7,7 @@ import MetricCard from '../features/SettingsMenu/MetricCard'
 import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import MainContent from '../components/MainContent'
+import Wearables from '../components/Wearables'
 
 function Settings() {
     const metrics = useAppSelector((state) => state.metrics)
@@ -76,7 +77,10 @@ function Settings() {
     return (
         <MainContent>
             <SettingsMenuContainer>
-                <SettingsMenuSection>{showCategories()}</SettingsMenuSection>
+                <SettingsMenuSection>
+                    <Wearables />
+                    {showCategories()}
+                </SettingsMenuSection>
                 {metricsView && (
                     <SettingsContentField>
                         {showActiveMetrics()}

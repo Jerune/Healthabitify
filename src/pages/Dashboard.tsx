@@ -4,7 +4,6 @@ import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
 import dashboardItems from '../data/dashboardItemsMock'
-import AuthorizeOura from '../components/AuthorizeOura'
 
 function Dashboard() {
     const dashboardBlocks = dashboardItems.map((item) => (
@@ -13,7 +12,6 @@ function Dashboard() {
 
     return (
         <>
-            <AuthorizeOura />
             <TimeSelectionModule tabs={Tabs} />
             <MainContent>
                 <DashBoardContainer>{dashboardBlocks}</DashBoardContainer>
