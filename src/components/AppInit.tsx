@@ -8,12 +8,17 @@ import { initMetrics } from '../redux/reducers/metricsReducer'
 import getMetrics from '../services/getMetrics'
 import Loading from './Loading'
 import getWearables from '../services/getWearables'
+import getFitbitData from '../hooks/getFitbitData'
 
 function AppState() {
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const fitbitToken = useAppSelector(
+        (state) => state.user.devices.fitbit.token
+    )
     const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState(false)
+    const [loadingMessage, setLoadingMessage] = useState('')
 
     function CheckIfUserIsAuthenticated() {
         if (!isLoggedIn) {
@@ -32,25 +37,39 @@ function AppState() {
         }
     }
 
-    async function initializeWearables() {
-        const wearablesList = await getWearables()
-        dispatch(setDeviceTokens(wearablesList))
-    }
-
     async function initializeMetrics() {
         const metricList = await getMetrics()
         dispatch(initMetrics(metricList))
     }
 
+    async function initializeWearables() {
+        const wearablesList = await getWearables()
+        dispatch(setDeviceTokens(wearablesList))
+    }
+
+    async function updateWearablesData() {
+        const fitbitData = await getFitbitData(
+            'https://api.fitbit.com/1/user/-/activities/date/2023-03-03.json',
+            fitbitToken
+        )
+        console.log(fitbitData)
+    }
+
     function initApp() {
         setIsLoading(true)
-        CheckIfUserIsAuthenticated()
+        setLoadingMessage('Getting user metrics...')
         initializeMetrics()
+        setLoadingMessage('Getting wearables information...')
         initializeWearables()
+        setLoadingMessage('Getting fitbit data')
+        updateWearablesData()
         setIsLoading(false)
     }
 
     useEffect(() => {
+        if (!isLoggedIn) {
+            CheckIfUserIsAuthenticated()
+        }
         if (isLoggedIn) {
             initApp()
         }
@@ -60,6 +79,7 @@ function AppState() {
         return (
             <div className="w-full h-screen flex flex-col justify-center items-center gap-6 bg-white">
                 <Loading size={50} />
+                <h3>{loadingMessage}</h3>
             </div>
         )
     }

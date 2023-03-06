@@ -18,7 +18,7 @@ function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <AiOutlineDoubleLeft />

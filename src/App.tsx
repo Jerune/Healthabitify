@@ -7,19 +7,16 @@ import NotFound from './pages/NotFound'
 import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import HeaderNav from './components/HeaderNav'
-import AppState from './components/AppStateInit'
-import { useAppSelector } from './redux/reduxHooks'
+import AppState from './components/AppInit'
 
 function App() {
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
-
     return (
         <Router>
             <HeaderNav />
-            {isLoggedIn && <AppState />}
+            <AppState />
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route element={<OAuthPopup />} path="/callback" />
+                <Route element={<OAuthPopup />} path="callback" />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="data/:category" element={<DataPage />} />
                 <Route path="settings" element={<Settings />} />

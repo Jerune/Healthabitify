@@ -13,7 +13,7 @@ import { capitalizeFirstLetterFromArray } from '../utils/capitalizeFirstLetter'
 function Login() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const rememberCheckbox = useRef<HTMLInputElement>(null)
     const emailInLocalStorage = localStorage.getItem('email')
     const [errorIsShowing, setErrorIsShowing] = useState(false)

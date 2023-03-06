@@ -6,7 +6,7 @@ import metricsReducer from './reducers/metricsReducer'
 
 const store = configureStore({
     reducer: {
-        users: usersReducer,
+        user: usersReducer,
         metrics: metricsReducer,
         utils: utilsReducer,
     },
