@@ -48,12 +48,7 @@ function AppStateInit() {
     }
 
     async function updateWearablesData() {
-        const fitbitData = await getFitbitData(
-            'https://api.fitbit.com/1/user/-/activities/date/2023-03-03.json',
-            fitbitToken
-        )
-
-        console.log(fitbitData)
+        getFitbitData(fitbitToken, '2023-03-01')
     }
 
     function initApp() {
