@@ -1,25 +1,12 @@
 /* eslint-disable no-console */
 import { collection, addDoc } from 'firebase/firestore'
-import type { FitbitData } from '../../../types'
-import getDateTimeDataForDatapoints from '../../../utils/getDateTimeData'
+import type { DataPoint } from '../../../types'
 import { db } from '../../firebase'
 
-async function addDatapoints(datapointData: FitbitData[]) {
-    datapointData.forEach(async (datapoint) => {
-        const { month, weekNumber, year } = await getDateTimeDataForDatapoints(
-            datapoint.dateTime
-        )
+async function addDatapoints(datapoints: DataPoint[]) {
+    datapoints.forEach(async (datapoint) => {
         try {
-            await addDoc(collection(db, 'data-points'), {
-                userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
-                value: datapoint.value,
-                date: datapoint.dateTime,
-                source: 'fitbit',
-                metric: 'total-average-calorie-burn',
-                week: weekNumber,
-                month,
-                year,
-            })
+            await addDoc(collection(db, 'data-points'), { ...datapoint })
         } catch (e) {
             console.error('Error adding document: ', e)
         }
