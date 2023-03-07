@@ -71,7 +71,7 @@ export type DataPoint = {
     userId: string
     source: string
     date: string
-    week: number
+    weekNumber: number
     month: number
     year: number
 }
@@ -84,5 +84,5 @@ export type FitbitData = {
 }
 
 export type FitbitRawData = {
-    [key: string]: FitbitData
+    [key: string]: FitbitData[]
 }
