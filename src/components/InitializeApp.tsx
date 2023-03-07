@@ -52,6 +52,7 @@ function AppStateInit() {
             'https://api.fitbit.com/1/user/-/activities/date/2023-03-03.json',
             fitbitToken
         )
+
         console.log(fitbitData)
     }
 
@@ -61,8 +62,6 @@ function AppStateInit() {
         initializeMetrics()
         setLoadingMessage('Getting wearables information...')
         initializeWearables()
-        setLoadingMessage('Getting fitbit data')
-        updateWearablesData()
         setIsLoading(false)
     }
 
@@ -74,6 +73,15 @@ function AppStateInit() {
             initApp()
         }
     }, [isLoggedIn])
+
+    useEffect(() => {
+        if (fitbitToken) {
+            setIsLoading(true)
+            setLoadingMessage('Getting Fitbit data...')
+            updateWearablesData()
+            setIsLoading(false)
+        }
+    }, [fitbitToken])
 
     if (isLoading) {
         return (

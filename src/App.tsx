@@ -15,8 +15,8 @@ function App() {
             <AppStateInit />
             <HeaderNav />
             <Routes>
+                <Route path="callback" element={<OAuthPopup />} />
                 <Route path="/" element={<Login />} />
-                <Route element={<OAuthPopup />} path="callback" />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="data/:category" element={<DataPage />} />
                 <Route path="settings" element={<Settings />} />
