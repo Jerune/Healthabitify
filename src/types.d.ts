@@ -1,4 +1,6 @@
-// User Data from FireBase
+// FireBase
+
+// UserData from Auth
 export type SignInData = {
     email: string | null
     userId: string | null
@@ -64,12 +66,23 @@ export type MetricProps = {
 }
 
 export type DataPoint = {
-    id: string
-    value: number | Date
-    metricId: string
+    value: string | number
+    metric: string
     userId: string
-    date: Date
+    source: string
+    date: string
     week: number
     month: number
     year: number
+}
+
+// Fitbit Data
+
+export type FitbitData = {
+    dateTime: string
+    value: string
+}
+
+export type FitbitRawData = {
+    [key: string]: FitbitData
 }

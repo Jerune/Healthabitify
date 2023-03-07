@@ -1,3 +1,5 @@
+import transformFitbitData from './transformFitbitData'
+
 export default async function getFitbitData(
     token: string,
     lastUpdated: string
@@ -22,6 +24,6 @@ export default async function getFitbitData(
         const response = await fetch(endpoint.url, headers)
         const responseData = await response.json()
 
-        console.log(responseData)
+        transformFitbitData(responseData)
     })
 }
