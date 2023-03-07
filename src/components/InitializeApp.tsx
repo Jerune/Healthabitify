@@ -1,14 +1,14 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { auth } from '../services/firebase'
+import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { localSignIn, setDeviceTokens } from '../redux/reducers/usersReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
-import getMetrics from '../services/getMetrics'
+import getMetrics from '../firebase/firestore/metrics/getMetrics'
 import Loading from './Loading'
-import getWearables from '../services/getWearables'
-import getFitbitData from '../hooks/getFitbitData'
+import getWearables from '../firebase/firestore/getWearables'
+import getFitbitData from '../services/fitbitAPI/getFitbitData'
 
 function AppStateInit() {
     const navigate = useNavigate()

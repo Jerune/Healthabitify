@@ -1,4 +1,4 @@
-import AuthorizeWearable from '../features/ApiAuthorizations/AuthorizeApi'
+import AuthorizeWearable from '../services/AuthorizeApi'
 
 function Wearables() {
     return (

@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from './firebase'
-import type { Metric } from '../types'
+import { db } from '../../firebase'
+import type { Metric } from '../../../types'
 
 async function getMetrics() {
     const querySnapshot = await getDocs(collection(db, 'metrics'))

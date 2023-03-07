@@ -17,6 +17,7 @@ export type User = {
 }
 
 export type Category = {
+    order: number
     id: string
     name: string
     iconName: string | unknown

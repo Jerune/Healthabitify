@@ -3,8 +3,8 @@ import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
 import { useParams } from 'react-router-dom'
 import MainContent from '../components/MainContent'
-import columnsMock from '../data/grid-data/columnsMock'
-import dataSourceMock from '../data/grid-data/dataSourceMock'
+import columnsMock from '../data/data-grid/columnsMock'
+import dataSourceMock from '../data/data-grid/dataSourceMock'
 
 function DataPage() {
     const { category } = useParams()

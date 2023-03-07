@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import updateDbMetric from '../../services/updateMetric'
+import updateDbMetric from '../../firebase/firestore/metrics/updateMetric'
 
 // Initial State
 

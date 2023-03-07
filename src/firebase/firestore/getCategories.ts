@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from './firebase'
-import type { Category } from '../types'
+import { db } from '../firebase'
+import type { Category } from '../../types'
 
 async function getCategories() {
     const querySnapshot = await getDocs(collection(db, 'categories'))
