@@ -10,9 +10,11 @@ const activeUser = {
     devices: {
         oura: {
             token: '',
+            lastUpdated: '',
         },
         fitbit: {
             token: '',
+            lastUpdated: '',
         },
     },
 }
@@ -35,16 +37,18 @@ export const userSlice = createSlice({
         localSignOut: () => {
             return { ...activeUser }
         },
-        setDeviceTokens: (state, action) => {
+        setDevices: (state, action) => {
             const { oura, fitbit } = action.payload
             return {
                 ...state,
                 devices: {
                     oura: {
                         token: oura.token,
+                        lastUpdated: oura.lastUpdated,
                     },
                     fitbit: {
                         token: fitbit.token,
+                        lastUpdated: fitbit.lastUpdated,
                     },
                 },
             }
@@ -55,5 +59,5 @@ export const userSlice = createSlice({
     },
 })
 
-export const { localSignIn, localSignOut, setDeviceTokens } = userSlice.actions
+export const { localSignIn, localSignOut, setDevices } = userSlice.actions
 export default userSlice.reducer

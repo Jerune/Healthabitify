@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
-import { localSignIn, setDeviceTokens } from '../redux/reducers/usersReducer'
+import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import getMetrics from '../firebase/firestore/metrics/getMetrics'
 import Loading from './Loading'
@@ -13,9 +13,7 @@ import getFitbitData from '../services/fitbitAPI/getFitbitData'
 function AppStateInit() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
-    const fitbitToken = useAppSelector(
-        (state) => state.user.devices.fitbit.token
-    )
+    const devices = useAppSelector((state) => state.user.devices)
     const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState(false)
     const [loadingMessage, setLoadingMessage] = useState('')
@@ -44,11 +42,11 @@ function AppStateInit() {
 
     async function initializeWearables() {
         const wearablesList = await getWearables()
-        dispatch(setDeviceTokens(wearablesList))
+        dispatch(setDevices(wearablesList))
     }
 
     async function updateWearablesData() {
-        getFitbitData(fitbitToken, '2023-03-01')
+        getFitbitData(devices.fitbit.token, devices.fitbit.lastUpdated)
     }
 
     function initApp() {
@@ -70,13 +68,13 @@ function AppStateInit() {
     }, [isLoggedIn])
 
     useEffect(() => {
-        if (fitbitToken) {
+        if (devices.fitbit.token) {
             setIsLoading(true)
             setLoadingMessage('Getting Fitbit data...')
             updateWearablesData()
             setIsLoading(false)
         }
-    }, [fitbitToken])
+    }, [devices.fitbit.token])
 
     if (isLoading) {
         return (
