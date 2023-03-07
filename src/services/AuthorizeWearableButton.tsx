@@ -7,7 +7,7 @@ type AuthorizeApi = {
     scope: string
 }
 
-function AuthorizeWearable({ url, id, scope }: AuthorizeApi) {
+function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
     const { data, loading, error, getAuth } = useOAuth2({
         authorizeUrl: url,
         clientId: id,
@@ -44,4 +44,4 @@ function AuthorizeWearable({ url, id, scope }: AuthorizeApi) {
     )
 }
 
-export default AuthorizeWearable
+export default AuthorizeWearableButton

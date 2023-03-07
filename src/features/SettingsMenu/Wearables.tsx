@@ -1,14 +1,14 @@
-import AuthorizeWearable from '../services/AuthorizeApi'
+import AuthorizeWearableButton from '../../services/AuthorizeWearableButton'
 
 function Wearables() {
     return (
         <>
-            <AuthorizeWearable
+            <AuthorizeWearableButton
                 url="https://cloud.ouraring.com/oauth/authorize"
                 id="OBGZFELJOIDPH67I"
                 scope="daily heartrate workout session"
             />
-            <AuthorizeWearable
+            <AuthorizeWearableButton
                 url="https://www.fitbit.com/oauth2/authorize"
                 id="238Z6R"
                 scope="activity cardio_fitness heartrate electrocardiogram oxygen_saturation respiratory_rate sleep temperature weight"
