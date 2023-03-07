@@ -2,6 +2,7 @@
 import { collection, addDoc } from 'firebase/firestore'
 import type { DataPoint } from '../../../types'
 import { db } from '../../firebase'
+import updateWearables from '../wearables/updateWearables'
 
 async function addDatapoints(datapoints: DataPoint[]) {
     datapoints.forEach(async (datapoint) => {

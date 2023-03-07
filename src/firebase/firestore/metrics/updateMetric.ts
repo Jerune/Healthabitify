@@ -2,8 +2,8 @@ import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import type { Metric } from '../../../types'
 
-async function updateMetric(updatedMetric: Metric) {
-    const metricRef = doc(db, 'metrics', updatedMetric.id)
+async function updateMetric(metric: Metric) {
+    const metricRef = doc(db, 'metrics', metric.id)
     const {
         order,
         name,
@@ -21,7 +21,7 @@ async function updateMetric(updatedMetric: Metric) {
         good,
         medium,
         bad,
-    } = updatedMetric
+    } = metric
 
     await updateDoc(metricRef, {
         order,

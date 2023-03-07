@@ -1,9 +1,13 @@
+import { DateTime } from 'luxon'
 import addDatapoints from '../../firebase/firestore/data-points/addDatapoints'
+import updateWearables from '../../firebase/firestore/wearables/updateWearables'
 import { DataPoint, FitbitData, FitbitRawData } from '../../types'
 import getDateTimeDataForDatapoints from '../../utils/getDateTimeData'
+import getTodaysDateAsString from '../../utils/getTodaysDateAsString'
 import matchServiceResourcesWithMetricNames from '../matchResources'
 
 export default function transformFitbitData(fitbitData: FitbitRawData): void {
+    const today = getTodaysDateAsString()
     const source = 'fitbit'
     const resourceNameFromAPI = Object.keys(fitbitData)[0]
     const metric = matchServiceResourcesWithMetricNames(
@@ -30,4 +34,7 @@ export default function transformFitbitData(fitbitData: FitbitRawData): void {
         }
     )
     addDatapoints(newDataPoints)
+    updateWearables('fitbit', {
+        lastUpdated: today,
+    })
 }

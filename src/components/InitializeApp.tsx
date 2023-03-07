@@ -7,7 +7,7 @@ import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import getMetrics from '../firebase/firestore/metrics/getMetrics'
 import Loading from './Loading'
-import getWearables from '../firebase/firestore/getWearables'
+import getWearables from '../firebase/firestore/wearables/getWearables'
 import getFitbitData from '../services/fitbitAPI/getFitbitData'
 
 function AppStateInit() {

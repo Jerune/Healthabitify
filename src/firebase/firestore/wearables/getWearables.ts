@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase'
-import type { Wearable } from '../../types'
+import { db } from '../../firebase'
+import type { Wearable } from '../../../types'
 
 async function getWearables() {
     const querySnapshot = await getDocs(collection(db, 'wearables'))

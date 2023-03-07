@@ -1,11 +1,11 @@
+import getTodaysDateAsString from '../../utils/getTodaysDateAsString'
 import transformFitbitData from './transformFitbitData'
 
 export default async function getFitbitData(
     token: string,
     lastUpdated: string
 ) {
-    const today = new Date()
-    const todayString = today.toISOString().split('T').slice(0, 1).join()
+    const todayString = await getTodaysDateAsString()
     const headers = {
         headers: {
             'Content-Type': 'application/json',
