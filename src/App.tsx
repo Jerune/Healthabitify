@@ -7,13 +7,13 @@ import NotFound from './pages/NotFound'
 import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import HeaderNav from './components/HeaderNav'
-import AppState from './components/AppInit'
+import AppStateInit from './components/InitializeApp'
 
 function App() {
     return (
         <Router>
+            <AppStateInit />
             <HeaderNav />
-            <AppState />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route element={<OAuthPopup />} path="callback" />

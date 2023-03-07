@@ -10,7 +10,7 @@ import Loading from './Loading'
 import getWearables from '../services/getWearables'
 import getFitbitData from '../hooks/getFitbitData'
 
-function AppState() {
+function AppStateInit() {
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const fitbitToken = useAppSelector(
@@ -86,4 +86,4 @@ function AppState() {
     return null
 }
 
-export default AppState
+export default AppStateInit
