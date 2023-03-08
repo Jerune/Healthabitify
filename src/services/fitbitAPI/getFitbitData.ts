@@ -1,11 +1,10 @@
-import getTodaysDateAsString from '../../utils/getTodaysDateAsString'
-import transformFitbitData from './transformFitbitData'
+import { getYesterdaysDateAsString } from '../../utils/getDatesAsString'
 
 export default async function getFitbitData(
     token: string,
     lastUpdated: string
 ) {
-    const todayString = await getTodaysDateAsString()
+    const yesterdayString = getYesterdaysDateAsString()
     const headers = {
         headers: {
             'Content-Type': 'application/json',
@@ -16,14 +15,18 @@ export default async function getFitbitData(
     const endpoints = resources.map((resource) => {
         return {
             name: resource,
-            url: `https://api.fitbit.com/1/user/-/activities/${resource}/date/${lastUpdated}/${todayString}.json`,
+            url: `https://api.fitbit.com/1/user/-/activities/${resource}/date/${lastUpdated}/${yesterdayString}.json`,
         }
     })
 
-    endpoints.map(async (endpoint) => {
-        const response = await fetch(endpoint.url, headers)
-        const responseData = await response.json()
+    const allFitbitData = await Promise.all(
+        endpoints.map(async (endpoint) => {
+            const response = await fetch(endpoint.url, headers)
+            const responseData = await response.json()
 
-        transformFitbitData(responseData)
-    })
+            return responseData
+        })
+    )
+
+    return allFitbitData
 }
