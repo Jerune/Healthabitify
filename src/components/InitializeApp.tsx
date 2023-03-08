@@ -9,6 +9,9 @@ import getMetrics from '../firebase/firestore/metrics/getMetrics'
 import Loading from './Loading'
 import getWearables from '../firebase/firestore/wearables/getWearables'
 import getFitbitData from '../services/fitbitAPI/getFitbitData'
+import transformFitbitData from '../services/fitbitAPI/transformFitbitData'
+import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
+import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
 
 function AppStateInit() {
     const navigate = useNavigate()
@@ -45,8 +48,22 @@ function AppStateInit() {
         dispatch(setDevices(wearablesList))
     }
 
-    async function updateWearablesData() {
-        getFitbitData(devices.fitbit.token, devices.fitbit.lastUpdated)
+    async function initializeServiceAPIs() {
+        const yesterdayString = getYesterdaysDateAsString()
+        if (devices.fitbit.lastUpdated <= yesterdayString) {
+            const fitbitDataFromAPI = await getFitbitData(
+                devices.fitbit.token,
+                devices.fitbit.lastUpdated
+            )
+            if (fitbitDataFromAPI) {
+                const newFitbitDatapoints = await transformFitbitData(
+                    fitbitDataFromAPI
+                )
+                newFitbitDatapoints.forEach((datapoint) => {
+                    addDatapoints(datapoint)
+                })
+            }
+        }
     }
 
     function initApp() {
@@ -71,7 +88,8 @@ function AppStateInit() {
         if (devices.fitbit.token) {
             setIsLoading(true)
             setLoadingMessage('Getting Fitbit data...')
-            updateWearablesData()
+            initializeServiceAPIs()
+            initializeWearables()
             setIsLoading(false)
         }
     }, [devices.fitbit.token])

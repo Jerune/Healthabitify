@@ -2,9 +2,9 @@ import { DateTime } from 'luxon'
 
 export function getTodaysDateAsString() {
     const today = DateTime.now()
-    const yesterdayString = today.toFormat('yyyy-MM-dd')
+    const todayString = today.toFormat('yyyy-MM-dd')
 
-    return yesterdayString
+    return todayString
 }
 
 export function getYesterdaysDateAsString() {
