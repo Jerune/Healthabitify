@@ -55,7 +55,7 @@ function HeaderNav(): JSX.Element {
         <>
             <header className="flex flex-row justify-between items-center h-16 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
                 <div className="flex flex-row items-center">
-                    <Link to="/" onClick={() => dispatch(toggleMenu())}>
+                    <Link to="/">
                         <img
                             className="h-16"
                             src={logo}
