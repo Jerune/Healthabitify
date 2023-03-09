@@ -14,3 +14,10 @@ export function getYesterdaysDateAsString() {
 
     return yesterdayString
 }
+
+export function getSpecifiedDateAsString(dateTime: DateTime) {
+    const date = dateTime
+    const dateAsString = date.toFormat('yyyy-MM-dd')
+
+    return dateAsString
+}
