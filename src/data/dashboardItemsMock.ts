@@ -1,13 +1,15 @@
 const dashboardItems = [
     {
-        name: 'Weight',
-        iconName: 'RiBodyScanFill',
-        goal: 'Stay under 80kg',
-        value: 80,
-        valueType: 'kg',
-        comparisonValue: 76,
-        comparisonStatus: 'medium',
-        comparisonType: 'week',
+        metric: {
+            name: 'Weight',
+            iconName: 'RiBodyScanFill',
+            goal: 'Stay under 80kg',
+            value: 80,
+            valueType: 'kg',
+            comparisonValue: 76,
+            comparisonStatus: 'medium',
+            comparisonType: 'week',
+        },
     },
     {
         name: 'HRV',
