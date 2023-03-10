@@ -8,6 +8,7 @@ import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import HeaderNav from './components/HeaderNav'
 import AppStateInit from './components/InitializeApp'
+import ProtectedRoute from './ProtectedRoute'
 
 function App() {
     return (
@@ -15,13 +16,15 @@ function App() {
             <AppStateInit />
             <HeaderNav />
             <Routes>
-                <Route path="callback" element={<OAuthPopup />} />
                 <Route path="/" element={<Login />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="data/:category" element={<DataPage />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="labs" element={<Labs />} />
-                <Route path="*" element={<NotFound />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="callback" element={<OAuthPopup />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="data/:category" element={<DataPage />} />
+                    <Route path="settings" element={<Settings />} />
+                    <Route path="labs" element={<Labs />} />
+                    <Route path="*" element={<NotFound />} />
+                </Route>
             </Routes>
         </Router>
     )
