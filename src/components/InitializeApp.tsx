@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
@@ -14,7 +14,6 @@ import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
 import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
 
 function AppStateInit() {
-    const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const devices = useAppSelector((state) => state.user.devices)
     const dispatch = useAppDispatch()
@@ -31,9 +30,9 @@ function AppStateInit() {
                             userId: user.uid,
                         })
                     )
-                } else {
-                    navigate('/')
+                    return user
                 }
+                return <Navigate to="/" />
             })
         }
     }
