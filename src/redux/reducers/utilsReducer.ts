@@ -43,25 +43,11 @@ export const utilsSlice = createSlice({
             return state
         },
         changeDateTimeData: (state, action) => {
-            const {
-                currentDate,
-                weekNumber,
-                month,
-                year,
-                firstDayOfTheWeek,
-                lastDayOfTheWeek,
-            } = action.payload
+            const dateTimeData = action.payload
             return {
                 ...state,
                 currentDateTime: {
-                    currentDate: getSpecifiedDateAsString(currentDate),
-                    weekNumber,
-                    month,
-                    year,
-                    firstDayOfTheWeek:
-                        getSpecifiedDateAsString(firstDayOfTheWeek),
-                    lastDayOfTheWeek:
-                        getSpecifiedDateAsString(lastDayOfTheWeek),
+                    ...dateTimeData,
                 },
             }
         },

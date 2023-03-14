@@ -9,6 +9,7 @@ import {
     changeDateTimeData,
 } from '../../redux/reducers/utilsReducer'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
+import { getSpecifiedDateAsString } from '../../utils/getDatesAsString'
 import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
 import getAmountToAdjustWith from './getAmountToAdjustWith'
 import getDateTitles from './getDateTitles'
@@ -64,9 +65,18 @@ function TimeSelectionModule({ tabs }: TabListProps) {
             lastDayOfTheWeek,
         }
 
+        const newDatesAsStrings = {
+            currentDate: getSpecifiedDateAsString(currentDate),
+            weekNumber,
+            month,
+            year,
+            firstDayOfTheWeek: getSpecifiedDateAsString(firstDayOfTheWeek),
+            lastDayOfTheWeek: getSpecifiedDateAsString(lastDayOfTheWeek),
+        }
+
         const titles = getDateTitles(newDates)
         setDateTitle(titles)
-        dispatch(changeDateTimeData(newDates))
+        dispatch(changeDateTimeData(newDatesAsStrings))
     }
 
     async function changeTimeView(direction: string, tabState: string) {
