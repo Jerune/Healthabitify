@@ -5,9 +5,15 @@ import { useParams } from 'react-router-dom'
 import MainContent from '../components/MainContent'
 import columnsMock from '../data/data-grid/columnsMock'
 import dataSourceMock from '../data/data-grid/dataSourceMock'
+import { useAppSelector } from '../redux/reduxHooks'
+import getActiveMetrics from '../data/data-grid/getActiveMetrics'
 
 function DataPage() {
     const { category } = useParams()
+    const allMetrics = useAppSelector((state) => state.metrics)
+    if (category) {
+        const activeMetrics = getActiveMetrics(allMetrics, category)
+    }
     const title: string = category || 'Title'
 
     return (
