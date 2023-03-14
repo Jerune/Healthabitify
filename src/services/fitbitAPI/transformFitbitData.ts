@@ -1,5 +1,5 @@
 import { DataPoint, FitbitData, FitbitRawData } from '../../types'
-import getDateTimeDataForDatapoints from '../../utils/getDateTimeData'
+import { getDateTimeDataForDatapoints } from '../../utils/getDateTimeData'
 import matchServiceResourcesWithMetricNames from '../matchResources'
 
 export default function transformFitbitData(fitbitData: FitbitRawData[]) {
