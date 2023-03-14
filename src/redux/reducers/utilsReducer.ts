@@ -9,12 +9,8 @@ const currentDateTime = {
     year: todayOneWeekAgo.year,
     month: todayOneWeekAgo.month,
     weekNumber: todayOneWeekAgo.weekNumber,
-    firstDayOfTheWeek: getSpecifiedDateAsString(
-        todayOneWeekAgo.minus({ days: 7 })
-    ),
-    lastDayOfTheWeek: getSpecifiedDateAsString(
-        todayOneWeekAgo.plus({ days: 7 })
-    ),
+    firstDayOfTheWeek: '',
+    lastDayOfTheWeek: '',
 }
 
 // Initial State
@@ -48,6 +44,7 @@ export const utilsSlice = createSlice({
         },
         changeDateTimeData: (state, action) => {
             const {
+                currentDate,
                 weekNumber,
                 month,
                 year,
@@ -57,12 +54,14 @@ export const utilsSlice = createSlice({
             return {
                 ...state,
                 currentDateTime: {
-                    ...state.currentDateTime,
+                    currentDate: getSpecifiedDateAsString(currentDate),
                     weekNumber,
                     month,
                     year,
-                    firstDayOfTheWeek,
-                    lastDayOfTheWeek,
+                    firstDayOfTheWeek:
+                        getSpecifiedDateAsString(firstDayOfTheWeek),
+                    lastDayOfTheWeek:
+                        getSpecifiedDateAsString(lastDayOfTheWeek),
                 },
             }
         },
