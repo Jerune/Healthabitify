@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react'
 import DatePicker from 'react-date-picker'
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
 import { TfiCalendar } from 'react-icons/tfi'
+import { changeActiveTimeView } from '../../redux/reducers/utilsReducer'
+import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import getAmountToAdjustWith from './getAmountToAdjustWith'
 import getWeekDays from './getWeeks'
 import type { TabListProps } from './TimesDatesTypes'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
-    const [activeTab, setActiveTab] = useState('week')
+    const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
+    const dispatch = useAppDispatch()
     const [currentTimeData, setCurrentTimeData] = useState({
         currentDate: DateTime.now().minus({ days: 7 }),
         year: 0,
@@ -24,7 +27,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         tabs.map((tab, index) => {
             const buttonNames = ['week', 'month', 'year']
             const tabClasses =
-                buttonNames[index] === activeTab
+                buttonNames[index] === activeTimeView
                     ? 'bg-palette-500 text-white hover:bg-palette-500'
                     : 'hover:bg-palette-500 hover:text-white'
             return (
@@ -33,8 +36,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                         type="button"
                         className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
                         onClick={() => {
-                            tab.function()
-                            setActiveTab(buttonNames[index])
+                            dispatch(changeActiveTimeView(buttonNames[index]))
                         }}
                     >
                         {tab.name}
@@ -44,20 +46,20 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         })
 
     const datesTitles =
-        activeTab === 'week'
+        activeTimeView === 'week'
             ? `${currentTimeData.firstDayOfTheWeek.toFormat(
                   'd LLL, yyyy'
               )} - ${currentTimeData.lastDayOfTheWeek.toFormat('d LLL, yyyy')}`
-            : activeTab === 'month'
+            : activeTimeView === 'month'
             ? `${currentTimeData.currentDate.toFormat('LLLL, y')}`
-            : activeTab === 'year'
+            : activeTimeView === 'year'
             ? `${currentTimeData.currentDate.toFormat('y')}`
             : ''
 
     async function getCorrectDates() {
         const { weekNumber, month, year } = currentTimeData.currentDate
         let datesData = {}
-        if (activeTab === 'week') {
+        if (activeTimeView === 'week') {
             datesData = await getWeekDays(currentTimeData.currentDate)
         }
 
@@ -94,7 +96,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
 
     useEffect(() => {
         getCorrectDates()
-    }, [currentTimeData.currentDate, activeTab])
+    }, [currentTimeData.currentDate, activeTimeView])
 
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
@@ -118,7 +120,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                 />
                 <button
                     type="button"
-                    onClick={() => changeTimeView('previous', activeTab)}
+                    onClick={() => changeTimeView('previous', activeTimeView)}
                 >
                     <AiOutlineLeft />
                 </button>
@@ -127,7 +129,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
                 </span>
                 <button
                     type="button"
-                    onClick={() => changeTimeView('next', activeTab)}
+                    onClick={() => changeTimeView('next', activeTimeView)}
                 >
                     <AiOutlineRight />
                 </button>
