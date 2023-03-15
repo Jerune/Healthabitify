@@ -7,6 +7,7 @@ import updateWearables from '../wearables/updateWearables'
 import { getSpecifiedDateAsString } from '../../../utils/getDatesAsString'
 
 async function addDatapoints(datapoints: DataPoint[]) {
+    const { source } = datapoints[0]
     let highestDate = null
     for (let i = 0; i < datapoints.length; i += 1) {
         const currentDate = new Date(datapoints[i].date)
@@ -29,7 +30,7 @@ async function addDatapoints(datapoints: DataPoint[]) {
         const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
         const newLastUpdatedAsString = getSpecifiedDateAsString(newLastUpdated)
 
-        updateWearables('fitbit', {
+        updateWearables(source, {
             lastUpdated: newLastUpdatedAsString,
         })
     }
