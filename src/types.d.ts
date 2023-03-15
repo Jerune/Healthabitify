@@ -86,3 +86,66 @@ export type FitbitData = {
 export type FitbitRawData = {
     [key: string]: FitbitData[]
 }
+
+// Oura Data
+
+export type ReadinessContributors = {
+    contributors: {
+        activity_balance: number
+        body_temperature: number
+        hrv_balance: number
+        previous_day_activity: number
+        previous_night: number
+        recovery_index: number
+        resting_heart_rate: number
+        sleep_balance: number
+    }
+    score: number
+    temperature_deviation: number
+    temperature_trend_deviation: number
+}
+
+export type OuraDailySummary = {
+    id: string
+    average_breath: number
+    average_heart_rate: number
+    average_hrv: number
+    awake_time: number
+    bedtime_end: string
+    bedtime_start: string
+    day: string
+    deep_sleep_duration: number
+    efficiency: number
+    heart_rate: {
+        interval: number
+        items: null | number[]
+        timestamp: string
+    }
+    hrv: {
+        interval: number
+        items: null | number[]
+        timestamp: string
+    }
+    latency: number
+    light_sleep_duration: number
+    low_battery_alert: boolean
+    lowest_heart_rate: number
+    movement_30_sec: number
+    period: number
+    readiness: null
+    readiness_score_delta: null | ReadinessContributors
+    rem_sleep_duration: number
+    restless_periods: number
+    sleep_phase_5_min: number
+    sleep_score_delta: null | number
+    time_in_bed: number
+    total_sleep_duration: number
+    type: string
+}
+
+export type OuraRawData = [
+    {
+        data: OuraDailySummary[]
+        next_token: null | string
+    }
+]

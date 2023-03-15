@@ -6,7 +6,7 @@ import MainContent from '../components/MainContent'
 import columnsMock from '../data/data-grid/columnsMock'
 import dataSourceMock from '../data/data-grid/dataSourceMock'
 import { useAppSelector } from '../redux/reduxHooks'
-import getActiveMetrics from '../data/data-grid/getActiveMetrics'
+import getActiveMetrics from '../features/DataGrid/getActiveMetrics'
 
 function DataPage() {
     const { category } = useParams()
