@@ -8,11 +8,12 @@ import { initMetrics } from '../redux/reducers/metricsReducer'
 import getMetrics from '../firebase/firestore/metrics/getMetrics'
 import Loading from './Loading'
 import getWearables from '../firebase/firestore/wearables/getWearables'
-import getFitbitData from '../services/fitbitAPI/getFitbitData'
 import transformFitbitData from '../services/fitbitAPI/transformFitbitData'
 import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
 import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
-import getOuraData from '../services/ouraAPI/getOuraData'
+import getApiData from '../services/getApiData'
+import transformOuraData from '../services/ouraAPI/transformOuraData'
+import { OuraRawData } from '../types'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -51,11 +52,12 @@ function AppStateInit() {
     async function initializeServiceAPIs() {
         const yesterdayString = getYesterdaysDateAsString()
         if (devices.fitbit.lastUpdated <= yesterdayString) {
-            const fitbitDataFromAPI = await getFitbitData(
+            const fitbitDataFromAPI = await getApiData(
+                'fitbit',
                 devices.fitbit.token,
                 devices.fitbit.lastUpdated
             )
-            if (fitbitDataFromAPI) {
+            if (fitbitDataFromAPI !== 'error') {
                 const newFitbitDatapoints = await transformFitbitData(
                     fitbitDataFromAPI
                 )
@@ -65,11 +67,17 @@ function AppStateInit() {
             }
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
-            const ouraDataFromAPI = await getOuraData(
+            const ouraDataFromAPI = await getApiData(
+                'oura',
                 devices.oura.token,
                 devices.oura.lastUpdated
             )
-            console.log(ouraDataFromAPI)
+            if (ouraDataFromAPI !== 'error') {
+                const newOuraDatapoints = await transformOuraData(
+                    ouraDataFromAPI
+                )
+                addDatapoints(newOuraDatapoints)
+            }
         }
     }
 
