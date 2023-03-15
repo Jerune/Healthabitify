@@ -315,7 +315,7 @@ const metricItems = [
         onDashboard: true,
         dataType: 'amount',
         unit: '(SpO2) %',
-        source: 'oura',
+        source: 'manual',
         categoryId: 'vitals',
         categoryIcon: 'RiHeartPulseFill',
         isFixed: true,
