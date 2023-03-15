@@ -12,6 +12,7 @@ import getFitbitData from '../services/fitbitAPI/getFitbitData'
 import transformFitbitData from '../services/fitbitAPI/transformFitbitData'
 import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
 import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
+import getOuraData from '../services/ouraAPI/getOuraData'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -62,6 +63,13 @@ function AppStateInit() {
                     addDatapoints(datapoint)
                 })
             }
+        }
+        if (devices.oura.lastUpdated <= yesterdayString) {
+            const ouraDataFromAPI = await getOuraData(
+                devices.oura.token,
+                devices.oura.lastUpdated
+            )
+            console.log(ouraDataFromAPI)
         }
     }
 
