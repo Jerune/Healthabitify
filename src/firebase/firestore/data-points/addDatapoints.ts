@@ -17,7 +17,9 @@ async function addDatapoints(datapoints: DataPoint[]) {
     }
     datapoints.forEach(async (datapoint) => {
         try {
-            await addDoc(collection(db, 'data-points'), { ...datapoint })
+            await addDoc(collection(db, `data-points-${datapoint.source}`), {
+                ...datapoint,
+            })
         } catch (e) {
             console.error('Error adding document: ', e)
         }
