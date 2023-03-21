@@ -1,37 +1,35 @@
 import { getDateTimeDataForDatapoints } from '../../utils/getDateTimeData'
 import matchServiceResourcesWithMetricNames from '../matchResources'
 
-export default async function transformOuraData(ouraData) {
+export default async function transformOuraData(ouraRawData) {
+    const datapointsToAdd = []
     const source = 'oura'
-    const organisedData = ouraData.map((resource) => resource.data)
+    const longSleepData = ouraRawData[0].data.filter(
+        (resource) => resource.type === 'long_sleep'
+    )
 
-    const datapointsToAdd = organisedData.map((dailySummary, index) => {
-        const isLongSleepData = dailySummary[index].type === 'long_sleep'
-        if (isLongSleepData) {
-            const newDataPoints = []
-            Object.keys(dailySummary[index]).forEach((key) => {
-                const metric = matchServiceResourcesWithMetricNames(source, key)
-                const value = dailySummary[index][key]
-                if (metric !== 'unknown') {
-                    const date = dailySummary[index].day
-                    const { month, weekNumber, year } =
-                        getDateTimeDataForDatapoints(date)
+    await longSleepData.forEach((dailySummary) => {
+        Object.keys(dailySummary).forEach((key) => {
+            const metric = matchServiceResourcesWithMetricNames(source, key)
+            const value = dailySummary[key]
+            if (metric !== 'unknown') {
+                const date = dailySummary.day
+                const { month, weekNumber, year } =
+                    getDateTimeDataForDatapoints(date)
 
-                    const newDatapoint = {
-                        userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
-                        value,
-                        date,
-                        source,
-                        metric,
-                        weekNumber,
-                        month,
-                        year,
-                    }
-                    newDataPoints.push(newDatapoint)
+                const newDatapoint = {
+                    userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
+                    value,
+                    date,
+                    source,
+                    metric,
+                    weekNumber,
+                    month,
+                    year,
                 }
-            })
-            return newDataPoints
-        }
+                datapointsToAdd.push(newDatapoint)
+            }
+        })
     })
-    return datapointsToAdd[0]
+    return datapointsToAdd
 }

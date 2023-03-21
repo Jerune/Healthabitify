@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { getDateTimeDateFromDateString } from './getDateTimeData'
 
 export function getTodaysDateAsString() {
     const today = DateTime.now()
@@ -13,6 +14,14 @@ export function getYesterdaysDateAsString() {
     const yesterdayString = yesterday.toFormat('yyyy-MM-dd')
 
     return yesterdayString
+}
+
+export function getDayBeforeAsString(date: string) {
+    const valueAsDateTime = getDateTimeDateFromDateString(date)
+    const dayBefore = valueAsDateTime.minus({ days: 1 })
+    const dateAsString = dayBefore.toFormat('yyyy-MM-dd')
+
+    return dateAsString
 }
 
 export function getSpecifiedDateAsString(dateTime: DateTime) {
