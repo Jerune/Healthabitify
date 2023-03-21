@@ -13,7 +13,6 @@ import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
 import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
 import getApiData from '../services/getApiData'
 import transformOuraData from '../services/ouraAPI/transformOuraData'
-import { OuraRawData } from '../types'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -79,6 +78,7 @@ function AppStateInit() {
                 addDatapoints(newOuraDatapoints)
             }
         }
+        initializeWearables()
     }
 
     function initApp() {
@@ -100,11 +100,9 @@ function AppStateInit() {
     }, [isLoggedIn])
 
     useEffect(() => {
-        if (devices.fitbit.token) {
+        if (devices.fitbit.token && devices.oura.token) {
             setIsLoading(true)
-            setLoadingMessage('Getting Fitbit data...')
             initializeServiceAPIs()
-            initializeWearables()
             setIsLoading(false)
         }
     }, [devices.fitbit.token])
