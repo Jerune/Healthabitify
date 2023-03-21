@@ -1,4 +1,7 @@
-import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
+import {
+    getDayBeforeAsString,
+    getYesterdaysDateAsString,
+} from '../utils/getDatesAsString'
 import getSourceData from './getSourceData'
 
 export default async function getApiData(
@@ -11,6 +14,9 @@ export default async function getApiData(
     }
 
     const yesterdayString = getYesterdaysDateAsString()
+    // dayBeforeLastUpdated should be used to get Oura data as the API gathers
+    // data starting the day after the start_date value
+    const dayBeforeLastUpdated = getDayBeforeAsString(lastUpdated)
     const { baseUrl, resources } = getSourceData(source)
 
     const headers = {
@@ -23,7 +29,7 @@ export default async function getApiData(
     const endpoints = resources.map((resource) => {
         const url =
             source === 'oura'
-                ? `/v2/usercollection/${resource}?start_date=${lastUpdated}&end_date=${yesterdayString}`
+                ? `/v2/usercollection/${resource}?start_date=${dayBeforeLastUpdated}&end_date=${yesterdayString}`
                 : `${baseUrl}/${resource}/date/${lastUpdated}/${yesterdayString}.json`
         return {
             url,
