@@ -149,3 +149,14 @@ export type OuraRawData = [
         next_token: null | string
     }
 ]
+
+// getApiData
+
+export type Endpoint = {
+    url: string
+}
+
+export type EndpointsDates = {
+    start: string
+    end: string
+}
