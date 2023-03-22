@@ -1,22 +1,44 @@
 import { collection, query, where, getDocs } from 'firebase/firestore'
-import { useAppSelector } from '../../../redux/reduxHooks'
-import { Metric } from '../../../types'
+import { DataPoint, Metric } from '../../../types'
 import { db } from '../../firebase'
 
 export default async function getDatapointsSelection(
     activeMetrics: Metric[],
-    userId: string,
-    currentYear: number
+    userId: string
 ) {
-    const dbQuery = query(
-        collection(db, 'data-points'),
-        where('userId', '==', userId),
-        where('year', '==', currentYear)
-    )
+    const allDatapoints = await Promise.all(
+        activeMetrics.map(async (activeMetric) => {
+            const datapoints: Partial<DataPoint>[] = []
+            const hasValidSource =
+                activeMetric.source === 'oura' ||
+                activeMetric.source === 'fitbit'
+            if (hasValidSource) {
+                const metricRef = collection(
+                    db,
+                    `data-points-${activeMetric.source}`
+                )
+                const dbQuery = query(
+                    metricRef,
+                    where('userId', '==', userId),
+                    where('metric', '==', activeMetric.id)
+                )
+                const querySnapshot = await getDocs(dbQuery)
+                querySnapshot.forEach((doc) => {
+                    const { value, date, weekNumber, month, year } = doc.data()
+                    datapoints.push({
+                        value,
+                        date,
+                        weekNumber,
+                        month,
+                        year,
+                    })
+                })
+            }
 
-    const querySnapshot = await getDocs(dbQuery)
-    querySnapshot.forEach((doc) => {
-        const { id } = doc
-        const { weekNumber, month, year, value } = doc.data()
-    })
+            return {
+                metric: activeMetric.id,
+                data: datapoints,
+            }
+        })
+    )
 }
