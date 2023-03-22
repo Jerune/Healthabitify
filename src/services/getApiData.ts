@@ -1,3 +1,4 @@
+import { Endpoint, EndpointsDates } from '../types'
 import calculateDifferenceWithToday from '../utils/compareDates'
 import {
     getDayBeforeAsString,
@@ -28,9 +29,9 @@ export default async function getApiData(
             Authorization: `Bearer ${token}`,
         },
     }
-    const endpointsList = []
+    const endpointsList: Endpoint[] = []
 
-    function getEndpoints({ start, end }) {
+    function getEndpoints({ start, end }: EndpointsDates) {
         const endpoints = resources.map((resource) => {
             const url =
                 source === 'oura'
@@ -68,7 +69,6 @@ export default async function getApiData(
                 const responseData = await response.json()
                 return responseData
             } catch (error) {
-                console.log(error)
                 return error
             }
         })
