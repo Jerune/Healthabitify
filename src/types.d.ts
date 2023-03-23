@@ -160,3 +160,18 @@ export type EndpointsDates = {
     start: string
     end: string
 }
+
+// getDatapointsByDates
+
+export type Period = {
+    year: string
+    month?: string
+    week?: string
+}
+
+// calculateNewAveragesForPeriod
+
+export type PeriodData = {
+    period: string
+    data: number[]
+}
