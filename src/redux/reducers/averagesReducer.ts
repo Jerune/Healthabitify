@@ -6,14 +6,14 @@ const defaultState = [{}]
 
 // Reducer
 
-export const activeDataSlice = createSlice({
-    name: 'activeData',
+export const averagesSlice = createSlice({
+    name: 'averages',
     initialState: defaultState,
     reducers: {
-        initActiveData: (state, action) => {
+        initAverages: (state, action) => {
             return action.payload
         },
-        updateActiveData: (state, action) => {
+        updateAverages: (state, action) => {
             const { id, value } = action.payload
             return state
         },
@@ -23,5 +23,5 @@ export const activeDataSlice = createSlice({
     },
 })
 
-export const { initActiveData, updateActiveData } = activeDataSlice.actions
-export default activeDataSlice.reducer
+export const { initAverages, updateAverages } = averagesSlice.actions
+export default averagesSlice.reducer
