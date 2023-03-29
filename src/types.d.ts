@@ -164,14 +164,32 @@ export type EndpointsDates = {
 // getDatapointsByDates
 
 export type Period = {
-    year: string
-    month?: string
-    week?: string
+    year: number
+    month?: number
+    week?: number
 }
 
 // calculateNewAveragesForPeriod
 
+export type DataValuesPerMetric = {
+    [key]: number[]
+}
+
 export type PeriodData = {
     period: string
-    data: number[]
+    data: DataValuesPerMetric[]
+}
+
+export type Average = {
+    [key]: number
+}
+
+export type MetricValues = {
+    name: string
+    values: number[]
+}
+
+export type AveragesReturn = {
+    period: string
+    keys: Average[]
 }
