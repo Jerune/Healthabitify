@@ -5,6 +5,7 @@ import {
     getYesterdaysDateAsString,
 } from '../utils/getDatesAsString'
 import createMonthlyFetch from './createMonthlyFetch'
+import getLastSyncTime from './fitbitAPI/getLastSyncTime'
 import getSourceData from './getSourceData'
 
 export default async function getApiData(
@@ -18,8 +19,26 @@ export default async function getApiData(
 
     // Dates
     // dayBeforeLastUpdated to be used for Oura API as starts with day after start_date value
-    const yesterdayString = getYesterdaysDateAsString()
+    let endDateAsString = getYesterdaysDateAsString()
     const dayBeforeLastUpdated = getDayBeforeAsString(lastUpdated)
+
+    // FITBIT: Check when fitbit app is updated last
+    // return error when last sync is same as last updated (no update needed)
+    if (source === 'fitbit') {
+        const fitbitLastSynchedDate = await getLastSyncTime(token)
+        if (fitbitLastSynchedDate === lastUpdated) {
+            return 'error'
+        }
+        const fitbitDayBeforeLastSynchedDate = getDayBeforeAsString(
+            fitbitLastSynchedDate
+        )
+        // Set enddate to day before last sync date if last sync date is in the past
+        // Otherwise Fitbit will return empty data that will be saved in the db
+        // as well as set lastUpdated to current date (so no update when data is synced)
+        if (fitbitDayBeforeLastSynchedDate < endDateAsString) {
+            endDateAsString = fitbitDayBeforeLastSynchedDate
+        }
+    }
 
     // API related Data
     const { baseUrl, resources } = getSourceData(source)
@@ -48,16 +67,17 @@ export default async function getApiData(
     const differenceBetweenDatesInDays =
         calculateDifferenceWithToday(lastUpdated)
 
-    // Verify if we need to break up API in monthly dates
+    // Verify if we need to break up API calls in monthly dates
     if (differenceBetweenDatesInDays && differenceBetweenDatesInDays > 30) {
         const fetchDates = createMonthlyFetch(lastUpdated, source)
         fetchDates.forEach((fetchDate) => {
             getEndpoints(fetchDate)
         })
+        // Or if the last fetch date is less than 30 days apart
     } else {
         const dates = {
             start: source === 'fitbit' ? lastUpdated : dayBeforeLastUpdated,
-            end: yesterdayString,
+            end: endDateAsString,
         }
         getEndpoints(dates)
     }
