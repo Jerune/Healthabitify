@@ -11,7 +11,7 @@ function Wearables() {
             <AuthorizeWearableButton
                 url="https://www.fitbit.com/oauth2/authorize"
                 id="238Z6R"
-                scope="activity cardio_fitness heartrate electrocardiogram oxygen_saturation respiratory_rate sleep temperature weight"
+                scope="activity cardio_fitness heartrate electrocardiogram oxygen_saturation respiratory_rate sleep temperature weight settings"
             />
         </>
     )
