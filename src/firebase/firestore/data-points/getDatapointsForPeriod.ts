@@ -33,15 +33,18 @@ export default async function getDatapointsForPeriod(
                 const { value } = doc.data()
                 datapoints.push(value)
             })
-
+            // Return only last value of the week for weekly metrics
             if (metric.frequency === 'weekly') {
                 const lastValue = datapoints.slice(-1)
                 return {
                     [metricName]: lastValue,
+                    type: metric.dataType,
                 }
             }
+            // Return all daily values for daily metrics
             return {
                 [metricName]: datapoints,
+                type: metric.dataType,
             }
         })
     )
