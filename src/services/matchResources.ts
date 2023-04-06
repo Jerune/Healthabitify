@@ -19,6 +19,9 @@ export default function matchServiceResourcesWithMetricNames(
             case 'minutesSedentary':
                 dbMetricName = 'minutes-sedentary'
                 break
+            case 'restingHeartRate':
+                dbMetricName = 'daily-average-heart-rate'
+                break
             default:
                 dbMetricName = ''
         }
