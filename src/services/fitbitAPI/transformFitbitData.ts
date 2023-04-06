@@ -11,24 +11,51 @@ export default function transformFitbitData(fitbitData: FitbitRawData[]) {
             resourceNameFromAPI
         )
 
-        const newDataPoints: DataPoint[] = datapointsCollection[
-            resourceNameFromAPI
-        ].map((datapoint: FitbitData) => {
-            const date = datapoint.dateTime
-            const { value } = datapoint
-            const { month, weekNumber, year } =
-                getDateTimeDataForDatapoints(date)
-            return {
-                userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
-                value,
-                date,
-                source,
-                metric,
-                weekNumber,
-                month,
-                year,
+        const newDataPoints: DataPoint[] = []
+
+        datapointsCollection[resourceNameFromAPI].forEach(
+            (datapoint: FitbitData) => {
+                const date = datapoint.dateTime
+                if (metric !== 'heartrate-zones') {
+                    const { value } = datapoint
+                    const { month, weekNumber, year } =
+                        getDateTimeDataForDatapoints(date)
+                    newDataPoints.push({
+                        userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
+                        value,
+                        date,
+                        source,
+                        metric,
+                        weekNumber,
+                        month,
+                        year,
+                    })
+                }
+                if (metric === 'heartrate-zones') {
+                    datapoint.value.heartRateZones.forEach((heartRateZone) => {
+                        if (heartRateZone.name !== 'Out of Range') {
+                            const metricName = `${heartRateZone.name
+                                .split(' ')
+                                .join('-')
+                                .toLowerCase()}-zone`
+                            const value = heartRateZone.minutes
+                            const { month, weekNumber, year } =
+                                getDateTimeDataForDatapoints(date)
+                            newDataPoints.push({
+                                userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
+                                value,
+                                date,
+                                source,
+                                metric: metricName,
+                                weekNumber,
+                                month,
+                                year,
+                            })
+                        }
+                    })
+                }
             }
-        })
+        )
         return newDataPoints
     })
 
