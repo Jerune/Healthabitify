@@ -13,6 +13,7 @@ function getSourceData(source: string) {
                 'steps',
                 'minutesSedentary',
                 'heart',
+                'restingHeartRate',
             ]
             break
         default:
