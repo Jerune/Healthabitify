@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import type { PropsWithChildren, ReactNode } from 'react'
+import type { PropsWithChildren } from 'react'
 import { useAppSelector } from './redux/reduxHooks'
 
 export default function ProtectedRoute({ children }: PropsWithChildren) {
