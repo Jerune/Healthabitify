@@ -7,8 +7,6 @@ function calculateTimeAverage(values: string[]): string {
         return time
     })
 
-    console.log(datesAsTimes)
-
     let totalMinutes = 0
     let amountOfValues = 0
     if (datesAsTimes.length > 0) {
