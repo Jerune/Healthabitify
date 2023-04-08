@@ -15,6 +15,7 @@ const currentDateTime = {
 
 // Initial State
 const utils = {
+    isLoading: true,
     sideNavOpen: false,
     activeTimeView: 'week',
     currentDateTime,
@@ -26,6 +27,12 @@ export const utilsSlice = createSlice({
     name: 'user',
     initialState: utils,
     reducers: {
+        changeLoadingStatus: (state, action) => {
+            return {
+                ...state,
+                isLoading: action.payload,
+            }
+        },
         toggleMenu: (state) => {
             return {
                 ...state,
@@ -57,6 +64,10 @@ export const utilsSlice = createSlice({
     },
 })
 
-export const { toggleMenu, changeActiveTimeView, changeDateTimeData } =
-    utilsSlice.actions
+export const {
+    changeLoadingStatus,
+    toggleMenu,
+    changeActiveTimeView,
+    changeDateTimeData,
+} = utilsSlice.actions
 export default utilsSlice.reducer
