@@ -97,7 +97,7 @@ function Login() {
                 password: '',
                 errorMessage: '',
             })
-            navigate('/dashboard')
+            navigate('dashboard')
         } else if (SignInDbResponse.errorMessage) {
             const errorMessageArray = SignInDbResponse.errorMessage
                 .split('/')[1]
@@ -115,6 +115,7 @@ function Login() {
     if (isLoggedIn) {
         return <Navigate to="dashboard" />
     }
+
     return (
         <div className="h-full w-full">
             <video className="h-auto w-screen" autoPlay muted loop>

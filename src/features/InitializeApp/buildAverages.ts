@@ -17,7 +17,7 @@ async function buildAverages(lastUpdated: string) {
     // Get all averages from months and weeks for a certain year
     // To-Do enlarge to all years
     while (currentYear > 2022) {
-        availableDatesInAverages[currentYear] = {
+        availableDatesInAverages[`Y${currentYear}`] = {
             year: {},
             months: {},
             weeks: {},
@@ -28,8 +28,9 @@ async function buildAverages(lastUpdated: string) {
                 latestMonth
             )
             if (average !== 'error') {
-                availableDatesInAverages[currentYear].months[latestMonth] =
-                    average
+                availableDatesInAverages[`Y${currentYear}`].months[
+                    `M${latestMonth}`
+                ] = average
                 latestMonth -= 1
             } else {
                 break
@@ -41,8 +42,9 @@ async function buildAverages(lastUpdated: string) {
                 latestWeekNumber
             )
             if (average !== 'error') {
-                availableDatesInAverages[currentYear].weeks[latestWeekNumber] =
-                    average
+                availableDatesInAverages[`Y${currentYear}`].weeks[
+                    `W${latestWeekNumber}`
+                ] = average
                 latestWeekNumber -= 1
             } else {
                 break
@@ -50,7 +52,7 @@ async function buildAverages(lastUpdated: string) {
         }
         const average = await getMonthlyYearlyAverages(currentYear)
         if (average !== 'error') {
-            availableDatesInAverages[currentYear].year = average
+            availableDatesInAverages[`Y${currentYear}`].year = average
         } else {
             break
         }

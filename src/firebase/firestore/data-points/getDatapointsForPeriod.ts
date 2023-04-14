@@ -7,9 +7,14 @@ export default async function getDatapointsForPeriod(
     allMetrics: Metric[],
     period: Period
 ) {
-    const dateTitle = period.month
-        ? `Y${period.year}-M${period.month}`
-        : `Y${period.year}-W${period.week}`
+    let dateTitle = ''
+    if (period.month) {
+        dateTitle = `Y${period.year}-M${period.month}`
+    } else if (period.week) {
+        dateTitle = `Y${period.year}-W${period.week}`
+    } else if (!period.month && !period.week) {
+        dateTitle = `Y${period.year}`
+    }
 
     const metricsWithoutAutoSource = allMetrics.filter(
         (metric) => metric.source !== 'auto'
@@ -20,14 +25,28 @@ export default async function getDatapointsForPeriod(
             const metricName = kebabcaseToCamelcase(metric.id)
             const datapoints: Partial<DataPoint>[] = []
             const collectionName = `data-points-${metric.source}`
-            const dbQuery = query(
+            // Verification if request is for a week, month or year and adjustment of query
+            let dbQuery = query(
                 collection(db, collectionName),
                 where('metric', '==', metric.id),
-                where('year', '==', period.year),
-                period.month
-                    ? where('month', '==', period.month)
-                    : where('weekNumber', '==', period.week)
+                where('year', '==', period.year)
             )
+            if (period.month) {
+                dbQuery = query(
+                    collection(db, collectionName),
+                    where('metric', '==', metric.id),
+                    where('year', '==', period.year),
+                    where('month', '==', period.month)
+                )
+            } else if (period.week) {
+                dbQuery = query(
+                    collection(db, collectionName),
+                    where('metric', '==', metric.id),
+                    where('year', '==', period.year),
+                    where('weekNumber', '==', period.week)
+                )
+            }
+
             const querySnapshot = await getDocs(dbQuery)
             querySnapshot.forEach((doc) => {
                 const { value } = doc.data()

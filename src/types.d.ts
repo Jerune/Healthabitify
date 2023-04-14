@@ -172,7 +172,8 @@ export type Period = {
 // calculateNewAveragesForPeriod
 
 export type DataValuesPerMetric = {
-    [key]: number[]
+    [key]: number[] | string[]
+    type: string
 }
 
 export type PeriodData = {

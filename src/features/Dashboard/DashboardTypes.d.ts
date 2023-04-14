@@ -1,16 +1,8 @@
 import type { PropsWithChildren } from 'react'
+import { Metric } from '../../types'
 
 export type MetricDashboardData = {
-    metric: {
-        name: string
-        iconName: string
-        goal: string
-        value: number
-        valueType: string
-        comparisonValue: number
-        comparisonStatus: string
-        comparisonType: string
-    }
+    metric: Metric
 }
 
 export type DashboardDataProps = {

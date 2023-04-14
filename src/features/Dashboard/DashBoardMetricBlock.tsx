@@ -6,6 +6,7 @@ import type { MetricDashboardData } from './DashboardTypes'
 import hasDecimals from '../../utils/hasDecimals'
 
 function DashBoardMetricBlock({ metric }: MetricDashboardData) {
+    console.log(metric)
     let bgColorClass = ''
     switch (metric.comparisonStatus) {
         case 'good':
@@ -33,7 +34,7 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
             return (
                 <>
                     <BsCaretUpFill />
-                    {`${differenceResult} ${metric.valueType} more than last ${metric.comparisonType}`}
+                    {`${differenceResult} ${metric.unit} more than last ${metric.comparisonType}`}
                 </>
             )
         }
@@ -46,7 +47,7 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
         return (
             <>
                 <BsCaretDownFill />
-                {`${differenceResult} ${metric.valueType} less than last ${metric.comparisonType}`}
+                {`${differenceResult} ${metric.unit} less than last ${metric.comparisonType}`}
             </>
         )
     }
@@ -65,7 +66,7 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
             <div className="px-6 flex flex-col justify-center items-center grow">
                 <div className="flex flex-row justify-center items-center text-6xl">
                     {metric.value.toString()}
-                    <span className="text-lg pt-8">{metric.valueType}</span>
+                    <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
                 <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
                     <GiGoalKeeper />
