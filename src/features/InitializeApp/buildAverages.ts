@@ -31,11 +31,10 @@ async function buildAverages(lastUpdated: string) {
                 availableDatesInAverages[`Y${currentYear}`].months[
                     `M${latestMonth}`
                 ] = average
-                latestMonth -= 1
-            } else {
-                break
             }
+            latestMonth -= 1
         }
+
         while (latestWeekNumber > 0) {
             const average = await getWeeklyAverages(
                 currentYear,
@@ -45,16 +44,12 @@ async function buildAverages(lastUpdated: string) {
                 availableDatesInAverages[`Y${currentYear}`].weeks[
                     `W${latestWeekNumber}`
                 ] = average
-                latestWeekNumber -= 1
-            } else {
-                break
             }
+            latestWeekNumber -= 1
         }
         const average = await getMonthlyYearlyAverages(currentYear)
         if (average !== 'error') {
             availableDatesInAverages[`Y${currentYear}`].year = average
-        } else {
-            break
         }
         currentYear -= 1
         latestMonth = 12
