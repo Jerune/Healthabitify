@@ -8,17 +8,15 @@ import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import HeaderNav from './components/HeaderNav'
 import AppStateInit from './components/InitializeApp'
-import ProtectedRoute from './ProtectedRoute'
+import LayoutRoutes from './LayoutRoutes'
 
 function App() {
     return (
         <Router>
-            <AppStateInit />
-            <HeaderNav />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="callback" element={<OAuthPopup />} />
-                <Route element={<ProtectedRoute />}>
+                <Route element={<LayoutRoutes />}>
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
