@@ -4,26 +4,33 @@ import TimeSelectionModule from '../features/TimesDatesModule/TimeSelectionModul
 import Tabs from '../data/tabs'
 import DashBoardContainer from '../features/Dashboard/DashBoardContainer'
 import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
-// import dashboardItems from '../data/dashboardItemsMock'
+// import dashboardmetrics from '../data/dashboardmetricsMock'
 import { useAppSelector } from '../redux/reduxHooks'
 import kebabcaseToCamelcase from '../utils/kebabcaseToCamelcase'
+import getComparisonStatus from '../features/Dashboard/getComparisonStatus'
 
 function Dashboard() {
     const allMetrics = useAppSelector((state) => state.metrics)
     const allAverages = useAppSelector((state) => state.averages)
-    const isLoading = useAppSelector((state) => state.utils.isLoading)
+    const [isLoading, setIsLoading] = useState(true)
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
+
+    useEffect(() => {
+        if (allAverages.Y2023) {
+            setIsLoading(false)
+        }
+    }, [allAverages])
 
     if (isLoading) {
         return <div>Loading...</div>
     }
 
     const dashboardMetrics = allMetrics.filter((metric) => metric.onDashboard)
-    const dashboardBlocks = dashboardMetrics.map((item) => {
-        const dbMetricId = kebabcaseToCamelcase(item.id)
+    const dashboardBlocks = dashboardMetrics.map((metric) => {
+        const dbMetricId = kebabcaseToCamelcase(metric.id)
         const { weekNumber, month, year } = currentDateTime
         const comparisonData = {
             value: 0,
@@ -33,33 +40,55 @@ function Dashboard() {
         }
         if (activeTimeView === 'week') {
             comparisonData.comparisonType = 'week'
-            comparisonData.value =
-                allAverages[`Y${year}`].weeks[`W${weekNumber}`][dbMetricId]
-            comparisonData.comparisonValue =
-                allAverages[`Y${year}`].weeks[`W${weekNumber - 1}`][dbMetricId]
-            comparisonData.comparisonStatus = 'good'
+            if (allAverages[`Y${year}`].weeks[`W${weekNumber}`]) {
+                comparisonData.value =
+                    allAverages[`Y${year}`].weeks[`W${weekNumber}`][dbMetricId]
+                if (allAverages[`Y${year}`].weeks[`W${weekNumber - 1}`]) {
+                    comparisonData.comparisonValue =
+                        allAverages[`Y${year}`].weeks[`W${weekNumber - 1}`][
+                            dbMetricId
+                        ]
+                } else {
+                    comparisonData.comparisonValue =
+                        allAverages[`Y${year - 1}`].weeks.W52[dbMetricId]
+                }
+            }
         } else if (activeTimeView === 'month') {
             comparisonData.comparisonType = 'month'
-            comparisonData.value =
-                allAverages[`Y${year}`].months[`M${month}`][dbMetricId]
-            comparisonData.comparisonValue =
-                allAverages[`Y${year}`].months[`M${month - 1}`][dbMetricId]
-            comparisonData.comparisonStatus = 'good'
+            if (allAverages[`Y${year}`].months[`M${month}`]) {
+                comparisonData.value =
+                    allAverages[`Y${year}`].months[`M${month}`][dbMetricId]
+                if (allAverages[`Y${year}`].months[`M${month - 1}`]) {
+                    comparisonData.comparisonValue =
+                        allAverages[`Y${year}`].months[`M${month - 1}`][
+                            dbMetricId
+                        ]
+                } else {
+                    comparisonData.comparisonValue =
+                        allAverages[`Y${year - 1}`].months.M12[dbMetricId]
+                }
+            }
         } else if (activeTimeView === 'year') {
             comparisonData.comparisonType = 'year'
-            comparisonData.value = allAverages[`Y${year}`].year[dbMetricId]
-            comparisonData.comparisonValue =
-                allAverages[`Y${year - 1}`].year[dbMetricId]
-            comparisonData.comparisonStatus = 'good'
+            if (allAverages[`Y${year}`]) {
+                comparisonData.value = allAverages[`Y${year}`].year[dbMetricId]
+                if (allAverages[`Y${year - 1}`]) {
+                    comparisonData.comparisonValue =
+                        allAverages[`Y${year - 1}`].year[dbMetricId]
+                } else {
+                    comparisonData.comparisonValue = 0
+                }
+            }
         }
-
-        const itemWithComparisonData = { ...item, ...comparisonData }
-        console.log(itemWithComparisonData)
+        const metricWithComparisonData = { ...metric, ...comparisonData }
+        metricWithComparisonData.comparisonStatus = getComparisonStatus(
+            metricWithComparisonData
+        )
 
         return (
             <DashBoardMetricBlock
-                metric={itemWithComparisonData}
-                key={item.name}
+                metric={metricWithComparisonData}
+                key={metric.name}
             />
         )
     })
