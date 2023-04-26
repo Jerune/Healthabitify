@@ -8,9 +8,27 @@ function getDateTimeDataForDatapoints(date: string) {
 }
 
 function getDateTimeDateFromDateString(date: string) {
-    const currentDate = DateTime.fromISO(date)
+    const dateTimeDate = DateTime.fromISO(date, {
+        setZone: true,
+    })
 
-    return currentDate
+    return dateTimeDate
 }
 
-export { getDateTimeDateFromDateString, getDateTimeDataForDatapoints }
+function getDateTimeDataForPreviousPeriod(date: string) {
+    const lastUpdatedDate = getDateTimeDateFromDateString(date)
+    const sameDayLastWeek = lastUpdatedDate.minus({ weeks: 1 })
+    const sameDayLastMonth = lastUpdatedDate.minus({ month: 1 })
+
+    const { weekNumber } = sameDayLastWeek
+    const { month } = sameDayLastMonth
+    const { year } = sameDayLastWeek
+
+    return { weekNumber, month, year }
+}
+
+export {
+    getDateTimeDateFromDateString,
+    getDateTimeDataForDatapoints,
+    getDateTimeDataForPreviousPeriod,
+}

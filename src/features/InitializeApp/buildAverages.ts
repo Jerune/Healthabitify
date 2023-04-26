@@ -3,16 +3,12 @@ import getMonthlyYearlyAverages from '../../firebase/firestore/averages/getMonth
 import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverages'
 import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
 
-async function buildAverages(lastUpdated: string) {
+async function buildAverages({ weekNumber, month, year }) {
     const availableDatesInAverages = {}
 
-    const lastUpdatedDate = getDateTimeDateFromDateString(lastUpdated)
-    const sameDayLastWeek = lastUpdatedDate.minus({ weeks: 1 })
-    const sameDayLastMonth = lastUpdatedDate.minus({ month: 1 })
-
-    let latestWeekNumber = sameDayLastWeek.weekNumber
-    let latestMonth = sameDayLastMonth.month
-    let currentYear = sameDayLastWeek.year
+    let latestWeekNumber = weekNumber
+    let latestMonth = month
+    let currentYear = year
 
     // Get all averages from months and weeks for a certain year
     // To-Do enlarge to all years

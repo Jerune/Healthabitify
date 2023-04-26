@@ -1,6 +1,17 @@
+import { DateTime } from 'luxon'
+import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
+import { getSpecifiedDateAsString } from '../../utils/getDatesAsString'
+
 function calculateTimeAverage(values: string[]): string {
     const datesAsTimes = values.map((value) => {
-        const time = new Date(value).toLocaleTimeString('en', {
+        const dateTimeInOriginalTimeZone = getDateTimeDateFromDateString(value)
+        // keepLocalTime converst only TimeZone in case of values in different TimeZones
+        const dateTimeInLocalTimeZone = dateTimeInOriginalTimeZone.setZone(
+            'Europe/Paris',
+            { keepLocalTime: true }
+        )
+        const localDateAsString = dateTimeInLocalTimeZone.toString()
+        const time = new Date(localDateAsString).toLocaleTimeString('en', {
             timeStyle: 'short',
             hour12: false,
         })

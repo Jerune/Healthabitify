@@ -48,9 +48,14 @@ export default async function getDatapointsForPeriod(
             }
 
             const querySnapshot = await getDocs(dbQuery)
+            const docDates: string[] = []
             querySnapshot.forEach((doc) => {
-                const { value } = doc.data()
-                datapoints.push(value)
+                const { value, date } = doc.data()
+                console.log(date)
+                if (!docDates.includes(date)) {
+                    docDates.push(date)
+                    datapoints.push(value)
+                }
             })
             // Return only last value of the week for weekly metrics
             if (metric.frequency === 'weekly') {

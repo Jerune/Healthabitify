@@ -18,6 +18,7 @@ import type { TabListProps } from './TimesDatesTypes'
 
 function TimeSelectionModule({ tabs }: TabListProps) {
     const dispatch = useAppDispatch()
+    const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const currentDateTimeAsString = useAppSelector(
         (state) => state.utils.currentDateTime.currentDate
     )
@@ -26,7 +27,6 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         month: '',
         year: '',
     })
-    const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const currentDate = getDateTimeDateFromDateString(currentDateTimeAsString)
 
     const listOfTabs =
@@ -66,7 +66,7 @@ function TimeSelectionModule({ tabs }: TabListProps) {
         }
 
         const newDatesAsStrings = {
-            currentDate: getSpecifiedDateAsString(currentDate),
+            currentDate: getSpecifiedDateAsString(newDates.currentDate),
             weekNumber,
             month,
             year,
@@ -82,9 +82,11 @@ function TimeSelectionModule({ tabs }: TabListProps) {
     async function changeTimeView(direction: string, tabState: string) {
         const amountToAdjustWith = await getAmountToAdjustWith(tabState)
         if (direction === 'previous') {
-            setCorrectDates(currentDate.minus(amountToAdjustWith))
+            const newDate = currentDate.minus(amountToAdjustWith)
+            setCorrectDates(newDate)
         } else if (direction === 'next') {
-            setCorrectDates(currentDate.plus(amountToAdjustWith))
+            const newDate = currentDate.plus(amountToAdjustWith)
+            setCorrectDates(newDate)
         }
     }
 

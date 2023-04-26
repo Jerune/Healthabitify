@@ -1,11 +1,11 @@
 import calculateAmountAverage from './calculateAmountAverage'
 import calculateDurationAverage from './calculateDurationAverage'
 import calculateTimeAverage from './calculateTimeAverage'
-import { Average, AveragesReturn, MetricValues, PeriodData } from '../../types'
+import { AveragesReturn, PeriodData } from '../../types'
 
 async function calculateAveragesForPeriod(
     periodData: PeriodData
-): AveragesReturn {
+): Promise<AveragesReturn> {
     const { period, data } = periodData
     const allAverages = {}
 
@@ -31,7 +31,7 @@ async function calculateAveragesForPeriod(
                 allAverages[name] = average
             }
         } else {
-            allAverages[name] = null
+            allAverages[name] = 0
         }
     })
 
