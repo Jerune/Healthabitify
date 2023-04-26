@@ -19,6 +19,7 @@ import getDatapointsForPeriod from '../firebase/firestore/data-points/getDatapoi
 import addAverages from '../firebase/firestore/averages/addAverages'
 import calculateAveragesForPeriod from '../features/DataGrid/calculateAveragesForPeriod'
 import buildAverages from '../features/InitializeApp/buildAverages'
+import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -50,35 +51,40 @@ function AppStateInit() {
     }
 
     async function initializeMetrics() {
+        setLoadingMessage('Getting user metrics...')
         const metricList = await getMetrics()
         dispatch(initMetrics(metricList))
     }
 
     async function initializeWearables() {
+        setLoadingMessage('Getting wearables information...')
         const wearablesList = await getWearables()
         dispatch(setDevices(wearablesList))
     }
 
-    // To-Do --> Still needs to be setup with an automatic check for the
-    // dates that have passed so new data can be retrieved and turned into averages
     async function initializeAverages() {
-        // To-Do --> Check for new weeks, months, years finalised and get data for those
-        // const data = await getDatapointsForPeriod(allMetrics, {
-        //     year: 2023,
-        // })
-        // const averages = await calculateAveragesForPeriod(data)
-        // addAverages(averages)
-
+        setLoadingMessage('Running data calculations...')
         // Get lastUpdated date with earliest date
         const earliestLastUpdated =
             devices.fitbit.lastUpdated < devices.oura.lastUpdated
                 ? devices.fitbit.lastUpdated
                 : devices.oura.lastUpdated
-        const averageStoreData = await buildAverages(earliestLastUpdated)
+        // Returns weekNumber, month & year of last finished! period based on earliestLastUpdated date
+        const datesToCheckFor =
+            getDateTimeDataForPreviousPeriod(earliestLastUpdated)
+        // To-Do --> Check for new weeks, months, years finalised and get data for those
+        // const data = await getDatapointsForPeriod(allMetrics, {
+        //     year: 2023,
+        //     week: 16,
+        // })
+        // const averages = await calculateAveragesForPeriod(data)
+        // addAverages(averages)
+        const averageStoreData = await buildAverages(datesToCheckFor)
         dispatch(initAverages(averageStoreData))
     }
 
     async function initializeServiceAPIs() {
+        setLoadingMessage('Getting latest data from wearables...')
         const yesterdayString = getYesterdaysDateAsString()
         if (devices.fitbit.lastUpdated <= yesterdayString) {
             const fitbitDataFromAPI = await getApiData(
@@ -111,14 +117,26 @@ function AppStateInit() {
         initializeWearables()
     }
 
-    function initApp() {
+    async function initApp() {
         dispatch(changeLoadingStatus(true))
-        setLoadingMessage('Getting user metrics...')
-        initializeMetrics()
-        setLoadingMessage('Getting wearables information...')
-        initializeWearables()
-        dispatch(changeLoadingStatus(false))
+        await initializeMetrics()
+        await initializeWearables()
     }
+
+    useEffect(() => {
+        if (devices.fitbit.token && devices.oura.token) {
+            initializeServiceAPIs()
+            initializeAverages()
+        }
+    }, [devices.fitbit.token])
+
+    // Keeps loader true until all averages have been calculated
+    useEffect(() => {
+        const currentYear = currentDateTime.year
+        if (allAverages[`Y${currentYear}`]) {
+            dispatch(changeLoadingStatus(false))
+        }
+    }, [allAverages])
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -128,23 +146,6 @@ function AppStateInit() {
             initApp()
         }
     }, [isLoggedIn])
-
-    useEffect(() => {
-        if (devices.fitbit.token && devices.oura.token) {
-            dispatch(changeLoadingStatus(true))
-            setLoadingMessage('Getting latest data from wearables...')
-            initializeServiceAPIs()
-            setLoadingMessage('Running data calculations...')
-            initializeAverages()
-        }
-    }, [devices.fitbit.token])
-
-    useEffect(() => {
-        const currentYear = currentDateTime.year
-        if (allAverages[`Y${currentYear}`]) {
-            dispatch(changeLoadingStatus(false))
-        }
-    }, [allAverages])
 
     if (isLoading) {
         return (
