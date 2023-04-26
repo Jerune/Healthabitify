@@ -2,11 +2,11 @@ import { GiGoalKeeper } from 'react-icons/gi'
 import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
 import { ReactNode } from 'react'
 import * as Icons from 'react-icons/ri'
-import type { MetricDashboardData } from './DashboardTypes'
+import type { DashboardMetric } from './DashboardTypes'
 import hasDecimals from '../../utils/hasDecimals'
 
-function DashBoardMetricBlock({ metric }: MetricDashboardData) {
-    console.log(metric)
+function DashBoardMetricBlock({ metric }: DashboardMetric) {
+    const IconElement = Icons[metric.categoryIcon]
     let bgColorClass = ''
     switch (metric.comparisonStatus) {
         case 'good':
@@ -19,7 +19,7 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
             bgColorClass = 'red-gradient'
             break
         default:
-            bgColorClass = ''
+            bgColorClass = 'white'
             break
     }
 
@@ -51,7 +51,6 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
             </>
         )
     }
-    const IconElement = Icons[metric.iconName]
 
     return (
         <section
@@ -68,10 +67,12 @@ function DashBoardMetricBlock({ metric }: MetricDashboardData) {
                     {metric.value.toString()}
                     <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
-                <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
-                    <GiGoalKeeper />
-                    {metric.goal}
-                </p>
+                {metric.goal !== '' && (
+                    <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
+                        <GiGoalKeeper />
+                        {metric.goal}
+                    </p>
+                )}
             </div>
             <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm italic">
                 {calculateDifference()}
