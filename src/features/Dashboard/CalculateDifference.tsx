@@ -16,14 +16,20 @@ export default function CalculateDifference({ metric }: DashboardMetric) {
 
     // }
 
-    const difference = metric.value - metric.comparisonValue
+    const difference =
+        metric.value > metric.comparisonValue
+            ? metric.value - metric.comparisonValue
+            : metric.comparisonValue - metric.value
     const numberHasADecimal = hasDecimals(difference)
 
     let differenceResult: number | string = 0
+
+    // Change to h:mm format as string in case id is part sleepMetricIdsWithMilliseconds
     if (sleepMetricIdsWithMilliseconds.includes(metric.id)) {
         differenceResult = convertMillisecondsToTime(difference)
     }
 
+    // Change to String if not already the case
     if (typeof differenceResult !== 'string') {
         differenceResult = numberHasADecimal
             ? difference.toFixed(2)
