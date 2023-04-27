@@ -1,6 +1,4 @@
-import { DateTime } from 'luxon'
 import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
-import { getSpecifiedDateAsString } from '../../utils/getDatesAsString'
 
 function calculateTimeAverage(values: string[]): string {
     const datesAsTimes = values.map((value) => {
