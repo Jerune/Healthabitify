@@ -51,7 +51,6 @@ export default async function getDatapointsForPeriod(
             const docDates: string[] = []
             querySnapshot.forEach((doc) => {
                 const { value, date } = doc.data()
-                console.log(date)
                 if (!docDates.includes(date)) {
                     docDates.push(date)
                     datapoints.push(value)
