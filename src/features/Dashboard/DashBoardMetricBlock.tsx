@@ -2,7 +2,7 @@ import { GiGoalKeeper } from 'react-icons/gi'
 import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
-import CalculateDifference from './CalculateDifference'
+import Difference from './Difference'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
     const sleepMetricIdsWithMilliseconds = [
@@ -13,6 +13,7 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
     ]
     const IconElement = Icons[metric.categoryIcon]
     let bgColorClass = ''
+
     switch (metric.comparisonStatus) {
         case 'good':
             bgColorClass = 'green-gradient'
@@ -54,7 +55,7 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
                 )}
             </div>
             <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm italic">
-                <CalculateDifference metric={metric} />
+                <Difference metric={metric} />
             </p>
         </section>
     )
