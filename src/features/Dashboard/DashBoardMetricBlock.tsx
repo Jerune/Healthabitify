@@ -1,11 +1,16 @@
 import { GiGoalKeeper } from 'react-icons/gi'
-import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
-import { ReactNode } from 'react'
 import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
-import hasDecimals from '../../utils/hasDecimals'
+import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
+import CalculateDifference from './calculateDifference'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
+    const sleepMetricIdsWithMilliseconds = [
+        'amount-of-deep-sleep',
+        'amount-of-rem-sleep',
+        'amount-of-sleep',
+        'total-beneficial-sleep',
+    ]
     const IconElement = Icons[metric.categoryIcon]
     let bgColorClass = ''
     switch (metric.comparisonStatus) {
@@ -23,35 +28,6 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
             break
     }
 
-    function calculateDifference(): ReactNode {
-        if (metric.value > metric.comparisonValue) {
-            const difference = metric.value - metric.comparisonValue
-            const numberHasADecimal = hasDecimals(difference)
-
-            const differenceResult = numberHasADecimal
-                ? difference.toFixed(2)
-                : difference.toString()
-            return (
-                <>
-                    <BsCaretUpFill />
-                    {`${differenceResult} ${metric.unit} more than last ${metric.comparisonType}`}
-                </>
-            )
-        }
-        const difference = metric.value - metric.comparisonValue
-        const numberHasADecimal = hasDecimals(difference)
-
-        const differenceResult = numberHasADecimal
-            ? difference.toFixed(2)
-            : difference.toString()
-        return (
-            <>
-                <BsCaretDownFill />
-                {`${differenceResult} ${metric.unit} less than last ${metric.comparisonType}`}
-            </>
-        )
-    }
-
     return (
         <section
             className={`flex flex-col pb-6 w-72 h-72 rounded-xl shadow-2xl ${bgColorClass} last:justify-self-start`}
@@ -64,7 +40,10 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
             </div>
             <div className="px-6 flex flex-col justify-center items-center grow">
                 <div className="flex flex-row justify-center items-center text-6xl">
-                    {metric.value.toString()}
+                    {/* Converts Milliseconds into time */}
+                    {sleepMetricIdsWithMilliseconds.includes(metric.id)
+                        ? convertMillisecondsToTime(metric.value)
+                        : metric.value.toString()}
                     <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
                 {metric.goal !== '' && (
@@ -75,7 +54,7 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
                 )}
             </div>
             <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm italic">
-                {calculateDifference()}
+                <CalculateDifference metric={metric} />
             </p>
         </section>
     )
