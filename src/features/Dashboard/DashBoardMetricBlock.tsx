@@ -2,7 +2,7 @@ import { GiGoalKeeper } from 'react-icons/gi'
 import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
-import CalculateDifference from './calculateDifference'
+import CalculateDifference from './CalculateDifference'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
     const sleepMetricIdsWithMilliseconds = [
