@@ -1,9 +1,39 @@
+import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
+import getStringDataAsNumber from '../../utils/getStringDataAsNumber'
 import { DashboardMetric } from './DashboardTypes'
 
 function getComparisonStatus(metric: DashboardMetric) {
     const { conditionsMode, good, bad, value, comparisonValue } = metric
-    const dataForCurrentPeriod = value
-    const dataForPreviousPeriod = comparisonValue
+    const sleepMetricIdsWithMilliseconds = [
+        'amount-of-deep-sleep',
+        'amount-of-rem-sleep',
+        'amount-of-sleep',
+        'total-beneficial-sleep',
+    ]
+
+    let dataForCurrentPeriod =
+        typeof value === 'number' ? value : getStringDataAsNumber(value)
+    const dataForPreviousPeriod =
+        typeof comparisonValue === 'number'
+            ? comparisonValue
+            : getStringDataAsNumber(comparisonValue)
+    const goodValue =
+        typeof good.value === 'number'
+            ? good.value
+            : getStringDataAsNumber(good.value)
+    const badValue =
+        typeof bad.value === 'number'
+            ? bad.value
+            : getStringDataAsNumber(bad.value)
+
+    // Change to hours format instead of Milliseconds
+    if (sleepMetricIdsWithMilliseconds.includes(metric.id)) {
+        const convertedDataForCurrentPeriodAsString =
+            convertMillisecondsToTime(dataForCurrentPeriod)
+        dataForCurrentPeriod = getStringDataAsNumber(
+            convertedDataForCurrentPeriodAsString
+        )
+    }
 
     if (conditionsMode === 'higher') {
         if (dataForCurrentPeriod > dataForPreviousPeriod) {
@@ -24,19 +54,19 @@ function getComparisonStatus(metric: DashboardMetric) {
         return 'bad'
     }
     if (conditionsMode === 'range' && good.mode === 'more') {
-        if (dataForCurrentPeriod > good.value) {
+        if (dataForCurrentPeriod > goodValue) {
             return 'good'
         }
-        if (dataForCurrentPeriod < bad.value) {
+        if (dataForCurrentPeriod < badValue) {
             return 'bad'
         }
         return 'medium'
     }
     if (conditionsMode === 'range' && good.mode === 'less') {
-        if (dataForCurrentPeriod < good.value) {
+        if (dataForCurrentPeriod < goodValue) {
             return 'good'
         }
-        if (dataForCurrentPeriod > bad.value) {
+        if (dataForCurrentPeriod > badValue) {
             return 'bad'
         }
         return 'medium'
