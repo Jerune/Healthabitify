@@ -26,6 +26,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 2,
@@ -54,6 +55,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 2,
     },
     {
         order: 1,
@@ -71,7 +73,7 @@ const metricItems = [
         goal: 'Sleep average of 7 hours',
         conditionsMode: 'range',
         good: {
-            mode: 'higher',
+            mode: 'more',
             value: '07:00',
         },
         medium: {
@@ -79,7 +81,7 @@ const metricItems = [
             value2: '07:00',
         },
         bad: {
-            mode: 'lower',
+            mode: 'less',
             value: '06:30',
         },
     },
@@ -174,7 +176,7 @@ const metricItems = [
         active: true,
         onDashboard: true,
         dataType: 'time',
-        unit: 'time',
+        unit: 'min',
         source: 'oura',
         categoryId: 'sleep',
         categoryIcon: 'RiHotelBedFill',
@@ -202,7 +204,7 @@ const metricItems = [
         active: true,
         onDashboard: true,
         dataType: 'time',
-        unit: 'time',
+        unit: 'min',
         source: 'oura',
         categoryId: 'sleep',
         categoryIcon: 'RiHotelBedFill',
@@ -228,7 +230,7 @@ const metricItems = [
         id: 'sleep-coificient',
         name: 'Sleep Coificient',
         active: true,
-        onDashboard: true,
+        onDashboard: false,
         dataType: 'amount',
         unit: '%',
         source: 'auto',
@@ -250,6 +252,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 1,
@@ -278,6 +281,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 2,
@@ -306,6 +310,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 3,
@@ -334,6 +339,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 4,
@@ -362,6 +368,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 5,
@@ -390,6 +397,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 6,
@@ -418,6 +426,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 1,
@@ -435,7 +444,7 @@ const metricItems = [
         goal: 'At least 16h per day on average',
         conditionsMode: 'range',
         good: {
-            mode: 'higher',
+            mode: 'more',
             value: '16:00',
         },
         medium: {
@@ -474,6 +483,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 3,
@@ -502,6 +512,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 1,
@@ -558,6 +569,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 1,
     },
     {
         order: 3,
@@ -586,6 +598,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 4,
@@ -614,6 +627,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 5,
@@ -642,6 +656,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 6,
@@ -670,6 +685,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 7,
@@ -698,6 +714,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 8,
@@ -726,6 +743,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
     {
         order: 9,
@@ -754,6 +772,7 @@ const metricItems = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
 ]
 
