@@ -4,7 +4,7 @@ import { TiEquals } from 'react-icons/ti'
 import { DashboardMetric } from './DashboardTypes'
 import getStringDataAsNumber from '../../utils/getStringDataAsNumber'
 import calculateDifference from './calculateDifference'
-import adjustValueOutput from './adjustValueOutput'
+import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 
 export default function Difference({ metric }: DashboardMetric) {
     // Transform string to number if needed

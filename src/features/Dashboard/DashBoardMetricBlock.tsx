@@ -3,7 +3,7 @@ import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import Difference from './Difference'
-import addDecimals from './addDecimals'
+import addDecimals from '../DataOutputManagement/addDecimals'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
     const sleepMetricIdsWithMilliseconds = [
