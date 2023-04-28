@@ -13,7 +13,7 @@ function getComparisonStatus(metric: DashboardMetric) {
 
     let dataForCurrentPeriod =
         typeof value === 'number' ? value : getStringDataAsNumber(value)
-    const dataForPreviousPeriod =
+    let dataForPreviousPeriod =
         typeof comparisonValue === 'number'
             ? comparisonValue
             : getStringDataAsNumber(comparisonValue)
@@ -32,6 +32,11 @@ function getComparisonStatus(metric: DashboardMetric) {
             convertMillisecondsToTime(dataForCurrentPeriod)
         dataForCurrentPeriod = getStringDataAsNumber(
             convertedDataForCurrentPeriodAsString
+        )
+        const convertedDataForPreviousPeriodAsString =
+            convertMillisecondsToTime(dataForPreviousPeriod)
+        dataForPreviousPeriod = getStringDataAsNumber(
+            convertedDataForPreviousPeriodAsString
         )
     }
 
