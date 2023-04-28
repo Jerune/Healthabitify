@@ -1,5 +1,6 @@
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import { Metric } from '../../types'
+import addDecimals from './addDecimals'
 
 export default function adjustValueOutput(
     metric: Metric,
@@ -28,6 +29,7 @@ export default function adjustValueOutput(
         return `${hoursAsString}:${minutesAsString}`
     }
 
-    // Change to String without any adjustments
-    return value.toString()
+    // Adapt to output & Change to String without any adjustments
+    const adaptedValue = addDecimals(metric, value)
+    return adaptedValue.toString()
 }
