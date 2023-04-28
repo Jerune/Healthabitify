@@ -15,12 +15,12 @@ function App() {
             <AppStateInit />
             <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="callback" element={<OAuthPopup />} />
                 <Route element={<LayoutRoutes />}>
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="labs" element={<Labs />} />
-                    <Route path="callback" element={<OAuthPopup />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
