@@ -3,6 +3,7 @@ import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import Difference from './Difference'
+import addDecimals from './addDecimals'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
     const sleepMetricIdsWithMilliseconds = [
@@ -44,15 +45,15 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
                     {/* Converts Milliseconds into time */}
                     {sleepMetricIdsWithMilliseconds.includes(metric.id)
                         ? convertMillisecondsToTime(metric.value)
-                        : metric.value.toString()}
+                        : addDecimals(metric, metric.value).toString()}
                     <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
-                {metric.goal !== '' && (
-                    <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
-                        <GiGoalKeeper />
-                        {metric.goal}
-                    </p>
-                )}
+                <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
+                    <GiGoalKeeper />
+                    {metric.conditionsMode === 'range' && metric.goal}
+                    {metric.conditionsMode === 'higher' && 'Higher is Better'}
+                    {metric.conditionsMode === 'lower' && 'Lower is Better'}
+                </p>
             </div>
             <p className="flex flex-row justify-center items-center gap-x-2 m-0 text-sm italic">
                 <Difference metric={metric} />
