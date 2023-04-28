@@ -59,6 +59,7 @@ export type Metric = {
         mode: string
         value: string
     }
+    decimals?: number
 }
 
 export type MetricProps = {
