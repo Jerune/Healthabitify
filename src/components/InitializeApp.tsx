@@ -17,8 +17,8 @@ import getApiData from '../services/getApiData'
 import transformOuraData from '../services/ouraAPI/transformOuraData'
 import getDatapointsForPeriod from '../firebase/firestore/data-points/getDatapointsForPeriod'
 import addAverages from '../firebase/firestore/averages/addAverages'
-import calculateAveragesForPeriod from '../features/InitializeApp/calculateAveragesForPeriod'
-import buildAverages from '../features/InitializeApp/buildAverages'
+import calculateAveragesForPeriod from '../features/AveragesManagement/calculateAveragesForPeriod'
+import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 
 function AppStateInit() {
