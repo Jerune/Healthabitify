@@ -31,6 +31,7 @@ const defaultState = [
             mode: '',
             value: '',
         },
+        decimals: 0,
     },
 ]
 

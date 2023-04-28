@@ -23,6 +23,7 @@ async function getMetrics() {
             good,
             medium,
             bad,
+            decimals,
         } = doc.data()
         const data: Metric = {
             id: doc.id,
@@ -42,6 +43,7 @@ async function getMetrics() {
             good,
             medium,
             bad,
+            decimals,
         }
         metricsList.push(data)
     })
