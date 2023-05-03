@@ -20,6 +20,7 @@ import addAverages from '../firebase/firestore/averages/addAverages'
 import calculateAveragesForPeriod from '../features/AveragesManagement/calculateAveragesForPeriod'
 import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
+import getSheetData from '../services/googleSheetsAPI/getSheetData'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -53,6 +54,7 @@ function AppStateInit() {
     async function initializeMetrics() {
         setLoadingMessage('Getting user metrics...')
         const metricList = await getMetrics()
+        getSheetData()
         dispatch(initMetrics(metricList))
     }
 
