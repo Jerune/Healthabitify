@@ -11,12 +11,13 @@ async function buildColumns(activeMetrics: Metric[]) {
 
         return {
             name: newId,
+            id,
             header: name,
             onRender,
         }
     })
 
-    return [{ name: 'Date', header: 'Date' }, ...columns]
+    return [{ name: 'date', id: 'date', header: 'Date' }, ...columns]
 }
 
 export default buildColumns
