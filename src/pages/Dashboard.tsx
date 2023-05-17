@@ -8,27 +8,22 @@ import DashBoardMetricBlock from '../features/Dashboard/DashBoardMetricBlock'
 import { useAppSelector } from '../redux/reduxHooks'
 import kebabcaseToCamelcase from '../utils/kebabcaseToCamelcase'
 import getComparisonStatus from '../features/Dashboard/getComparisonStatus'
+import Loading from '../components/Loading'
 
 function Dashboard() {
     const allMetrics = useAppSelector((state) => state.metrics)
     const allAverages = useAppSelector((state) => state.averages)
-    const [isLoading, setIsLoading] = useState(true)
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
-
-    useEffect(() => {
-        if (allAverages.Y2023) {
-            setIsLoading(false)
-        }
-    }, [allAverages])
+    const isLoading = useAppSelector((state) => state.utils.isLoading)
+    const dashboardMetrics = allMetrics.filter((metric) => metric.onDashboard)
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <Loading size={50} />
     }
 
-    const dashboardMetrics = allMetrics.filter((metric) => metric.onDashboard)
     const dashboardBlocks = dashboardMetrics.map((metric) => {
         const dbMetricId = kebabcaseToCamelcase(metric.id)
         const { weekNumber, month, year } = currentDateTime
