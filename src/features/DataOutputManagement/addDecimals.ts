@@ -2,7 +2,7 @@ import { Metric } from '../../types'
 
 function addDecimals(metric: Metric, value: number | string) {
     const { decimals } = metric
-    if (value === undefined) {
+    if (!value) {
         return 0
     }
 
