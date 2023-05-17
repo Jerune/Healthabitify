@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import getMonthlyYearlyAverages from '../../firebase/firestore/averages/getMonthlyYearlyAverages'
 import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverages'
-import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
 
 async function buildAverages({ weekNumber, month, year }) {
     const availableDatesInAverages = {}
