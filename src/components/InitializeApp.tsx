@@ -1,14 +1,16 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { Navigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
-import { changeLoadingStatus } from '../redux/reducers/utilsReducer'
+import {
+    changeLoadingMessage,
+    changeLoadingStatus,
+} from '../redux/reducers/utilsReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import { initAverages } from '../redux/reducers/averagesReducer'
 import getMetrics from '../firebase/firestore/metrics/getMetrics'
-import Loading from './Loading'
 import getWearables from '../firebase/firestore/wearables/getWearables'
 import transformFitbitData from '../services/fitbitAPI/transformFitbitData'
 import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
@@ -20,18 +22,17 @@ import addAverages from '../firebase/firestore/averages/addAverages'
 import calculateAveragesForPeriod from '../features/AveragesManagement/calculateAveragesForPeriod'
 import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
+import getSheetData from '../services/googleSheetsAPI/getSheetData'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const devices = useAppSelector((state) => state.user.devices)
-    const isLoading = useAppSelector((state) => state.utils.isLoading)
+    const dispatch = useAppDispatch()
     const allMetrics = useAppSelector((state) => state.metrics)
     const allAverages = useAppSelector((state) => state.averages)
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
-    const dispatch = useAppDispatch()
-    const [loadingMessage, setLoadingMessage] = useState('')
 
     async function CheckIfUserIsAuthenticated() {
         if (!isLoggedIn) {
@@ -51,19 +52,19 @@ function AppStateInit() {
     }
 
     async function initializeMetrics() {
-        setLoadingMessage('Getting user metrics...')
+        dispatch(changeLoadingMessage('Getting user metrics...'))
         const metricList = await getMetrics()
         dispatch(initMetrics(metricList))
     }
 
     async function initializeWearables() {
-        setLoadingMessage('Getting wearables information...')
+        dispatch(changeLoadingMessage('Getting wearables information...'))
         const wearablesList = await getWearables()
         dispatch(setDevices(wearablesList))
     }
 
     async function initializeAverages() {
-        setLoadingMessage('Running data calculations...')
+        dispatch(changeLoadingMessage('Running data calculations...'))
         // Get lastUpdated date with earliest date
         const earliestLastUpdated =
             devices.fitbit.lastUpdated < devices.oura.lastUpdated
@@ -84,7 +85,7 @@ function AppStateInit() {
     }
 
     async function initializeServiceAPIs() {
-        setLoadingMessage('Getting latest data from wearables...')
+        dispatch(changeLoadingMessage('Getting latest data from wearables...'))
         const yesterdayString = getYesterdaysDateAsString()
         if (devices.fitbit.lastUpdated <= yesterdayString) {
             const fitbitDataFromAPI = await getApiData(
@@ -130,14 +131,6 @@ function AppStateInit() {
         }
     }, [devices.fitbit.token])
 
-    // Keeps loader true until all averages have been calculated
-    useEffect(() => {
-        const currentYear = currentDateTime.year
-        if (allAverages[`Y${currentYear}`]) {
-            dispatch(changeLoadingStatus(false))
-        }
-    }, [allAverages])
-
     useEffect(() => {
         if (!isLoggedIn) {
             CheckIfUserIsAuthenticated()
@@ -147,14 +140,6 @@ function AppStateInit() {
         }
     }, [isLoggedIn])
 
-    if (isLoading) {
-        return (
-            <div className="w-full h-screen flex flex-col justify-center items-center gap-6 bg-white">
-                <Loading size={50} />
-                <h3>{loadingMessage}</h3>
-            </div>
-        )
-    }
     return null
 }
 
