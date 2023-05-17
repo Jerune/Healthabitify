@@ -2,20 +2,14 @@
 import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
 import { TiEquals } from 'react-icons/ti'
 import { DashboardMetric } from './DashboardTypes'
-import getStringDataAsNumber from '../../utils/getStringDataAsNumber'
 import calculateDifference from './calculateDifference'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
+import forceNumberReturn from '../../utils/forceNumberReturn'
 
 export default function Difference({ metric }: DashboardMetric) {
     // Transform string to number if needed
-    const currentValue =
-        typeof metric.value === 'number'
-            ? metric.value
-            : getStringDataAsNumber(metric.value)
-    const previousValue =
-        typeof metric.comparisonValue === 'number'
-            ? metric.comparisonValue
-            : getStringDataAsNumber(metric.comparisonValue)
+    const currentValue = forceNumberReturn(metric.value)
+    const previousValue = forceNumberReturn(metric.comparisonValue)
 
     // Calculate difference between values
     const difference = calculateDifference(currentValue, previousValue)
