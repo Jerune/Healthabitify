@@ -16,7 +16,7 @@ import getDateTitles from './getDateTitles'
 import getWeekDays from './getWeekDays'
 import type { TabListProps } from './TimesDatesTypes'
 
-function TimeSelectionModule({ tabs }: TabListProps) {
+function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
     const dispatch = useAppDispatch()
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const currentDateTimeAsString = useAppSelector(
@@ -99,34 +99,42 @@ function TimeSelectionModule({ tabs }: TabListProps) {
             {tabs !== undefined && (
                 <ul className="flex items-center gap-3 pb-6">{listOfTabs}</ul>
             )}
-            <div className="flex flex-row items-center">
-                <DatePicker
-                    onChange={(value: Date) =>
-                        setCorrectDates(DateTime.fromJSDate(value))
-                    }
-                    value={currentDate.toJSDate()}
-                    clearIcon={null}
-                    calendarIcon={<TfiCalendar />}
-                    minDetail="month"
-                />
-                <button
-                    type="button"
-                    onClick={() => changeTimeView('previous', activeTimeView)}
-                >
-                    <AiOutlineLeft />
-                </button>
-                <span className="flex justify-center gap-6 px-8 italic">
-                    {dateTitle[activeTimeView]}
-                </span>
-                <button
-                    type="button"
-                    onClick={() => changeTimeView('next', activeTimeView)}
-                >
-                    <AiOutlineRight />
-                </button>
-            </div>
+            {showDateSpecifications && (
+                <div className="flex flex-row items-center">
+                    <DatePicker
+                        onChange={(value: Date) =>
+                            setCorrectDates(DateTime.fromJSDate(value))
+                        }
+                        value={currentDate.toJSDate()}
+                        clearIcon={null}
+                        calendarIcon={<TfiCalendar />}
+                        minDetail="month"
+                    />
+                    <button
+                        type="button"
+                        onClick={() =>
+                            changeTimeView('previous', activeTimeView)
+                        }
+                    >
+                        <AiOutlineLeft />
+                    </button>
+                    <span className="flex justify-center gap-6 px-8 italic">
+                        {dateTitle[activeTimeView]}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={() => changeTimeView('next', activeTimeView)}
+                    >
+                        <AiOutlineRight />
+                    </button>
+                </div>
+            )}
         </div>
     )
+}
+
+TimeSelectionModule.defaultProps = {
+    showDateSpecifications: true,
 }
 
 export default TimeSelectionModule
