@@ -6,7 +6,7 @@ import addDatapoints from '../../firebase/firestore/data-points/addDatapoints'
 async function getSheetData() {
     const auth = 'Bearer'
     const sheetId = '1ehnbMFvNaCU46KZ_WM0V9Kan9i4WoDbP8ux6CXBQVtI'
-    const tabIdRange = 'Weekly!A1:R12'
+    const tabIdRange = 'Weekly!S1:U11'
     const responseValues = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tabIdRange}?key=AIzaSyCA804z8krvmsG9lU6jo_uE-J_yDZugdBg`,
         {
