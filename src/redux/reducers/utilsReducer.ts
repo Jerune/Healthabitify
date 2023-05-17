@@ -16,6 +16,7 @@ const currentDateTime = {
 // Initial State
 const utils = {
     isLoading: true,
+    loadingMessage: '',
     sideNavOpen: false,
     activeTimeView: 'week',
     currentDateTime,
@@ -31,6 +32,12 @@ export const utilsSlice = createSlice({
             return {
                 ...state,
                 isLoading: action.payload,
+            }
+        },
+        changeLoadingMessage: (state, action) => {
+            return {
+                ...state,
+                loadingMessage: action.payload,
             }
         },
         toggleMenu: (state) => {
@@ -66,6 +73,7 @@ export const utilsSlice = createSlice({
 
 export const {
     changeLoadingStatus,
+    changeLoadingMessage,
     toggleMenu,
     changeActiveTimeView,
     changeDateTimeData,
