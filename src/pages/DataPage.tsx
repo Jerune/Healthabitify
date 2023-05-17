@@ -4,38 +4,56 @@ import '@inovua/reactdatagrid-community/index.css'
 import { useParams } from 'react-router-dom'
 import MainContent from '../components/MainContent'
 import dataSourceMock from '../data/data-grid/dataSourceMock'
+import columnsMock from '../data/data-grid/columnsMock'
 import { useAppSelector } from '../redux/reduxHooks'
 import getActiveMetrics from '../features/DataGrid/getActiveMetrics'
 import buildColumns from '../features/DataGrid/buildColumns'
+import TimeSelectionModule from '../features/TimesDatesModule/TimeSelectionModule'
+import Tabs from '../data/tabs'
+import buildRows from '../features/DataGrid/buildRows'
+import Loading from '../components/Loading'
 
 function DataPage() {
     const { category } = useParams()
     const allMetrics = useAppSelector((state) => state.metrics)
-    const title: string = category || 'Title'
+    const allAverages = useAppSelector((state) => state.averages)
+    const isLoading = useAppSelector((state) => state.utils.isLoading)
+    const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const [activeColumns, setActiveColumns] = useState([])
     const [activeRows, setActiveRows] = useState([])
+    const title: string = category || 'Title'
 
     useEffect(() => {
         async function setDataGrid() {
             if (category) {
                 const activeMetrics = getActiveMetrics(allMetrics, category)
                 const columns = await buildColumns(activeMetrics)
-                // const rowData = await buildRows(columns)
+                const rows = await buildRows(
+                    activeMetrics,
+                    activeTimeView,
+                    allAverages
+                )
                 setActiveColumns(columns)
-                // setActiveRows(rowData)
+                setActiveRows(rows)
             }
         }
+        if (!isLoading) {
+            setDataGrid()
+        }
+    }, [isLoading, category])
 
-        setDataGrid()
-    }, [])
+    if (isLoading) {
+        return <Loading size={50} />
+    }
 
     return (
         <MainContent>
             <h1>{title.charAt(0).toUpperCase() + title.slice(1)}</h1>
+            <TimeSelectionModule tabs={Tabs} showDateSpecifications={false} />
             <ReactDataGrid
                 idProperty="id"
                 columns={activeColumns}
-                dataSource={dataSourceMock}
+                dataSource={activeRows}
                 className="w-full h-full"
             />
         </MainContent>
