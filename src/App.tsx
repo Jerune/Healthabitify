@@ -6,13 +6,11 @@ import DataPage from './pages/DataPage'
 import NotFound from './pages/NotFound'
 import Settings from './pages/Settings'
 import Labs from './pages/Labs'
-import AppStateInit from './components/InitializeApp'
 import LayoutRoutes from './LayoutRoutes'
 
 function App() {
     return (
         <Router>
-            <AppStateInit />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="callback" element={<OAuthPopup />} />
