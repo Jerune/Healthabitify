@@ -23,6 +23,8 @@ import calculateAveragesForPeriod from '../features/AveragesManagement/calculate
 import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getSheetData from '../services/googleSheetsAPI/getSheetData'
+import averageExistsInDatabase from '../firebase/firestore/averages/averageExistsInDatabase'
+import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -73,13 +75,18 @@ function AppStateInit() {
         // Returns weekNumber, month & year of last finished! period based on earliestLastUpdated date
         const datesToCheckFor =
             getDateTimeDataForPreviousPeriod(earliestLastUpdated)
-        // To-Do --> Check for new weeks, months, years finalised and get data for those
-        // const data = await getDatapointsForPeriod(allMetrics, {
-        //     year: 2023,
-        //     week: 16,
-        // })
-        // const averages = await calculateAveragesForPeriod(data)
-        // addAverages(averages)
+        // Checks for new weeks, months, years finalised and get data for those
+        const newPeriods = await getListWithNewPeriods(datesToCheckFor)
+        console.log(newPeriods)
+        // if (newPeriods.length > 0) {
+        //     newPeriods.map(async (newPeriod) => {
+        //         const datapoints = await getDatapointsForPeriod(allMetrics, newPeriod)
+        //         if (datapoints.data.length > 0){
+        //             const averages = await calculateAveragesForPeriod(datapoints)
+        //             addAverages(averages)
+        //         }
+        //     })
+        // }
         const averageStoreData = await buildAverages(datesToCheckFor)
         dispatch(initAverages(averageStoreData))
     }
