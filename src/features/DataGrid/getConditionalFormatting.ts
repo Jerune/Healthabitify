@@ -63,14 +63,6 @@ function getConditionalFormatting(metric: Metric) {
     if (conditionsMode === 'range' && good.mode === 'more') {
         return (cellProps, { data }) => {
             const dataForCurrentPeriod = data[correctId]
-            console.log(
-                correctId,
-                dataForCurrentPeriod,
-                'good:',
-                good.value,
-                'bad:',
-                bad.value
-            )
             if (dataForCurrentPeriod > good.value) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
