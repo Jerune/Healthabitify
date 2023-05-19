@@ -1,4 +1,5 @@
 import { AveragesReturn, Metric } from '../../types'
+import getMonthlyRowData from './getMonthlyRowData'
 import getWeeklyRowData from './getWeeklyRowData'
 
 function buildRows(
@@ -11,6 +12,9 @@ function buildRows(
     switch (activeTimeView) {
         case 'week':
             rows = getWeeklyRowData(metrics, allAverages)
+            break
+        case 'month':
+            rows = getMonthlyRowData(metrics, allAverages)
             break
         default:
             rows = getWeeklyRowData(metrics, allAverages)
