@@ -10,9 +10,9 @@ export default async function getDatapointsForPeriod(
     let dateTitle = ''
     if (period.month) {
         dateTitle = `Y${period.year}-M${period.month}`
-    } else if (period.week) {
-        dateTitle = `Y${period.year}-W${period.week}`
-    } else if (!period.month && !period.week) {
+    } else if (period.weekNumber) {
+        dateTitle = `Y${period.year}-W${period.weekNumber}`
+    } else if (!period.month && !period.weekNumber) {
         dateTitle = `Y${period.year}`
     }
 
@@ -38,12 +38,12 @@ export default async function getDatapointsForPeriod(
                     where('year', '==', period.year),
                     where('month', '==', period.month)
                 )
-            } else if (period.week) {
+            } else if (period.weekNumber) {
                 dbQuery = query(
                     collection(db, collectionName),
                     where('metric', '==', metric.id),
                     where('year', '==', period.year),
-                    where('weekNumber', '==', period.week)
+                    where('weekNumber', '==', period.weekNumber)
                 )
             }
 
