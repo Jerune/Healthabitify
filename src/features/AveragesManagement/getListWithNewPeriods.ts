@@ -1,0 +1,72 @@
+/* eslint-disable no-await-in-loop */
+import averageExistsInDatabase from '../../firebase/firestore/averages/averageExistsInDatabase'
+import { Period } from '../../types'
+
+async function getListWithNewPeriods(datesToCheckFor: Period) {
+    const currentYear = datesToCheckFor.year
+    const dateTypes = ['weekNumber', 'month', 'year']
+    const newPeriods: Period[] = []
+
+    // Checks if the averages for that year, month and week exist already
+    const promises = dateTypes.map(async (dateType) => {
+        let year = currentYear
+        const dateTypeValue = datesToCheckFor[dateType]
+        const averageExistsAlready = await averageExistsInDatabase(
+            year,
+            dateType,
+            dateTypeValue
+        )
+        // Add requestQuery in case period does not exist yet
+        if (!averageExistsAlready) {
+            let requestQuery =
+                dateType === 'year'
+                    ? { year }
+                    : { year, [dateType]: dateTypeValue }
+            newPeriods.push(requestQuery)
+            // Check if prior months or weeks also do not exists yet
+            // To-Do: Add !== 'year
+            if (dateType && year > 2016) {
+                let moreNewPeriods = true
+                let previousValue = dateTypeValue - 1
+                // If they don't exist also add requestQueries for those periods
+                while (moreNewPeriods) {
+                    const previousAverageExistsAlready =
+                        await averageExistsInDatabase(
+                            year,
+                            dateType,
+                            previousValue
+                        )
+                    if (!previousAverageExistsAlready) {
+                        requestQuery = {
+                            year,
+                            [dateType]: previousValue,
+                        }
+                        newPeriods.push(requestQuery)
+                        // Deduct 1 from value to get previous month or week
+                        if (previousValue > 1) {
+                            previousValue -= 1
+                        } else {
+                            // Or set to month 12 or week 52 of last year in case first week or month of the year
+                            if (dateType === 'month') {
+                                previousValue = 12
+                            } else if (dateType === 'week') {
+                                previousValue = 52
+                            }
+                            year -= 1
+                        }
+                    } else {
+                        // Abort if averages from period already exist & reset year
+                        year = currentYear
+                        moreNewPeriods = false
+                    }
+                }
+            }
+        }
+    })
+
+    // Wait for all promises to resolve and return
+    await Promise.all(promises)
+    return newPeriods
+}
+
+export default getListWithNewPeriods
