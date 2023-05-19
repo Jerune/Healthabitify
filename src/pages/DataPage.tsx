@@ -54,6 +54,10 @@ function DataPage() {
                 idProperty="id"
                 columns={activeColumns}
                 dataSource={activeRows}
+                activateRowOnFocus={false}
+                showColumnMenuFilterOptions={false}
+                showColumnMenuGroupOptions={false}
+                resizable={false}
                 className="w-full h-full"
             />
         </MainContent>
