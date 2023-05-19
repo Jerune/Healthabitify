@@ -1,7 +1,8 @@
+import { Average, Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 
-function getWeeklyRowData(activeMetrics, allAverages) {
+function getWeeklyRowData(activeMetrics: Metric[], allAverages: Average[]) {
     const currentYear = Object.keys(allAverages)[0]
     const weeks = Object.keys(allAverages[currentYear].weeks)
     const rows = []
