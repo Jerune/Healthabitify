@@ -40,7 +40,7 @@ function DataPage() {
         if (!isLoading) {
             setDataGrid()
         }
-    }, [isLoading, category])
+    }, [isLoading, category, activeTimeView])
 
     if (isLoading) {
         return <Loading size={50} />
