@@ -167,7 +167,7 @@ export type EndpointsDates = {
 export type Period = {
     year: number
     month?: number
-    week?: number
+    weekNumber?: number
 }
 
 // calculateNewAveragesForPeriod
