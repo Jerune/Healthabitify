@@ -13,6 +13,8 @@ async function buildColumns(activeMetrics: Metric[]) {
             name: newId,
             id,
             header: name,
+            flex: 1,
+            showColumnContextMenu: false,
             onRender,
         }
     })
