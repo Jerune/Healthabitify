@@ -32,13 +32,13 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
 
     return (
         <section
-            className={`flex flex-col pb-6 w-72 h-72 rounded-xl shadow-2xl ${bgColorClass} last:justify-self-start`}
+            className={`flex flex-col pb-6 w-64 h-72 shadow-2xl ${bgColorClass}`}
         >
-            <div className="h-16 pt-1 px-6 bg-black-opacity text-white flex flex-row justify-center items-center rounded-tl-xl rounded-tr-xl">
-                <i className="text-3xl mr-2">
+            <div className="h-12 px-2 bg-black-opacity text-white flex flex-row justify-center items-center">
+                <i className="text-xl mr-2">
                     <IconElement />
                 </i>
-                <h2 className="flex justify-center text-xl">{metric.name}</h2>
+                <h2 className="flex justify-center text-base">{metric.name}</h2>
             </div>
             <div className="px-6 flex flex-col justify-center items-center grow">
                 <div className="flex flex-row justify-center items-center text-6xl">
