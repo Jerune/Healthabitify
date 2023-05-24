@@ -24,12 +24,11 @@ async function getListWithNewPeriods(datesToCheckFor: Period) {
                     : { year, [dateType]: dateTypeValue }
             newPeriods.push(requestQuery)
             // Check if prior months or weeks also do not exists yet
-            // To-Do: Add !== 'year
-            if (dateType && year > 2016) {
-                let moreNewPeriods = true
+            if (dateTypeValue && dateType !== 'year' && year > 2022) {
                 let previousValue = dateTypeValue - 1
+                let moreNewPeriods = true
                 // If they don't exist also add requestQueries for those periods
-                while (moreNewPeriods) {
+                while (moreNewPeriods && year > 2022) {
                     const previousAverageExistsAlready =
                         await averageExistsInDatabase(
                             year,
@@ -45,7 +44,7 @@ async function getListWithNewPeriods(datesToCheckFor: Period) {
                         // Deduct 1 from value to get previous month or week
                         if (previousValue > 1) {
                             previousValue -= 1
-                        } else {
+                        } else if (previousValue === 1) {
                             // Or set to month 12 or week 52 of last year in case first week or month of the year
                             if (dateType === 'month') {
                                 previousValue = 12
