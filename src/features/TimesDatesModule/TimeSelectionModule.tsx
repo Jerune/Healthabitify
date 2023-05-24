@@ -41,7 +41,7 @@ function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
                 <li key={tab.name}>
                     <button
                         type="button"
-                        className={`w-32 cursor-pointer rounded-md border border-solid border-black px-6 py-2 ${tabClasses}`}
+                        className={`cursor-pointer border border-solid border-black px-6 py-2 ${tabClasses}`}
                         onClick={() => {
                             dispatch(changeActiveTimeView(buttonNames[index]))
                         }}
@@ -97,10 +97,10 @@ function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
             {tabs !== undefined && (
-                <ul className="flex items-center gap-3 pb-6">{listOfTabs}</ul>
+                <ul className="flex items-center gap-3">{listOfTabs}</ul>
             )}
             {showDateSpecifications && (
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center pt-6 -ml-8">
                     <DatePicker
                         onChange={(value: Date) =>
                             setCorrectDates(DateTime.fromJSDate(value))
@@ -111,6 +111,7 @@ function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
                         minDetail="month"
                     />
                     <button
+                        className="pl-2"
                         type="button"
                         onClick={() =>
                             changeTimeView('previous', activeTimeView)
