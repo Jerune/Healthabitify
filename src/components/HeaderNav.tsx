@@ -53,11 +53,11 @@ function HeaderNav(): JSX.Element {
 
     return (
         <>
-            <header className="flex flex-row justify-between items-center h-16 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
+            <header className="flex flex-row fixed top-0 justify-between items-center h-12 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
                 <div className="flex flex-row items-center">
                     <Link to="/">
                         <img
-                            className="h-16"
+                            className="h-12"
                             src={logo}
                             alt="Healthability logo"
                         />
@@ -66,7 +66,7 @@ function HeaderNav(): JSX.Element {
                     {isLoggedIn && (
                         <button
                             type="button"
-                            className="ml-20 mt-4 text-base"
+                            className="ml-20 mt-2 text-base"
                             onClick={() => dispatch(toggleMenu())}
                         >
                             {sideNavIcon}
@@ -89,8 +89,9 @@ function HeaderNav(): JSX.Element {
                     </section>
                 )}
             </header>
+            <div className="headerSpace h-12 w-full" />
             <nav
-                className={`w-auto h-full flex flex-col fixed top-16 left-0 py-5 pl-8 pr-10 bg-white shadow-lg z-50 ${sideNavClasses}`}
+                className={`w-auto h-screen flex flex-col fixed top-12 left-0 py-5 pl-6 pr-10 bg-white shadow-lg z-50 ${sideNavClasses}`}
             >
                 <Link
                     to="/"
