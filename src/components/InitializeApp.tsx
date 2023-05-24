@@ -78,11 +78,17 @@ function AppStateInit() {
         // Checks for new weeks, months, years finalised and get data for those
         const newPeriods = await getListWithNewPeriods(datesToCheckFor)
         console.log(newPeriods)
+        // To-Do -- Transform to own function
         // if (newPeriods.length > 0) {
         //     newPeriods.map(async (newPeriod) => {
-        //         const datapoints = await getDatapointsForPeriod(allMetrics, newPeriod)
-        //         if (datapoints.data.length > 0){
-        //             const averages = await calculateAveragesForPeriod(datapoints)
+        //         const datapoints = await getDatapointsForPeriod(
+        //             allMetrics,
+        //             newPeriod
+        //         )
+        //         if (datapoints.data.length > 0) {
+        //             const averages = await calculateAveragesForPeriod(
+        //                 datapoints
+        //             )
         //             addAverages(averages)
         //         }
         //     })
