@@ -48,7 +48,9 @@ function DataPage() {
 
     return (
         <MainContent>
-            <h1>{title.charAt(0).toUpperCase() + title.slice(1)}</h1>
+            <h1 className="block absolute top-20 left-8">
+                {title.charAt(0).toUpperCase() + title.slice(1)}
+            </h1>
             <TimeSelectionModule tabs={Tabs} showDateSpecifications={false} />
             <ReactDataGrid
                 idProperty="id"
