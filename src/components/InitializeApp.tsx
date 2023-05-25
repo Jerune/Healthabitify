@@ -25,6 +25,7 @@ import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getSheetData from '../services/googleSheetsAPI/getSheetData'
 import averageExistsInDatabase from '../firebase/firestore/averages/averageExistsInDatabase'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
+import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -54,7 +55,7 @@ function AppStateInit() {
     }
 
     async function initializeMetrics() {
-        dispatch(changeLoadingMessage('Getting user metrics...'))
+        dispatch(changeLoadingMessage('Loading user settings...'))
         const metricList = await getMetrics()
         dispatch(initMetrics(metricList))
     }
@@ -65,48 +66,18 @@ function AppStateInit() {
         dispatch(setDevices(wearablesList))
     }
 
-    async function initializeAverages() {
-        dispatch(changeLoadingMessage('Running data calculations...'))
-        // Get lastUpdated date with earliest date
-        const earliestLastUpdated =
-            devices.fitbit.lastUpdated < devices.oura.lastUpdated
-                ? devices.fitbit.lastUpdated
-                : devices.oura.lastUpdated
-        // Returns weekNumber, month & year of last finished! period based on earliestLastUpdated date
-        const datesToCheckFor =
-            getDateTimeDataForPreviousPeriod(earliestLastUpdated)
-        // Checks for new weeks, months, years finalised and get data for those
-        const newPeriods = await getListWithNewPeriods(datesToCheckFor)
-        console.log(newPeriods)
-        // To-Do -- Transform to own function
-        // if (newPeriods.length > 0) {
-        //     newPeriods.map(async (newPeriod) => {
-        //         const datapoints = await getDatapointsForPeriod(
-        //             allMetrics,
-        //             newPeriod
-        //         )
-        //         if (datapoints.data.length > 0) {
-        //             const averages = await calculateAveragesForPeriod(
-        //                 datapoints
-        //             )
-        //             addAverages(averages)
-        //         }
-        //     })
-        // }
-        const averageStoreData = await buildAverages(datesToCheckFor)
-        dispatch(initAverages(averageStoreData))
-    }
-
     async function initializeServiceAPIs() {
-        dispatch(changeLoadingMessage('Getting latest data from wearables...'))
+        dispatch(changeLoadingMessage('Gathering new data from wearables'))
         const yesterdayString = getYesterdaysDateAsString()
         if (devices.fitbit.lastUpdated <= yesterdayString) {
+            dispatch(changeLoadingMessage('Gathering Fitbit Data'))
             const fitbitDataFromAPI = await getApiData(
                 'fitbit',
                 devices.fitbit.token,
                 devices.fitbit.lastUpdated
             )
             if (fitbitDataFromAPI !== 'error') {
+                dispatch(changeLoadingMessage('Transforming Fitbit data'))
                 const newFitbitDatapoints = await transformFitbitData(
                     fitbitDataFromAPI
                 )
@@ -116,12 +87,14 @@ function AppStateInit() {
             }
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
+            dispatch(changeLoadingMessage('Gathering Oura Data'))
             const ouraDataFromAPI = await getApiData(
                 'oura',
                 devices.oura.token,
                 devices.oura.lastUpdated
             )
             if (ouraDataFromAPI !== 'error') {
+                dispatch(changeLoadingMessage('Transforming Oura data'))
                 const newOuraDatapoints = await transformOuraData(
                     ouraDataFromAPI
                 )
@@ -131,18 +104,42 @@ function AppStateInit() {
         initializeWearables()
     }
 
+    async function initializeAverages() {
+        dispatch(changeLoadingMessage('Running data calculations'))
+        // Get lastUpdated date with earliest date
+        const earliestLastUpdated =
+            devices.fitbit.lastUpdated < devices.oura.lastUpdated
+                ? devices.fitbit.lastUpdated
+                : devices.oura.lastUpdated
+        // Returns weekNumber, month & year of last finished! period based on earliestLastUpdated date
+        const datesToCheckFor =
+            getDateTimeDataForPreviousPeriod(earliestLastUpdated)
+        // Checks for new weeks, months, years finalised
+        // const dates = { year: 2019, month: 12, weekNumber: 52 }
+        // const newPeriods = await getListWithNewPeriods(dates)
+        // console.log(newPeriods)
+        // Creates new datapoints for the new periods and adds averages
+        // if (newPeriods.length > 0) {
+        //     dispatch(changeLoadingMessage('Getting results for latest weeks'))
+        //     await createAveragesForNewPeriods(newPeriods, allMetrics)
+        // }
+        // Builds all averages to be used in the app up to current date
+        dispatch(changeLoadingMessage('Calculating final results'))
+        const averageStoreData = await buildAverages(datesToCheckFor)
+        dispatch(initAverages(averageStoreData))
+    }
+
     async function initApp() {
         dispatch(changeLoadingStatus(true))
         await initializeMetrics()
         await initializeWearables()
     }
 
-    useEffect(() => {
-        if (devices.fitbit.token && devices.oura.token) {
-            initializeServiceAPIs()
-            initializeAverages()
-        }
-    }, [devices.fitbit.token])
+    async function updateData() {
+        dispatch(changeLoadingStatus(true))
+        await initializeServiceAPIs()
+        await initializeAverages()
+    }
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -152,6 +149,12 @@ function AppStateInit() {
             initApp()
         }
     }, [isLoggedIn])
+
+    useEffect(() => {
+        if (devices.fitbit.token && devices.oura.token) {
+            updateData()
+        }
+    }, [devices.fitbit.token, devices.oura.token])
 
     return null
 }
