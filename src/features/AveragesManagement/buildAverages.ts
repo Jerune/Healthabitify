@@ -4,48 +4,61 @@ import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverag
 
 async function buildAverages({ weekNumber, month, year }) {
     const availableDatesInAverages = {}
-
     let latestWeekNumber = weekNumber
     let latestMonth = month
     let currentYear = year
 
     // Get all averages from months and weeks for a certain year
-    // To-Do enlarge to all years
-    while (currentYear > 2022) {
+    // Manually set to 2019 as first data is from 2019
+    while (currentYear >= 2019) {
         availableDatesInAverages[`Y${currentYear}`] = {
             year: {},
             months: {},
             weeks: {},
         }
+
+        const monthlyPromises = []
+        const weeklyPromises = []
+
         while (latestMonth > 0) {
-            const average = await getMonthlyYearlyAverages(
-                currentYear,
-                latestMonth
+            monthlyPromises.push(
+                getMonthlyYearlyAverages(currentYear, latestMonth)
             )
-            if (average !== 'error') {
-                availableDatesInAverages[`Y${currentYear}`].months[
-                    `M${latestMonth}`
-                ] = average
-            }
             latestMonth -= 1
         }
 
         while (latestWeekNumber > 0) {
-            const average = await getWeeklyAverages(
-                currentYear,
-                latestWeekNumber
+            weeklyPromises.push(
+                getWeeklyAverages(currentYear, latestWeekNumber)
             )
-            if (average !== 'error') {
-                availableDatesInAverages[`Y${currentYear}`].weeks[
-                    `W${latestWeekNumber}`
-                ] = average
-            }
             latestWeekNumber -= 1
         }
-        const average = await getMonthlyYearlyAverages(currentYear)
-        if (average !== 'error') {
-            availableDatesInAverages[`Y${currentYear}`].year = average
+
+        const [monthlyAverages, weeklyAverages] = await Promise.all([
+            Promise.all(monthlyPromises),
+            Promise.all(weeklyPromises),
+        ])
+
+        for (let i = 0; i < monthlyAverages.length; i += 1) {
+            if (monthlyAverages[i] !== 'error') {
+                availableDatesInAverages[`Y${currentYear}`].months[
+                    `M${i + 1}`
+                ] = monthlyAverages[i]
+            }
         }
+
+        for (let i = 0; i < weeklyAverages.length; i += 1) {
+            if (weeklyAverages[i] !== 'error') {
+                availableDatesInAverages[`Y${currentYear}`].weeks[`W${i + 1}`] =
+                    weeklyAverages[i]
+            }
+        }
+
+        const yearlyAverage = await getMonthlyYearlyAverages(currentYear)
+        if (yearlyAverage !== 'error') {
+            availableDatesInAverages[`Y${currentYear}`].year = yearlyAverage
+        }
+
         currentYear -= 1
         latestMonth = 12
         latestWeekNumber = 52
