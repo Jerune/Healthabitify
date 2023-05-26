@@ -26,12 +26,17 @@ export default async function getApiData(
     // return error when last sync is same as last updated (no update needed)
     if (source === 'fitbit') {
         const fitbitLastSynchedDate = await getLastSyncTime(token)
-        if (fitbitLastSynchedDate === lastUpdated) {
+        let fitbitDayBeforeLastSynchedDate = dayBeforeLastUpdated
+        if (
+            fitbitLastSynchedDate === lastUpdated ||
+            fitbitLastSynchedDate === 'error'
+        ) {
             return 'error'
         }
-        const fitbitDayBeforeLastSynchedDate = getDayBeforeAsString(
+        fitbitDayBeforeLastSynchedDate = getDayBeforeAsString(
             fitbitLastSynchedDate
         )
+
         // Set enddate to day before last sync date if last sync date is in the past
         // Otherwise Fitbit will return empty data that will be saved in the db
         // as well as set lastUpdated to current date (so no update when data is synced)
