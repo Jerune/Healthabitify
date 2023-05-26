@@ -14,9 +14,9 @@ export default function Loading({ size }: LoadingProps) {
 
     // Keeps loader true until all averages have been calculated
     useEffect(() => {
-        const yearsFromAverages = Object.keys(allAverages)
-        // Check if data from 2023 is loaded in averages
-        if (yearsFromAverages.includes('Y2023')) {
+        // Returns true whenever averages are loaded
+        const yearsFromAverages = Object.keys(allAverages).length > 1
+        if (yearsFromAverages) {
             dispatch(changeLoadingStatus(false))
         }
     }, [allAverages])
