@@ -17,25 +17,21 @@ import addDatapoints from '../firebase/firestore/data-points/addDatapoints'
 import { getYesterdaysDateAsString } from '../utils/getDatesAsString'
 import getApiData from '../services/getApiData'
 import transformOuraData from '../services/ouraAPI/transformOuraData'
-import getDatapointsForPeriod from '../firebase/firestore/data-points/getDatapointsForPeriod'
-import addAverages from '../firebase/firestore/averages/addAverages'
-import calculateAveragesForPeriod from '../features/AveragesManagement/calculateAveragesForPeriod'
 import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getSheetData from '../services/googleSheetsAPI/getSheetData'
-import averageExistsInDatabase from '../firebase/firestore/averages/averageExistsInDatabase'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
+import {
+    getAllDocsFromCollection,
+    testAllDocsFromCollection,
+} from '../firebase/firestore/getDocs'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const devices = useAppSelector((state) => state.user.devices)
     const dispatch = useAppDispatch()
     const allMetrics = useAppSelector((state) => state.metrics)
-    const allAverages = useAppSelector((state) => state.averages)
-    const currentDateTime = useAppSelector(
-        (state) => state.utils.currentDateTime
-    )
 
     async function CheckIfUserIsAuthenticated() {
         if (!isLoggedIn) {
@@ -115,7 +111,23 @@ function AppStateInit() {
         const datesToCheckFor =
             getDateTimeDataForPreviousPeriod(earliestLastUpdated)
         // Checks for new weeks, months, years finalised
-        // const dates = { year: 2019, month: 12, weekNumber: 52 }
+        const newPeriods = await getListWithNewPeriods(datesToCheckFor)
+        // Creates new datapoints for the new periods and adds averages
+        if (newPeriods.length > 0) {
+            dispatch(changeLoadingMessage('Getting results for latest weeks'))
+            await createAveragesForNewPeriods(newPeriods, allMetrics)
+        }
+        // Builds all averages to be used in the app up to current date
+        dispatch(changeLoadingMessage('Calculating final results'))
+        const averageStoreData = await buildAverages(datesToCheckFor)
+        dispatch(initAverages(averageStoreData))
+    }
+
+    // Function that can be used to perform separate manual adjustments
+    async function manualAdjustments() {
+        // const data = await getAllDocsFromCollection('data-points-oura')
+        // console.log(data)
+        // const dates = { year: 2019, weekNumber: 52, month: 12 }
         // const newPeriods = await getListWithNewPeriods(dates)
         // console.log(newPeriods)
         // Creates new datapoints for the new periods and adds averages
@@ -123,16 +135,13 @@ function AppStateInit() {
         //     dispatch(changeLoadingMessage('Getting results for latest weeks'))
         //     await createAveragesForNewPeriods(newPeriods, allMetrics)
         // }
-        // Builds all averages to be used in the app up to current date
-        dispatch(changeLoadingMessage('Calculating final results'))
-        const averageStoreData = await buildAverages(datesToCheckFor)
-        dispatch(initAverages(averageStoreData))
     }
 
     async function initApp() {
         dispatch(changeLoadingStatus(true))
         await initializeMetrics()
         await initializeWearables()
+        await manualAdjustments()
     }
 
     async function updateData() {
