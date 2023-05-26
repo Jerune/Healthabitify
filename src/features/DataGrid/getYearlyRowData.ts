@@ -21,13 +21,20 @@ function getYearlyRowData(activeMetrics, allAverages) {
                 metric,
                 metricAverageValueThisYear
             )
-            if (years.includes(`Y${yearNumber - 1}`)) {
-                const metricAverageValueLastmonth =
+            let activeYear = yearNumber - 1
+            let metricAverageValuePreviousPeriod = 0
+            while (years.includes(`Y${activeYear}`)) {
+                metricAverageValuePreviousPeriod =
                     allAverages[`Y${yearNumber - 1}`].year[metricId]
-                row[`prev${metricId}`] = adjustValueOutput(
-                    metric,
-                    metricAverageValueLastmonth
-                )
+                if (metricAverageValuePreviousPeriod === 0) {
+                    activeYear -= 1
+                } else {
+                    row[`prev${metricId}`] = adjustValueOutput(
+                        metric,
+                        metricAverageValuePreviousPeriod
+                    )
+                    break
+                }
             }
         })
 

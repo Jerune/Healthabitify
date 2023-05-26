@@ -25,15 +25,23 @@ function getWeeklyRowData(activeMetrics: Metric[], allAverages: Average[]) {
                 metric,
                 metricAverageValueThisWeek
             )
-            if (weeks.includes(`W${weekNumber - 1}`)) {
-                const metricAverageValueLastWeek =
-                    allAverages[currentYear].weeks[`W${weekNumber - 1}`][
+
+            let activeWeekNumber = weekNumber - 1
+            let metricAverageValuePreviousPeriod = 0
+            while (weeks.includes(`W${activeWeekNumber}`)) {
+                metricAverageValuePreviousPeriod =
+                    allAverages[currentYear].weeks[`W${activeWeekNumber}`][
                         metricId
                     ]
-                row[`prev${metricId}`] = adjustValueOutput(
-                    metric,
-                    metricAverageValueLastWeek
-                )
+                if (metricAverageValuePreviousPeriod === 0) {
+                    activeWeekNumber -= 1
+                } else {
+                    row[`prev${metricId}`] = adjustValueOutput(
+                        metric,
+                        metricAverageValuePreviousPeriod
+                    )
+                    break
+                }
             }
         })
 
