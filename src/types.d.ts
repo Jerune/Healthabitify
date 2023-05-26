@@ -195,3 +195,10 @@ export type AveragesReturn = {
     period: string
     keys: Average[]
 }
+
+// getDocs
+export type DocumentsToKeep = {
+    date: string
+    metric: string
+    value: string | number
+}
