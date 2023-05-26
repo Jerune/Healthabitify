@@ -7,14 +7,20 @@ async function getLastSyncTime(token: string) {
         },
     }
 
-    const response = await fetch(
-        'https://api.fitbit.com/1/user/-/devices.json',
-        headers
-    )
-    const responseData = await response.json()
-    const date = responseData[0].lastSyncTime.split('T').slice(0, 1).join()
+    try {
+        const response = await fetch(
+            'https://api.fitbit.com/1/user/-/devices.json',
+            headers
+        )
+        const responseData = await response.json()
+        const date = responseData[0].lastSyncTime.split('T').slice(0, 1).join()
 
-    return date
+        return date
+    } catch (error) {
+        console.log(error)
+    }
+
+    return 'error'
 }
 
 export default getLastSyncTime
