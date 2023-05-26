@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
+import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
 import { Metric } from '../../types'
-import forceNumberReturn from '../../utils/forceNumberReturn'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 
 function getConditionalFormatting(metric: Metric) {
@@ -16,6 +16,7 @@ function getConditionalFormatting(metric: Metric) {
         good: 'black',
         medium: 'black',
         bad: 'black',
+        none: 'white',
     }
 
     if (conditionsMode === 'higher') {
@@ -33,6 +34,12 @@ function getConditionalFormatting(metric: Metric) {
             } else if (dataForCurrentPeriod === dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.medium
                 cellProps.style.color = fontColors.medium
+            } else if (
+                dataForCurrentPeriod === 0 &&
+                !metricsWithZeroValues.includes(metric.id)
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
             } else {
                 cellProps.style.background = backgroundColors.bad
                 cellProps.style.color = fontColors.bad
@@ -48,6 +55,12 @@ function getConditionalFormatting(metric: Metric) {
                 dataForPreviousPeriod === null
             ) {
                 cellProps.style.background = backgroundColors.none
+            } else if (
+                dataForCurrentPeriod === '0' &&
+                !metricsWithZeroValues.includes(metric.id)
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
             } else if (dataForCurrentPeriod < dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
@@ -63,7 +76,13 @@ function getConditionalFormatting(metric: Metric) {
     if (conditionsMode === 'range' && good.mode === 'more') {
         return (cellProps, { data }) => {
             const dataForCurrentPeriod = data[correctId]
-            if (dataForCurrentPeriod > good.value) {
+            if (
+                dataForCurrentPeriod === 0 &&
+                !metricsWithZeroValues.includes(metric.id)
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
+            } else if (dataForCurrentPeriod > good.value) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
             } else if (dataForCurrentPeriod < bad.value) {
@@ -78,7 +97,13 @@ function getConditionalFormatting(metric: Metric) {
     if (conditionsMode === 'range' && good.mode === 'less') {
         return (cellProps, { data }) => {
             const dataForCurrentPeriod = data[correctId]
-            if (dataForCurrentPeriod < good.value) {
+            if (
+                dataForCurrentPeriod === 0 &&
+                !metricsWithZeroValues.includes(metric.id)
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
+            } else if (dataForCurrentPeriod < good.value) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
             } else if (dataForCurrentPeriod > bad.value) {
@@ -90,6 +115,8 @@ function getConditionalFormatting(metric: Metric) {
             }
         }
     }
+
+    return 'error'
 }
 
 export default getConditionalFormatting
