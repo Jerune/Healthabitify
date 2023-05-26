@@ -20,6 +20,9 @@ async function addDatapoints(datapoints: DataPoint[]) {
             await addDoc(collection(db, `data-points-${datapoint.source}`), {
                 ...datapoint,
             })
+            console.log(
+                `New datapoint for ${datapoint.metric} has been added to the ${datapoint.source} collection`
+            )
         } catch (e) {
             console.error('Error adding document: ', e)
         }
