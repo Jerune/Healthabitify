@@ -22,10 +22,8 @@ import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getSheetData from '../services/googleSheetsAPI/getSheetData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
-import {
-    getAllDocsFromCollection,
-    testAllDocsFromCollection,
-} from '../firebase/firestore/getDocs'
+import { getDocsFromCollectionBasedOnString } from '../firebase/firestore/getDocs'
+import deleteDocsFromCollectionById from '../firebase/firestore/deleteDocs'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -125,8 +123,7 @@ function AppStateInit() {
 
     // Function that can be used to perform separate manual adjustments
     async function manualAdjustments() {
-        // const data = await getAllDocsFromCollection('data-points-oura')
-        // console.log(data)
+        // getSheetData()
         // const dates = { year: 2019, weekNumber: 52, month: 12 }
         // const newPeriods = await getListWithNewPeriods(dates)
         // console.log(newPeriods)
