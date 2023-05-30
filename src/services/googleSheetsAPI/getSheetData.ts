@@ -5,8 +5,7 @@ import addDatapoints from '../../firebase/firestore/data-points/addDatapoints'
 
 async function getSheetData() {
     // Add Google Sheets API Access Token after 'Bearer'
-    const auth =
-        'Bearer ya29.a0AWY7CknoZFpIfZFH7nKJJIkC4kC4OM1I89ZRkx2t7mpNIo_pxOO_pEHCfgQCJXawY8h9JtfljPx846osS4dWFHRQsCeDIazewZo3LGthts-2lFNbWoErIXnDhmuQci2znX26GcbAyC0WwKvgLiDDam2MGRxnMwaCgYKAXwSARESFQG1tDrpP9aSs0oEZi3cgOVaSahQVg0165'
+    const auth = 'Bearer '
     const sheetId = '1hT_MjqAWAfv4yITnbw8O3jqN6QeDofQu5TWcjabigds'
     const tabIdRange = 'Weekly!A1:BA2'
     const responseValues = await fetch(
@@ -44,7 +43,7 @@ async function getSheetData() {
                     value: !isNaN(valueAsNumber) ? valueAsNumber : value,
                     metric,
                     userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
-                    source: 'fitbit',
+                    source: 'manual',
                     date,
                     weekNumber,
                     month,
@@ -57,7 +56,7 @@ async function getSheetData() {
         // if (datapoints.length > 0) {
         //     addDatapoints(datapoints)
         // }
-        console.log(datapoints)
+        // console.log(datapoints)
         datapoints = []
     })
 }
