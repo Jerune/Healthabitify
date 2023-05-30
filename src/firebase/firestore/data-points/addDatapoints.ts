@@ -5,6 +5,7 @@ import type { DataPoint } from '../../../types'
 import { db } from '../../firebase'
 import updateWearables from '../wearables/updateWearables'
 import { getSpecifiedDateAsString } from '../../../utils/getDatesAsString'
+import { documentDoesNotExistAlready } from '../getDocs'
 
 async function addDatapoints(datapoints: DataPoint[]) {
     const { source } = datapoints[0]
@@ -16,28 +17,37 @@ async function addDatapoints(datapoints: DataPoint[]) {
         }
     }
     datapoints.forEach(async (datapoint) => {
-        try {
-            await addDoc(collection(db, `data-points-${datapoint.source}`), {
-                ...datapoint,
-            })
-            console.log(
-                `New datapoint for ${datapoint.metric} has been added to the ${datapoint.source} collection`
-            )
-        } catch (e) {
-            console.error('Error adding document: ', e)
+        const datapointIsNew = await documentDoesNotExistAlready(datapoint)
+        if (datapointIsNew) {
+            try {
+                await addDoc(
+                    collection(db, `data-points-${datapoint.source}`),
+                    {
+                        ...datapoint,
+                    }
+                )
+                console.log(
+                    `New datapoint for ${datapoint.metric} has been added to the ${datapoint.source} collection`
+                )
+            } catch (e) {
+                console.error('Error adding document: ', e)
+            }
         }
     })
 
     if (highestDate) {
-        const highestDateAsDateTime = DateTime.fromJSDate(highestDate)
-        // Sets lastUpdated value to datapoint with highest date + 1
-        // this is to avoid duplicate data on when retrieving data next time
-        const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
-        const newLastUpdatedAsString = getSpecifiedDateAsString(newLastUpdated)
+        if (source === 'fitbit' || source === 'oura') {
+            const highestDateAsDateTime = DateTime.fromJSDate(highestDate)
+            // Sets lastUpdated value to datapoint with highest date + 1
+            // this is to avoid duplicate data on when retrieving data next time
+            const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
+            const newLastUpdatedAsString =
+                getSpecifiedDateAsString(newLastUpdated)
 
-        updateWearables(source, {
-            lastUpdated: newLastUpdatedAsString,
-        })
+            updateWearables(source, {
+                lastUpdated: newLastUpdatedAsString,
+            })
+        }
     }
 }
 
