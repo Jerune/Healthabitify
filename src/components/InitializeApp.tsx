@@ -19,11 +19,8 @@ import getApiData from '../services/getApiData'
 import transformOuraData from '../services/ouraAPI/transformOuraData'
 import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
-import getSheetData from '../services/googleSheetsAPI/getSheetData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
-import { getDocsFromCollectionBasedOnString } from '../firebase/firestore/getDocs'
-import deleteDocsFromCollectionById from '../firebase/firestore/deleteDocs'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -121,17 +118,8 @@ function AppStateInit() {
         dispatch(initAverages(averageStoreData))
     }
 
-    // Function that can be used to perform separate manual adjustments
     async function manualAdjustments() {
-        // getSheetData()
-        // const dates = { year: 2019, weekNumber: 52, month: 12 }
-        // const newPeriods = await getListWithNewPeriods(dates)
-        // console.log(newPeriods)
-        // Creates new datapoints for the new periods and adds averages
-        // if (newPeriods.length > 0) {
-        //     dispatch(changeLoadingMessage('Getting results for latest weeks'))
-        //     await createAveragesForNewPeriods(newPeriods, allMetrics)
-        // }
+        // Function that can be used to perform separate manual adjustments
     }
 
     async function initApp() {
