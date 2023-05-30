@@ -13,8 +13,8 @@ async function getDocsFromCollectionBasedOnString(
     const regex = new RegExp(queryString)
 
     querySnapshot.forEach((document) => {
-        const { date } = document.data()
-        if (regex.test(date)) {
+        const { id } = document
+        if (regex.test(id)) {
             documents.push(document.id)
         }
     })
