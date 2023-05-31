@@ -1,12 +1,18 @@
 import { collection, query, where, getDocs } from 'firebase/firestore'
-import { Average, DataPoint, Metric, Period } from '../../../types'
+import {
+    Average,
+    DataPoint,
+    DatapointsReturn,
+    Metric,
+    Period,
+} from '../../../types'
 import kebabcaseToCamelcase from '../../../utils/kebabcaseToCamelcase'
 import { db } from '../../firebase'
 
 export default async function getDatapointsForPeriod(
     allMetrics: Metric[],
     period: Period
-) {
+): Promise<DatapointsReturn> {
     let dateTitle = ''
     if (period.month) {
         dateTitle = `Y${period.year}-M${period.month}`
