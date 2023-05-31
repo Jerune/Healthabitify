@@ -170,6 +170,11 @@ export type Period = {
     weekNumber?: number
 }
 
+export type DatapointsReturn = {
+    period: string
+    data: Average[]
+}
+
 // calculateNewAveragesForPeriod
 
 export type DataValuesPerMetric = {
