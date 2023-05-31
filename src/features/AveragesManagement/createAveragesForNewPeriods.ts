@@ -1,6 +1,6 @@
 import addAverages from '../../firebase/firestore/averages/addAverages'
 import getDatapointsForPeriod from '../../firebase/firestore/data-points/getDatapointsForPeriod'
-import { Metric, Period } from '../../types'
+import { DatapointsReturn, Metric, Period } from '../../types'
 import calculateAveragesForPeriod from './calculateAveragesForPeriod'
 
 async function createAveragesForNewPeriods(
@@ -8,7 +8,10 @@ async function createAveragesForNewPeriods(
     allMetrics: Metric[]
 ) {
     newPeriods.map(async (newPeriod) => {
-        const datapoints = await getDatapointsForPeriod(allMetrics, newPeriod)
+        const datapoints: DatapointsReturn = await getDatapointsForPeriod(
+            allMetrics,
+            newPeriod
+        )
         if (datapoints.data.length > 0) {
             const averages = await calculateAveragesForPeriod(datapoints)
             addAverages(averages)
