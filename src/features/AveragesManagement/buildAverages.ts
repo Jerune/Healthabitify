@@ -4,12 +4,12 @@ import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverag
 
 async function buildAverages({ weekNumber, month, year }) {
     const availableDatesInAverages = {}
-    let latestWeekNumber = weekNumber
-    let latestMonth = month
-    let currentYear = year
 
     // Get all averages from months and weeks for a certain year
     // Manually set to 2019 as first data is from 2019
+    let currentYear = year
+    let latestMonth = month
+    let latestWeekNumber = weekNumber
     while (currentYear >= 2019) {
         availableDatesInAverages[`Y${currentYear}`] = {
             year: {},
@@ -39,18 +39,21 @@ async function buildAverages({ weekNumber, month, year }) {
             Promise.all(weeklyPromises),
         ])
 
-        for (let i = 0; i < monthlyAverages.length; i += 1) {
-            if (monthlyAverages[i] !== 'error') {
+        const sortedMonthlyAverages = monthlyAverages.reverse()
+        const sortedWeeklyAverages = weeklyAverages.reverse()
+
+        for (let i = 0; i < sortedMonthlyAverages.length; i += 1) {
+            if (sortedMonthlyAverages[i] !== 'error') {
                 availableDatesInAverages[`Y${currentYear}`].months[
                     `M${i + 1}`
-                ] = monthlyAverages[i]
+                ] = sortedMonthlyAverages[i]
             }
         }
 
-        for (let i = 0; i < weeklyAverages.length; i += 1) {
-            if (weeklyAverages[i] !== 'error') {
+        for (let i = 0; i < sortedWeeklyAverages.length; i += 1) {
+            if (sortedWeeklyAverages[i] !== 'error') {
                 availableDatesInAverages[`Y${currentYear}`].weeks[`W${i + 1}`] =
-                    weeklyAverages[i]
+                    sortedWeeklyAverages[i]
             }
         }
 
