@@ -13,13 +13,39 @@ async function buildColumns(activeMetrics: Metric[]) {
             name: newId,
             id,
             header: name,
+            headerProps: {
+                style: {
+                    color: '#1D3557',
+                    fontStyle: 'italic',
+                    fontWeight: 'bold',
+                    fontSize: '1.1em',
+                },
+            },
             flex: 1,
-            showColumnContextMenu: false,
+            textAlign: 'center',
+            maxWidth: 300,
+            minWidth: 100,
             onRender,
         }
     })
 
-    return [{ name: 'date', id: 'date', header: 'Date' }, ...columns]
+    return [
+        {
+            name: 'date',
+            id: 'date',
+            header: 'Date',
+            headerProps: {
+                style: {
+                    color: '#1D3557',
+                    fontStyle: 'italic',
+                    fontWeight: 'bold',
+                    fontSize: '1.1em',
+                },
+            },
+            maxWidth: 140,
+        },
+        ...columns,
+    ]
 }
 
 export default buildColumns
