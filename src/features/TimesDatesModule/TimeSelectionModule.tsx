@@ -16,7 +16,11 @@ import getDateTitles from './getDateTitles'
 import getWeekDays from './getWeekDays'
 import type { TabListProps } from './TimesDatesTypes'
 
-function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
+function TimeSelectionModule({
+    tabs,
+    showDateTimeTabs,
+    showDateSpecifications,
+}: TabListProps) {
     const dispatch = useAppDispatch()
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const currentDateTimeAsString = useAppSelector(
@@ -96,7 +100,7 @@ function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
 
     return (
         <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
-            {tabs !== undefined && (
+            {tabs !== undefined && showDateTimeTabs && (
                 <ul className="flex items-center gap-3">{listOfTabs}</ul>
             )}
             {showDateSpecifications && (
@@ -135,6 +139,7 @@ function TimeSelectionModule({ tabs, showDateSpecifications }: TabListProps) {
 }
 
 TimeSelectionModule.defaultProps = {
+    showDateTimeTabs: true,
     showDateSpecifications: true,
 }
 

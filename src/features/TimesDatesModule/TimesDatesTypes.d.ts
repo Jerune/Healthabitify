@@ -6,6 +6,7 @@ export type TabListProps = {
         function: () => void
     }[]
     showDateSpecifications?: boolean
+    showDateTimeTabs?: boolean
 }
 
 export type DateTimeData = {
