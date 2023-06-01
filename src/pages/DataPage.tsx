@@ -3,8 +3,6 @@ import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
 import { useParams } from 'react-router-dom'
 import MainContent from '../components/MainContent'
-import dataSourceMock from '../data/data-grid/dataSourceMock'
-import columnsMock from '../data/data-grid/columnsMock'
 import { useAppSelector } from '../redux/reduxHooks'
 import getActiveMetrics from '../features/DataGrid/getActiveMetrics'
 import buildColumns from '../features/DataGrid/buildColumns'
@@ -28,7 +26,7 @@ function DataPage() {
             if (category) {
                 const activeMetrics = getActiveMetrics(allMetrics, category)
                 const columns = await buildColumns(activeMetrics)
-                const rows = await buildRows(
+                const rows = buildRows(
                     activeMetrics,
                     activeTimeView,
                     allAverages
@@ -48,7 +46,7 @@ function DataPage() {
 
     return (
         <MainContent>
-            <h1 className="block absolute top-20 left-8">
+            <h1 className="block absolute top-16 left-8">
                 {title.charAt(0).toUpperCase() + title.slice(1)}
             </h1>
             <TimeSelectionModule tabs={Tabs} showDateSpecifications={false} />
@@ -57,6 +55,8 @@ function DataPage() {
                 columns={activeColumns}
                 dataSource={activeRows}
                 activateRowOnFocus={false}
+                showHoverRows={false}
+                showColumnMenuTool={false}
                 showColumnMenuFilterOptions={false}
                 showColumnMenuGroupOptions={false}
                 resizable={false}
