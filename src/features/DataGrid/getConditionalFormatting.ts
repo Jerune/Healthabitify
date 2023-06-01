@@ -24,6 +24,15 @@ function getConditionalFormatting(metric: Metric) {
             const dataForCurrentPeriod = data[correctId]
             const dataForPreviousPeriod = data[`prev${correctId}`]
             if (
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                (dataForCurrentPeriod === 0 &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00'
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
+            } else if (
                 dataForPreviousPeriod === undefined ||
                 dataForPreviousPeriod === null
             ) {
@@ -34,12 +43,6 @@ function getConditionalFormatting(metric: Metric) {
             } else if (dataForCurrentPeriod === dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.medium
                 cellProps.style.color = fontColors.medium
-            } else if (
-                dataForCurrentPeriod === 0 &&
-                !metricsWithZeroValues.includes(metric.id)
-            ) {
-                cellProps.style.background = backgroundColors.none
-                cellProps.style.color = fontColors.none
             } else {
                 cellProps.style.background = backgroundColors.bad
                 cellProps.style.color = fontColors.bad
@@ -51,16 +54,19 @@ function getConditionalFormatting(metric: Metric) {
             const dataForCurrentPeriod = data[correctId]
             const dataForPreviousPeriod = data[`prev${correctId}`]
             if (
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                (dataForCurrentPeriod === 0 &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00'
+            ) {
+                cellProps.style.background = backgroundColors.none
+                cellProps.style.color = fontColors.none
+            } else if (
                 dataForPreviousPeriod === undefined ||
                 dataForPreviousPeriod === null
             ) {
                 cellProps.style.background = backgroundColors.none
-            } else if (
-                dataForCurrentPeriod === '0' &&
-                !metricsWithZeroValues.includes(metric.id)
-            ) {
-                cellProps.style.background = backgroundColors.none
-                cellProps.style.color = fontColors.none
             } else if (dataForCurrentPeriod < dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
@@ -77,8 +83,11 @@ function getConditionalFormatting(metric: Metric) {
         return (cellProps, { data }) => {
             const dataForCurrentPeriod = data[correctId]
             if (
-                dataForCurrentPeriod === 0 &&
-                !metricsWithZeroValues.includes(metric.id)
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                (dataForCurrentPeriod === 0 &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00'
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
@@ -98,8 +107,11 @@ function getConditionalFormatting(metric: Metric) {
         return (cellProps, { data }) => {
             const dataForCurrentPeriod = data[correctId]
             if (
-                dataForCurrentPeriod === 0 &&
-                !metricsWithZeroValues.includes(metric.id)
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                (dataForCurrentPeriod === 0 &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00'
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
