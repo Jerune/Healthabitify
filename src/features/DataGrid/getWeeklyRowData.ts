@@ -48,7 +48,8 @@ function getWeeklyRowData(activeMetrics: Metric[], allAverages: Average[]) {
         rows.push(row)
     })
 
-    return rows
+    // Reverse order of the rows to show last week at the top
+    return rows.reverse()
 }
 
 export default getWeeklyRowData
