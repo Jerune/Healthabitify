@@ -18,6 +18,7 @@ const utils = {
     isLoading: true,
     loadingMessage: '',
     sideNavOpen: false,
+    manualDataGridOpen: false,
     activeTimeView: 'week',
     currentDateTime,
 }
@@ -44,6 +45,12 @@ export const utilsSlice = createSlice({
             return {
                 ...state,
                 sideNavOpen: !state.sideNavOpen,
+            }
+        },
+        toggleManualDataGrid: (state) => {
+            return {
+                ...state,
+                manualDataGridOpen: !state.manualDataGridOpen,
             }
         },
         changeActiveTimeView: (state, action) => {
@@ -75,6 +82,7 @@ export const {
     changeLoadingStatus,
     changeLoadingMessage,
     toggleMenu,
+    toggleManualDataGrid,
     changeActiveTimeView,
     changeDateTimeData,
 } = utilsSlice.actions
