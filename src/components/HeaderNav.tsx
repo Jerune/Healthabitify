@@ -1,5 +1,9 @@
 import { SlLogout, SlSettings } from 'react-icons/sl'
-import { MdDashboard } from 'react-icons/md'
+import {
+    MdOutlineModeEditOutline,
+    MdModeEdit,
+    MdDashboard,
+} from 'react-icons/md'
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
@@ -8,7 +12,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
-import { toggleMenu } from '../redux/reducers/utilsReducer'
+import {
+    toggleManualDataGrid,
+    toggleMenu,
+} from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
@@ -19,6 +26,9 @@ function HeaderNav(): JSX.Element {
     const navigate = useNavigate()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+    const manualDataGridOpen = useAppSelector(
+        (state) => state.utils.manualDataGridOpen
+    )
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <AiOutlineDoubleLeft />
@@ -75,6 +85,17 @@ function HeaderNav(): JSX.Element {
                 </div>
                 {isLoggedIn && (
                     <section className="flex flex-row gap-6 mr-8 text-lg">
+                        <button
+                            type="button"
+                            className="cursor-pointer"
+                            onClick={() => dispatch(toggleManualDataGrid())}
+                        >
+                            {manualDataGridOpen ? (
+                                <MdOutlineModeEditOutline />
+                            ) : (
+                                <MdModeEdit />
+                            )}
+                        </button>
                         <Link to="/settings">
                             <SlSettings />
                         </Link>
