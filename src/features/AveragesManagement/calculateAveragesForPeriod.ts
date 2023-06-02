@@ -1,11 +1,11 @@
 import calculateAmountAverage from './calculateAmountAverage'
 import calculateDurationAverage from './calculateDurationAverage'
 import calculateTimeAverage from './calculateTimeAverage'
-import { AveragesReturn, PeriodData } from '../../types'
+import { AveragesReturn, DatapointsReturn } from '../../types'
 import calculateAutoAverages from './calculateAutoAverages'
 
 async function calculateAveragesForPeriod(
-    periodData: PeriodData
+    periodData: DatapointsReturn
 ): Promise<AveragesReturn> {
     const { period, data } = periodData
     const allAverages = {}
