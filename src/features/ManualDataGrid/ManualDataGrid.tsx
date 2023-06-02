@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TfiClose } from 'react-icons/tfi'
 import { MdFormatListBulleted } from 'react-icons/md'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
@@ -6,6 +6,10 @@ import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import { toggleManualDataGrid } from '../../redux/reducers/utilsReducer'
 import TimeSelectionModule from '../TimesDatesModule/TimeSelectionModule'
 import SettingsButton from '../SettingsMenu/SettingsButton'
+import Loading from '../../components/Loading'
+import getActiveMetrics from '../DataGrid/getActiveMetrics'
+import buildColumns from '../DataGrid/buildColumns'
+import buildRows from '../DataGrid/buildRows'
 
 function ManualDataGrid() {
     const dispatch = useAppDispatch()
@@ -21,10 +25,32 @@ function ManualDataGrid() {
     const [activeColumns, setActiveColumns] = useState([])
     const [activeRows, setActiveRows] = useState([])
     const [editForm, setEditForm] = useState(false)
+    const { currentDate, firstDayOfTheWeek, lastDayOfTheWeek } = currentDateTime
 
-    const manualMetrics = allMetrics.filter(
-        (metric) => metric.source === 'manual'
-    )
+    useEffect(() => {
+        async function setDataGrid() {
+            if (currentDate) {
+                const manualMetrics = allMetrics.filter(
+                    (metric) => metric.source === 'manual'
+                )
+                const columns = await buildColumns(manualMetrics)
+                const rows = buildRows(
+                    manualMetrics,
+                    // Set to days! Create new form
+                    allAverages
+                )
+                setActiveColumns(columns)
+                setActiveRows(rows)
+            }
+        }
+        if (!isLoading) {
+            setDataGrid()
+        }
+    }, [isLoading, currentDate])
+
+    if (isLoading) {
+        return <Loading size={50} />
+    }
 
     return (
         <div
