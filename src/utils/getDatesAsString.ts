@@ -30,3 +30,21 @@ export function getSpecifiedDateAsString(dateTime: DateTime) {
 
     return dateAsString
 }
+
+export function getAllWeekDaysAsStrings(firstDayOfTheWeek: string) {
+    const weekDays = []
+
+    const originalDay = getDateTimeDateFromDateString(firstDayOfTheWeek)
+    const originalWeekNumber = originalDay.weekNumber
+
+    let currentDay = originalDay
+    let currentWeeknumber = currentDay.weekNumber
+
+    while (originalWeekNumber === currentWeeknumber) {
+        weekDays.push(currentDay.toFormat('yyyy-MM-dd'))
+        currentDay = currentDay.plus({ days: 1 })
+        currentWeeknumber = currentDay.weekNumber
+    }
+
+    return weekDays
+}
