@@ -1,15 +1,18 @@
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import kebabcaseToCamelcase from '../../../utils/kebabcaseToCamelcase'
 import { db } from '../../firebase'
-import { DataPoint, Metric } from '../../../types'
+import { CurrentDateTime, ManualDatapointReturn, Metric } from '../../../types'
 
-async function getManualDatapointsByDate(currentDateTime, metrics: Metric[]) {
+async function getManualDatapointsByDate(
+    currentDateTime: CurrentDateTime,
+    metrics: Metric[]
+) {
     const { weekNumber, year } = currentDateTime
 
     const allDatapointsForPeriod = await Promise.all(
         metrics.map(async (metric: Metric) => {
             const metricName = kebabcaseToCamelcase(metric.id)
-            const datapoints: Partial<DataPoint>[] = []
+            const datapoints: ManualDatapointReturn[] = []
             const dbQuery = query(
                 collection(db, 'data-points-manual'),
                 where('metric', '==', metric.id),
