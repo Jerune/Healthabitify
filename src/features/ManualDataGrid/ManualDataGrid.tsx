@@ -1,52 +1,51 @@
 import { useEffect, useState } from 'react'
 import { TfiClose } from 'react-icons/tfi'
-import { MdFormatListBulleted } from 'react-icons/md'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import { toggleManualDataGrid } from '../../redux/reducers/utilsReducer'
 import TimeSelectionModule from '../TimesDatesModule/TimeSelectionModule'
 import SettingsButton from '../SettingsMenu/SettingsButton'
 import Loading from '../../components/Loading'
-import getActiveMetrics from '../DataGrid/getActiveMetrics'
-import buildColumns from '../DataGrid/buildColumns'
-import buildRows from '../DataGrid/buildRows'
+import getManualDatapointsByDate from '../../firebase/firestore/data-points/getManualDatapointsByDate'
+import buildManualColumns from '../DataGrid/buildManualColumns'
+import { getAllWeekDaysAsStrings } from '../../utils/getDatesAsString'
+import buildManualRows from '../DataGrid/buildManualRows'
 
 function ManualDataGrid() {
     const dispatch = useAppDispatch()
     const allMetrics = useAppSelector((state) => state.metrics)
-    const allAverages = useAppSelector((state) => state.averages)
     const isLoading = useAppSelector((state) => state.utils.isLoading)
-    const manualDataGridOpen = useAppSelector(
-        (state) => state.utils.manualDataGridOpen
-    )
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
     const [activeColumns, setActiveColumns] = useState([])
     const [activeRows, setActiveRows] = useState([])
     const [editForm, setEditForm] = useState(false)
-    const { currentDate, firstDayOfTheWeek, lastDayOfTheWeek } = currentDateTime
 
     useEffect(() => {
         async function setDataGrid() {
-            if (currentDate) {
+            if (currentDateTime.currentDate) {
                 const manualMetrics = allMetrics.filter(
                     (metric) => metric.source === 'manual'
                 )
-                const columns = await buildColumns(manualMetrics)
-                const rows = buildRows(
-                    manualMetrics,
-                    // Set to days! Create new form
-                    allAverages
+                const dates = getAllWeekDaysAsStrings(
+                    currentDateTime.firstDayOfTheWeek
                 )
+                const columns = await buildManualColumns(dates)
                 setActiveColumns(columns)
-                setActiveRows(rows)
+                const datapoints = await getManualDatapointsByDate(
+                    currentDateTime,
+                    manualMetrics
+                )
+                // const rows = buildManualRows()
+
+                // setActiveRows(rows)
             }
         }
         if (!isLoading) {
             setDataGrid()
         }
-    }, [isLoading, currentDate])
+    }, [currentDateTime])
 
     if (isLoading) {
         return <Loading size={50} />
@@ -79,6 +78,7 @@ function ManualDataGrid() {
                     showColumnMenuFilterOptions={false}
                     showColumnMenuGroupOptions={false}
                     resizable={false}
+                    editable={editForm}
                     className="w-full h-full"
                 />
                 <div className="sticky h-12 w-full bottom-2  px-2 flex flex-row gap-4">
