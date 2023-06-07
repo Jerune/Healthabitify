@@ -162,7 +162,7 @@ export type EndpointsDates = {
     end: string
 }
 
-// getDatapointsByDates
+// Datapoints functions
 
 export type Period = {
     year: number
@@ -173,6 +173,12 @@ export type Period = {
 export type DatapointsReturn = {
     period: string
     data: Average[]
+}
+
+export type ManualDatapointReturn = {
+    value: number | string
+    date: string
+    id: string
 }
 
 // calculateNewAveragesForPeriod
@@ -206,4 +212,15 @@ export type DocumentsToKeep = {
     date: string
     metric: string
     value: string | number
+}
+
+// Redux
+
+export type CurrentDateTime = {
+    currentDate: string
+    lastDayOfTheWeek: string
+    firstDayOfTheWeek: string
+    month: number
+    weekNumber: number
+    year: number
 }
