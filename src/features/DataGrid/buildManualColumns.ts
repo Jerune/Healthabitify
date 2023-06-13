@@ -1,7 +1,7 @@
 async function buildManualColumns(dates: string[]) {
-    const columns = dates.map((date, index) => {
+    const columns = dates.map((date) => {
         return {
-            id: index,
+            id: date,
             name: date,
             header: date,
             headerProps: {
