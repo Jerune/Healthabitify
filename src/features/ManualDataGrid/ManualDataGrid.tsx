@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { TfiClose } from 'react-icons/tfi'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
@@ -10,6 +10,7 @@ import getManualDatapointsByDate from '../../firebase/firestore/data-points/getM
 import buildManualColumns from '../DataGrid/buildManualColumns'
 import { getAllWeekDaysAsStrings } from '../../utils/getDatesAsString'
 import buildManualRows from '../DataGrid/buildManualRows'
+import updateManualDatapoints from './updateManualDatapoints'
 
 function ManualDataGrid() {
     const dispatch = useAppDispatch()
@@ -21,6 +22,7 @@ function ManualDataGrid() {
     const [activeColumns, setActiveColumns] = useState([])
     const [activeRows, setActiveRows] = useState([])
     const [editForm, setEditForm] = useState(false)
+    const [datapointsToEdit, setDatapointsToEdit] = useState([])
 
     useEffect(() => {
         async function setDataGrid() {
@@ -37,15 +39,42 @@ function ManualDataGrid() {
                     currentDateTime,
                     manualMetrics
                 )
-                // const rows = buildManualRows()
-
-                // setActiveRows(rows)
+                const rows = buildManualRows(datapoints, dates)
+                setActiveRows(rows)
             }
         }
         if (!isLoading) {
             setDataGrid()
         }
     }, [currentDateTime])
+
+    useEffect(() => {
+        if (!editForm && datapointsToEdit.length > 0) {
+            updateManualDatapoints(datapointsToEdit)
+            setDatapointsToEdit([])
+        }
+    }, [editForm])
+
+    const onEditComplete = useCallback(
+        ({ value, columnId, rowId }) => {
+            const data = [...activeRows]
+            const id = data[rowId].cells[columnId]
+            const metricName = data[rowId].metric
+            const metric = metricName.split(' ').join('-').toLowerCase()
+
+            data[rowId][columnId] = value
+
+            setDatapointsToEdit((prevState) => {
+                const idToChange = id || 'new'
+                return [
+                    ...prevState,
+                    { date: columnId, id: idToChange, value, metric },
+                ]
+            })
+            setActiveRows(data)
+        },
+        [activeRows]
+    )
 
     if (isLoading) {
         return <Loading size={50} />
@@ -79,6 +108,7 @@ function ManualDataGrid() {
                     showColumnMenuGroupOptions={false}
                     resizable={false}
                     editable={editForm}
+                    onEditComplete={onEditComplete}
                     className="w-full h-full"
                 />
                 <div className="sticky h-12 w-full bottom-2  px-2 flex flex-row gap-4">
@@ -92,7 +122,10 @@ function ManualDataGrid() {
                         type="submit"
                         active={editForm}
                         text="Save"
-                        onClick={() => setEditForm(false)}
+                        onClick={() => {
+                            setEditForm(false)
+                            dispatch(toggleManualDataGrid())
+                        }}
                     />
                 </div>
             </div>
