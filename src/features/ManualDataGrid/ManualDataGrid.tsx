@@ -122,10 +122,7 @@ function ManualDataGrid() {
                         type="submit"
                         active={editForm}
                         text="Save"
-                        onClick={() => {
-                            setEditForm(false)
-                            dispatch(toggleManualDataGrid())
-                        }}
+                        onClick={() => setEditForm(false)}
                     />
                 </div>
             </div>
