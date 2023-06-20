@@ -113,9 +113,13 @@ function AppStateInit() {
             await createAveragesForNewPeriods(newPeriods, allMetrics)
         }
         // Builds all averages to be used in the app up to current date
+        // Runs on 2 second timeout to make sure new averages have been added
+        // To-Do: Find alternative for setTimeOut()
         dispatch(changeLoadingMessage('Calculating final results'))
-        const averageStoreData = await buildAverages(datesToCheckFor)
-        dispatch(initAverages(averageStoreData))
+        setTimeout(async () => {
+            const averageStoreData = await buildAverages(datesToCheckFor)
+            dispatch(initAverages(averageStoreData))
+        }, 2000)
     }
 
     async function manualAdjustments() {
