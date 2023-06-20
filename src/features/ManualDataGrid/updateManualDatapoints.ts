@@ -49,7 +49,7 @@ async function updateManualDatapoints(
                 year,
             }
         })
-        // addDatapoints(newDatapoints)
+        addDatapoints(newDatapoints)
     }
 
     // Updating existing values of Datapoints in FireStore
@@ -60,7 +60,7 @@ async function updateManualDatapoints(
                 return { id, value }
             }
         )
-        // updateDatapoints(datapointsToUpdate)
+        updateDatapoints(datapointsToUpdate)
     }
 
     // Checking if periods are already active
