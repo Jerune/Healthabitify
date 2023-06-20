@@ -11,6 +11,10 @@ async function getListWithNewPeriods(datesToCheckFor: Period) {
     const promises = dateTypes.map(async (dateType) => {
         let year = currentYear
         const dateTypeValue = datesToCheckFor[dateType]
+        // Remove one year when checking year value as currentYear has not finished yet
+        if (dateType === 'year') {
+            year -= 1
+        }
         const averageExistsAlready = await averageExistsInDatabase(
             year,
             dateType,
