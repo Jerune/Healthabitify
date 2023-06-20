@@ -2,7 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { TfiClose } from 'react-icons/tfi'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
-import { toggleManualDataGrid } from '../../redux/reducers/utilsReducer'
+import {
+    changeLoadingMessage,
+    changeLoadingStatus,
+    toggleManualDataGrid,
+} from '../../redux/reducers/utilsReducer'
 import TimeSelectionModule from '../TimesDatesModule/TimeSelectionModule'
 import SettingsButton from '../SettingsMenu/SettingsButton'
 import Loading from '../../components/Loading'
@@ -11,14 +15,23 @@ import buildManualColumns from '../DataGrid/buildManualColumns'
 import { getAllWeekDaysAsStrings } from '../../utils/getDatesAsString'
 import buildManualRows from '../DataGrid/buildManualRows'
 import updateManualDatapoints from './updateManualDatapoints'
+import createAveragesForNewPeriods from '../AveragesManagement/createAveragesForNewPeriods'
+import { initAverages } from '../../redux/reducers/averagesReducer'
+import buildAverages from '../AveragesManagement/buildAverages'
+import { getDateTimeDataForPreviousPeriod } from '../../utils/getDateTimeData'
 
 function ManualDataGrid() {
     const dispatch = useAppDispatch()
     const allMetrics = useAppSelector((state) => state.metrics)
+    const deviceData = useAppSelector((state) => state.user.devices)
     const isLoading = useAppSelector((state) => state.utils.isLoading)
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
+    const lastUpdated =
+        deviceData.fitbit.lastUpdated > deviceData.oura.lastUpdated
+            ? deviceData.oura.lastUpdated
+            : deviceData.fitbit.lastUpdated
     const [activeColumns, setActiveColumns] = useState([])
     const [activeRows, setActiveRows] = useState([])
     const [editForm, setEditForm] = useState(false)
@@ -49,9 +62,34 @@ function ManualDataGrid() {
     }, [currentDateTime])
 
     useEffect(() => {
-        if (!editForm && datapointsToEdit.length > 0) {
-            updateManualDatapoints(datapointsToEdit)
+        async function updateExistingAverages() {
+            dispatch(changeLoadingStatus(true))
+            dispatch(changeLoadingMessage('Adding manual data'))
+            // Reset datapoints to edit
             setDatapointsToEdit([])
+            // Return periods whenever data of already calculated averages have been updated
+            const periods = await updateManualDatapoints(datapointsToEdit)
+            // Update averages for already existing periods
+            if (periods.length > 0) {
+                await createAveragesForNewPeriods(periods, allMetrics)
+                dispatch(changeLoadingMessage('Calculating final results'))
+                const datesToCheckFor =
+                    getDateTimeDataForPreviousPeriod(lastUpdated)
+                if (datesToCheckFor) {
+                    setTimeout(async () => {
+                        const averageStoreData = await buildAverages(
+                            datesToCheckFor
+                        )
+                        dispatch(initAverages(averageStoreData))
+                    }, 2000)
+                }
+            }
+
+            dispatch(changeLoadingStatus(false))
+        }
+
+        if (!editForm && datapointsToEdit.length > 0) {
+            updateExistingAverages()
         }
     }, [editForm])
 
