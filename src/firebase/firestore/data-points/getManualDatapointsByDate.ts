@@ -5,7 +5,8 @@ import { CurrentDateTime, ManualDatapointReturn, Metric } from '../../../types'
 
 async function getManualDatapointsByDate(
     currentDateTime: CurrentDateTime,
-    metrics: Metric[]
+    metrics: Metric[],
+    labs: boolean
 ) {
     const { weekNumber, year } = currentDateTime
 
@@ -13,12 +14,19 @@ async function getManualDatapointsByDate(
         metrics.map(async (metric: Metric) => {
             const metricName = kebabcaseToCamelcase(metric.id)
             const datapoints: ManualDatapointReturn[] = []
-            const dbQuery = query(
+            let dbQuery = query(
                 collection(db, 'data-points-manual'),
                 where('metric', '==', metric.id),
                 where('year', '==', year),
                 where('weekNumber', '==', weekNumber)
             )
+
+            if (labs) {
+                dbQuery = query(
+                    collection(db, 'data-points-labs'),
+                    where('metric', '==', metric.id)
+                )
+            }
 
             const querySnapshot = await getDocs(dbQuery)
             const docDates: string[] = []
@@ -30,7 +38,6 @@ async function getManualDatapointsByDate(
                     datapoints.push({ value, date, id })
                 }
             })
-            // Return all daily values for daily metrics
             return {
                 [metricName]: datapoints,
                 type: metric.dataType,
