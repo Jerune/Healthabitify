@@ -5,9 +5,7 @@ function buildManualRows(datapoints, dates: string[]) {
         const keys = Object.keys(metricObject)
         const metricId = keys[0]
         const weeklyData = metricObject[metricId]
-
         const metricName = keys[0].split(/(?=[A-Z])/).join(' ')
-        const { type } = metricObject
 
         const row = {
             metric: metricName,
