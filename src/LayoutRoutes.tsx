@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import HeaderNav from './components/HeaderNav'
 import AppStateInit from './components/InitializeApp'
 import { useAppSelector } from './redux/reduxHooks'
-import ManualDataGrid from './features/ManualDataGrid/ManualDataGrid'
+import ManualDataGridContainer from './features/ManualDataGrid/ManualDataGridContainer'
 
 export default function LayoutRoutes() {
     const manualDataGridOpen = useAppSelector(
@@ -13,7 +13,7 @@ export default function LayoutRoutes() {
         <>
             <AppStateInit />
             <HeaderNav />
-            {manualDataGridOpen && <ManualDataGrid />}
+            {manualDataGridOpen && <ManualDataGridContainer />}
             <Outlet />
         </>
     )
