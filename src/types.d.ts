@@ -224,3 +224,9 @@ export type CurrentDateTime = {
     weekNumber: number
     year: number
 }
+
+// ManualDataGrid
+
+export type ManualDataProps = {
+    labs?: boolean
+}
