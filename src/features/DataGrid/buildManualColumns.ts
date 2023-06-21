@@ -34,6 +34,26 @@ async function buildManualColumns(dates: string[]) {
             maxWidth: 300,
             minWidth: 200,
         },
+        {
+            name: 'reference',
+            id: 'reference',
+            header: 'Reference',
+            headerProps: {
+                style: {
+                    color: '#1D3557',
+                    fontStyle: 'italic',
+                    fontWeight: 'bold',
+                    fontSize: '1.1em',
+                },
+            },
+            style: {
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+            },
+            textAlign: 'center',
+            maxWidth: 100,
+            minWidth: 50,
+        },
         ...columns,
     ]
 }
