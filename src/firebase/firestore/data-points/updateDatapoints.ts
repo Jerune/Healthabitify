@@ -2,10 +2,10 @@
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
 
-async function updateDatapoints(datapoints) {
+async function updateDatapoints(datapoints, source) {
     datapoints.forEach(async (datapoint) => {
         const { id, value } = datapoint
-        const docReference = doc(db, 'data-points-manual', id)
+        const docReference = doc(db, `data-points-${source}`, id)
 
         try {
             await updateDoc(docReference, {
