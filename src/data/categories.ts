@@ -20,14 +20,19 @@ const categoriesList = [
         iconName: 'RiLungsFill',
     },
     {
+        id: 'activity',
+        name: 'Activity',
+        iconName: 'RiRunFill',
+    },
+    {
+        id: 'strength',
+        name: 'Strength',
+        iconName: 'RiFlashlightFill',
+    },
+    {
         id: 'stress',
         name: 'Stress',
         iconName: 'RiMentalHealthFill',
-    },
-    {
-        id: 'strength-training',
-        name: 'Strength & Training',
-        iconName: 'RiRunFill',
     },
     {
         id: 'lifestyle',
