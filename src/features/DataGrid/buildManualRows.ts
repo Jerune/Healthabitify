@@ -5,10 +5,12 @@ function buildManualRows(datapoints, dates: string[]) {
         const keys = Object.keys(metricObject)
         const metricId = keys[0]
         const weeklyData = metricObject[metricId]
+        const { reference } = metricObject
         const metricName = keys[0].split(/(?=[A-Z])/).join(' ')
 
         const row = {
             metric: metricName,
+            reference,
             id: index.toString(),
             cells: {},
         }
