@@ -5,19 +5,7 @@ const labTestMetrics = [
         name: 'White Blood Cells',
         unit: 'g/l',
         categoryId: 'Blood',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '4.5',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '11',
-        },
+        reference: '4.5 - 11',
         decimals: 1,
     },
     {
@@ -26,19 +14,7 @@ const labTestMetrics = [
         name: 'Red Blood Cells',
         unit: 't/l',
         categoryId: 'Blood',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '4.6',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '6.2',
-        },
+        reference: '4.6 - 6.2',
         decimals: 1,
     },
     {
@@ -47,19 +23,7 @@ const labTestMetrics = [
         name: 'Blood Platelets',
         unit: 'g/l',
         categoryId: 'Blood',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '150',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '400',
-        },
+        reference: '150 - 400',
         decimals: 1,
     },
     {
@@ -68,19 +32,7 @@ const labTestMetrics = [
         name: 'Red Blood Cells Inflammation Speed',
         unit: 'mm/hr',
         categoryId: 'Inflammation',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '20',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '19',
-        },
+        reference: '< 20',
     },
     {
         order: 2,
@@ -88,19 +40,7 @@ const labTestMetrics = [
         name: 'C Reactive Protein',
         unit: 'mg/l',
         categoryId: 'Inflammation',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '5',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '4',
-        },
+        reference: '< 5',
     },
     {
         order: 1,
@@ -108,19 +48,7 @@ const labTestMetrics = [
         name: 'Creatinine',
         unit: 'mg/l',
         categoryId: 'Kidneys',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '7',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '13',
-        },
+        reference: '7 - 13',
         decimals: 1,
     },
     {
@@ -129,19 +57,7 @@ const labTestMetrics = [
         name: 'Creatinine Clearance G&C',
         unit: 'ml/mn',
         categoryId: 'Kidneys',
-        conditionsMode: 'higher',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
         decimals: 1,
     },
     {
@@ -150,19 +66,7 @@ const labTestMetrics = [
         name: 'urea',
         unit: 'g/L',
         categoryId: 'Kidneys',
-        conditionsMode: '',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
         decimals: 1,
     },
     {
@@ -171,19 +75,7 @@ const labTestMetrics = [
         name: 'Bilirubin',
         unit: 'mg/L',
         categoryId: 'Liver',
-        conditionsMode: '',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
         decimals: 1,
     },
     {
@@ -192,19 +84,7 @@ const labTestMetrics = [
         name: 'AST',
         unit: 'u/L',
         categoryId: 'Liver',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '50',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '49',
-        },
+        reference: '< 50',
     },
     {
         order: 3,
@@ -212,19 +92,7 @@ const labTestMetrics = [
         name: 'ALT',
         unit: 'u/L',
         categoryId: 'Liver',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '50',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '49',
-        },
+        reference: '< 50',
     },
     {
         order: 4,
@@ -232,19 +100,7 @@ const labTestMetrics = [
         name: 'ALP',
         unit: 'ui/L',
         categoryId: 'Liver',
-        conditionsMode: '',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
     },
     {
         order: 5,
@@ -252,19 +108,7 @@ const labTestMetrics = [
         name: 'Fib-4 Score',
         unit: '',
         categoryId: 'Liver',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '1.3',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '1.2',
-        },
+        reference: '< 1.3',
         decimals: 2,
     },
     {
@@ -273,19 +117,7 @@ const labTestMetrics = [
         name: 'Sodium',
         unit: 'mmol/L',
         categoryId: 'Metabolism',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '135',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '146',
-        },
+        reference: '136 - 146',
     },
     {
         order: 2,
@@ -293,19 +125,7 @@ const labTestMetrics = [
         name: 'Potassium',
         unit: 'mmol/L',
         categoryId: 'Metabolism',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '3.4',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '5.1',
-        },
+        reference: '3.5 - 5.1',
         decimals: 1,
     },
     {
@@ -314,19 +134,7 @@ const labTestMetrics = [
         name: 'Chloride',
         unit: 'mmol/L',
         categoryId: 'Metabolism',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '100',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '109',
-        },
+        reference: '101 - 109',
     },
     {
         order: 4,
@@ -334,19 +142,7 @@ const labTestMetrics = [
         name: 'Glucose',
         unit: 'g/L',
         categoryId: 'Metabolism',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '1',
-        },
-        medium: {
-            value1: '1',
-            value2: '1.10',
-        },
-        bad: {
-            mode: 'more',
-            value: '1.10',
-        },
+        reference: '< 1',
         decimals: 2,
     },
     {
@@ -355,19 +151,7 @@ const labTestMetrics = [
         name: 'Calcium',
         unit: 'mg/L',
         categoryId: 'Metabolism',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '87',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '106',
-        },
+        reference: '88 - 106',
     },
     {
         order: 6,
@@ -375,19 +159,7 @@ const labTestMetrics = [
         name: 'Total Protein',
         unit: 'g/L',
         categoryId: 'Metabolism',
-        conditionsMode: '',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
     },
     {
         order: 1,
@@ -395,19 +167,7 @@ const labTestMetrics = [
         name: 'TSH Thyriod',
         unit: 'uui/mL',
         categoryId: 'Hormones',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '0.49',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'more',
-            value: '5',
-        },
+        reference: '0.5 - 5',
         decimals: 2,
     },
     {
@@ -416,19 +176,7 @@ const labTestMetrics = [
         name: 'Testosterone',
         unit: 'nmol/L',
         categoryId: 'Hormones',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '13',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'less',
-            value: '13',
-        },
+        reference: '13 - 30',
         decimals: 2,
     },
     {
@@ -437,19 +185,7 @@ const labTestMetrics = [
         name: 'Testosterone',
         unit: 'ng/dL',
         categoryId: 'Hormones',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '365',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'less',
-            value: '365',
-        },
+        reference: '> 400',
     },
     {
         order: 1,
@@ -457,19 +193,7 @@ const labTestMetrics = [
         name: 'Total Cholesterol',
         unit: 'g/L',
         categoryId: 'Cholesterol',
-        conditionsMode: 'lower',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
         decimals: 2,
     },
     {
@@ -478,19 +202,7 @@ const labTestMetrics = [
         name: 'HDL Cholesterol',
         unit: 'g/L',
         categoryId: 'Cholesterol',
-        conditionsMode: 'higher',
-        good: {
-            mode: '',
-            value: '',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: '',
-            value: '',
-        },
+        reference: '',
         decimals: 2,
     },
     {
@@ -499,19 +211,7 @@ const labTestMetrics = [
         name: 'LDL Cholesterol',
         unit: 'g/L',
         categoryId: 'Cholesterol',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '1',
-        },
-        medium: {
-            value1: '1.1',
-            value2: '1.5',
-        },
-        bad: {
-            mode: 'more',
-            value: '1.5',
-        },
+        reference: '< 1.5',
         decimals: 2,
     },
     {
@@ -520,19 +220,7 @@ const labTestMetrics = [
         name: 'Tryglycerides',
         unit: 'g/L',
         categoryId: 'Cholesterol',
-        conditionsMode: 'range',
-        good: {
-            mode: 'less',
-            value: '1',
-        },
-        medium: {
-            value1: '1.1',
-            value2: '1.5',
-        },
-        bad: {
-            mode: 'more',
-            value: '1.5',
-        },
+        reference: '< 1.5',
         decimals: 2,
     },
     {
@@ -541,19 +229,7 @@ const labTestMetrics = [
         name: 'Vitamine D2/3',
         unit: 'nmol/L',
         categoryId: 'Vitamins',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '100',
-        },
-        medium: {
-            value1: '75',
-            value2: '100',
-        },
-        bad: {
-            mode: 'less',
-            value: '75',
-        },
+        reference: '100 - 160',
     },
     {
         order: 2,
@@ -561,19 +237,7 @@ const labTestMetrics = [
         name: 'Vitamine B12',
         unit: 'pmol/L',
         categoryId: 'Vitamins',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '175',
-        },
-        medium: {
-            value1: '138',
-            value2: '175',
-        },
-        bad: {
-            mode: 'less',
-            value: '175',
-        },
+        reference: '175 - 652',
     },
     {
         order: 3,
@@ -581,19 +245,7 @@ const labTestMetrics = [
         name: 'Iron',
         unit: 'ng/mL',
         categoryId: 'Vitamins',
-        conditionsMode: 'range',
-        good: {
-            mode: 'more',
-            value: '21',
-        },
-        medium: {
-            value1: '',
-            value2: '',
-        },
-        bad: {
-            mode: 'less',
-            value: '22',
-        },
+        reference: '50 - 275',
     },
 ]
 
