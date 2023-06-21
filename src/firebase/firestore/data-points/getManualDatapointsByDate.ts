@@ -41,6 +41,7 @@ async function getManualDatapointsByDate(
             return {
                 [metricName]: datapoints,
                 type: metric.dataType,
+                reference: metric.reference,
             }
         })
     )
