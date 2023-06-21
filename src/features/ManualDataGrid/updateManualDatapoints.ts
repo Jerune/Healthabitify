@@ -5,7 +5,8 @@ import { DataPoint, Period } from '../../types'
 import { getDateTimeDataForDatapoints } from '../../utils/getDateTimeData'
 
 async function updateManualDatapoints(
-    potentialDatapoints: Partial<DataPoint>[]
+    potentialDatapoints: Partial<DataPoint>[],
+    labs: boolean
 ) {
     // List of periods to be updated in averages
     const weeks: Period[] = []
@@ -22,27 +23,32 @@ async function updateManualDatapoints(
     // Building new values as Datapoints and creating then in FireStore
     if (newPotentialDatapoints.length > 0) {
         const newDatapoints = newPotentialDatapoints.map((datapoint) => {
+            let source = 'labs'
             const { date, value, metric } = datapoint
             const { month, weekNumber, year } =
                 getDateTimeDataForDatapoints(date)
 
-            if (!weeks.some((object) => object.weekNumber === weekNumber)) {
-                weeks.push({ year, weekNumber })
-            }
+            // Only check periods for Manual datapoints, not labs
+            if (!labs) {
+                source = 'manual'
+                if (!weeks.some((object) => object.weekNumber === weekNumber)) {
+                    weeks.push({ year, weekNumber })
+                }
 
-            if (!months.some((object) => object.month === month)) {
-                months.push({ year, month })
-            }
+                if (!months.some((object) => object.month === month)) {
+                    months.push({ year, month })
+                }
 
-            if (!years.some((object) => object.year === year)) {
-                years.push({ year })
+                if (!years.some((object) => object.year === year)) {
+                    years.push({ year })
+                }
             }
 
             return {
                 value,
                 metric,
                 userId: 'nbkxUOC66VVE7CbqhloaTQJKiRH3',
-                source: 'manual',
+                source,
                 date,
                 weekNumber,
                 month,
@@ -54,62 +60,67 @@ async function updateManualDatapoints(
 
     // Updating existing values of Datapoints in FireStore
     if (existingDatapointsToChange.length > 0) {
+        const source = labs ? 'labs' : 'manual'
         const datapointsToUpdate = existingDatapointsToChange.map(
             (datapoint) => {
                 const { id, value } = datapoint
                 return { id, value }
             }
         )
-        updateDatapoints(datapointsToUpdate)
+        updateDatapoints(datapointsToUpdate, source)
     }
 
-    // Checking if periods are already active
-    const activeWeeks = await Promise.all(
-        weeks.map(async (weekdata) => {
-            const doesExist = await averageExistsInDatabase(
-                weekdata.year,
-                'week',
-                weekdata.weekNumber
-            )
-            return { weekdata, doesExist }
-        })
-    )
+    if (!labs) {
+        // Checking if periods are already active
+        const activeWeeks = await Promise.all(
+            weeks.map(async (weekdata) => {
+                const doesExist = await averageExistsInDatabase(
+                    weekdata.year,
+                    'week',
+                    weekdata.weekNumber
+                )
+                return { weekdata, doesExist }
+            })
+        )
 
-    const activeMonths = await Promise.all(
-        months.map(async (monthData) => {
-            const doesExist = await averageExistsInDatabase(
-                monthData.year,
-                'month',
-                monthData.month
-            )
-            return { monthData, doesExist }
-        })
-    )
+        const activeMonths = await Promise.all(
+            months.map(async (monthData) => {
+                const doesExist = await averageExistsInDatabase(
+                    monthData.year,
+                    'month',
+                    monthData.month
+                )
+                return { monthData, doesExist }
+            })
+        )
 
-    const activeYears = await Promise.all(
-        years.map(async (yearData) => {
-            const doesExist = await averageExistsInDatabase(
-                yearData.year,
-                'year',
-                yearData.year
-            )
-            return { yearData, doesExist }
-        })
-    )
+        const activeYears = await Promise.all(
+            years.map(async (yearData) => {
+                const doesExist = await averageExistsInDatabase(
+                    yearData.year,
+                    'year',
+                    yearData.year
+                )
+                return { yearData, doesExist }
+            })
+        )
 
-    const periods = [
-        ...activeWeeks
-            .filter((entry) => entry.doesExist)
-            .map((entry) => entry.weekdata),
-        ...activeMonths
-            .filter((entry) => entry.doesExist)
-            .map((entry) => entry.monthData),
-        ...activeYears
-            .filter((entry) => entry.doesExist)
-            .map((entry) => entry.yearData),
-    ]
+        const periods = [
+            ...activeWeeks
+                .filter((entry) => entry.doesExist)
+                .map((entry) => entry.weekdata),
+            ...activeMonths
+                .filter((entry) => entry.doesExist)
+                .map((entry) => entry.monthData),
+            ...activeYears
+                .filter((entry) => entry.doesExist)
+                .map((entry) => entry.yearData),
+        ]
 
-    return periods
+        return periods
+    }
+
+    return []
 }
 
 export default updateManualDatapoints
