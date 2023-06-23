@@ -19,6 +19,8 @@ const utils = {
     loadingMessage: '',
     sideNavOpen: false,
     manualDataGridOpen: false,
+    updateMessageOpen: false,
+    updateMessage: 'No update yet',
     activeTimeView: 'week',
     currentDateTime,
 }
@@ -39,6 +41,19 @@ export const utilsSlice = createSlice({
             return {
                 ...state,
                 loadingMessage: action.payload,
+            }
+        },
+        changeUpdateMessageStatus: (state, action) => {
+            return {
+                ...state,
+                updateMessageOpen: action.payload,
+            }
+        },
+        setUpdateMessage: (state, action) => {
+            return {
+                ...state,
+                updateMessage: action.payload,
+                updateMessageOpen: true,
             }
         },
         toggleMenu: (state) => {
@@ -82,6 +97,8 @@ export const utilsSlice = createSlice({
 export const {
     changeLoadingStatus,
     changeLoadingMessage,
+    changeUpdateMessageStatus,
+    setUpdateMessage,
     toggleMenu,
     toggleManualDataGrid,
     changeActiveTimeView,
