@@ -8,7 +8,7 @@ function ManualDataGridContainer() {
     const dispatch = useAppDispatch()
     return (
         <div
-            className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-40"
             id="my-modal"
         >
             <div className="relative top-16 mx-auto border w-[95%] h-[85%] overflow-scroll shadow-lg rounded-md bg-white">
