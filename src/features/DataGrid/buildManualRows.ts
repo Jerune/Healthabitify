@@ -8,11 +8,19 @@ function buildManualRows(datapoints, dates: string[]) {
         const { reference } = metricObject
         const metricName = keys[0].split(/(?=[A-Z])/).join(' ')
 
-        const row = {
+        let row = {
             metric: metricName,
-            reference,
             id: index.toString(),
             cells: {},
+        }
+
+        if (reference) {
+            row = {
+                metric: metricName,
+                reference,
+                id: index.toString(),
+                cells: {},
+            }
         }
 
         dates.forEach((date) => {
