@@ -1,17 +1,10 @@
 import { GiGoalKeeper } from 'react-icons/gi'
 import * as Icons from 'react-icons/ri'
 import type { DashboardMetric } from './DashboardTypes'
-import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import Difference from './Difference'
-import addDecimals from '../DataOutputManagement/addDecimals'
+import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 
 function DashBoardMetricBlock({ metric }: DashboardMetric) {
-    const sleepMetricIdsWithMilliseconds = [
-        'amount-of-deep-sleep',
-        'amount-of-rem-sleep',
-        'amount-of-sleep',
-        'total-beneficial-sleep',
-    ]
     const IconElement = Icons[metric.categoryIcon]
     let bgColorClass = ''
 
@@ -42,13 +35,10 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
             </div>
             <div className="px-6 flex flex-col justify-center items-center grow">
                 <div className="flex flex-row justify-center items-center text-6xl">
-                    {/* Converts Milliseconds into time */}
-                    {sleepMetricIdsWithMilliseconds.includes(metric.id)
-                        ? convertMillisecondsToTime(metric.value)
-                        : addDecimals(metric, metric.value).toString()}
+                    {adjustValueOutput(metric, metric.value)}
                     <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
-                <p className="flex flex-row gap-x-2 pt-1 items-center m-0 text-sm">
+                <p className="flex flex-row gap-x-2 pt-1 items-center text-center m-0 text-sm">
                     <GiGoalKeeper />
                     {metric.conditionsMode === 'range' && metric.goal}
                     {metric.conditionsMode === 'higher' && 'Higher is Better'}
