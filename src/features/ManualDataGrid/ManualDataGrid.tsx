@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import {
-    changeLoadingMessage,
-    changeLoadingStatus,
+    setUpdateMessage,
+    toggleManualDataGrid,
 } from '../../redux/reducers/utilsReducer'
 import SettingsButton from '../SettingsMenu/SettingsButton'
 import Loading from '../../components/Loading'
@@ -69,7 +69,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     )
                 }
 
-                const columns = await buildManualColumns(dates)
+                const columns = await buildManualColumns(dates, labs)
                 setActiveColumns(columns)
                 const datapoints = await getManualDatapointsByDate(
                     currentDateTime,
@@ -87,27 +87,51 @@ function ManualDataGrid({ labs }: ManualDataProps) {
 
     useEffect(() => {
         async function updateLabData() {
-            dispatch(changeLoadingStatus(true))
-            dispatch(changeLoadingMessage('Adding new labs data'))
             setDatapointsToEdit([])
-            updateManualDatapoints(datapointsToEdit, true)
-            dispatch(changeLoadingStatus(false))
+            const { totalAmountOfChangedDatapoints } =
+                await updateManualDatapoints(datapointsToEdit, true)
+            dispatch(
+                setUpdateMessage(
+                    `${totalAmountOfChangedDatapoints} new lab results have been added`
+                )
+            )
+            dispatch(toggleManualDataGrid)
         }
 
         async function updateExistingAverages() {
-            dispatch(changeLoadingStatus(true))
-            dispatch(changeLoadingMessage('Adding manual data'))
             // Reset datapoints to edit
             setDatapointsToEdit([])
             // Return periods whenever data of already calculated averages have been updated
-            const periods = await updateManualDatapoints(
-                datapointsToEdit,
-                false
+            const { periods, totalAmountOfChangedDatapoints } =
+                await updateManualDatapoints(datapointsToEdit, false)
+            dispatch(
+                setUpdateMessage(
+                    `${totalAmountOfChangedDatapoints} new ${
+                        totalAmountOfChangedDatapoints === 1
+                            ? 'datapoint has'
+                            : 'datapoints have'
+                    } been added/changed`
+                )
             )
             // Update averages for already existing periods
-            if (periods.length > 0) {
-                await createAveragesForNewPeriods(periods, allMetrics)
-                dispatch(changeLoadingMessage('Calculating final results'))
+            if (periods && periods.length > 0) {
+                const amountOfNewAverages = await createAveragesForNewPeriods(
+                    periods,
+                    allMetrics
+                )
+                // Make sure datapoints message is run before message about averages
+                // Added 5 seconds delay
+                setTimeout(() => {
+                    dispatch(
+                        setUpdateMessage(
+                            `${amountOfNewAverages} new ${
+                                amountOfNewAverages === 1
+                                    ? 'average has'
+                                    : 'averages have'
+                            } been calculated`
+                        )
+                    )
+                }, 3000)
                 const datesToCheckFor =
                     getDateTimeDataForPreviousPeriod(lastUpdated)
                 if (datesToCheckFor) {
@@ -119,8 +143,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     }, 2000)
                 }
             }
-
-            dispatch(changeLoadingStatus(false))
+            dispatch(toggleManualDataGrid)
         }
 
         if (!editForm && datapointsToEdit.length > 0 && !labs) {
