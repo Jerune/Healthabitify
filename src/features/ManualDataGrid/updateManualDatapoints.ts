@@ -8,6 +8,12 @@ async function updateManualDatapoints(
     potentialDatapoints: Partial<DataPoint>[],
     labs: boolean
 ) {
+    const source = labs ? 'labs' : 'manual'
+
+    // Amounts of datapoints
+    let amountOfNewDatapoints = 0
+    let amountOfUpdatedDatapoints = 0
+
     // List of periods to be updated in averages
     const weeks: Period[] = []
     const months: Period[] = []
@@ -20,17 +26,15 @@ async function updateManualDatapoints(
         (datapoint) => datapoint.id !== 'new'
     )
 
-    // Building new values as Datapoints and creating then in FireStore
+    // Building new values as Datapoints and creating them in Firestore
     if (newPotentialDatapoints.length > 0) {
         const newDatapoints = newPotentialDatapoints.map((datapoint) => {
-            let source = 'labs'
             const { date, value, metric } = datapoint
             const { month, weekNumber, year } =
                 getDateTimeDataForDatapoints(date)
 
             // Only check periods for Manual datapoints, not labs
             if (!labs) {
-                source = 'manual'
                 if (!weeks.some((object) => object.weekNumber === weekNumber)) {
                     weeks.push({ year, weekNumber })
                 }
@@ -55,20 +59,47 @@ async function updateManualDatapoints(
                 year,
             }
         })
-        addDatapoints(newDatapoints)
+        amountOfNewDatapoints = await addDatapoints(newDatapoints)
     }
 
-    // Updating existing values of Datapoints in FireStore
+    // Updating existing values of Datapoints in Firestore
     if (existingDatapointsToChange.length > 0) {
-        const source = labs ? 'labs' : 'manual'
         const datapointsToUpdate = existingDatapointsToChange.map(
             (datapoint) => {
-                const { id, value } = datapoint
+                const { id, value, date } = datapoint
+                const { month, weekNumber, year } =
+                    getDateTimeDataForDatapoints(date)
+
+                // Only check periods for Manual datapoints, not labs
+                if (!labs) {
+                    if (
+                        !weeks.some(
+                            (object) => object.weekNumber === weekNumber
+                        )
+                    ) {
+                        weeks.push({ year, weekNumber })
+                    }
+
+                    if (!months.some((object) => object.month === month)) {
+                        months.push({ year, month })
+                    }
+
+                    if (!years.some((object) => object.year === year)) {
+                        years.push({ year })
+                    }
+                }
                 return { id, value }
             }
         )
-        updateDatapoints(datapointsToUpdate, source)
+
+        amountOfUpdatedDatapoints = await updateDatapoints(
+            datapointsToUpdate,
+            source
+        )
     }
+
+    let totalAmountOfChangedDatapoints =
+        amountOfNewDatapoints + amountOfUpdatedDatapoints
 
     if (!labs) {
         // Checking if periods are already active
@@ -117,10 +148,16 @@ async function updateManualDatapoints(
                 .map((entry) => entry.yearData),
         ]
 
-        return periods
+        totalAmountOfChangedDatapoints =
+            amountOfNewDatapoints + amountOfUpdatedDatapoints
+
+        return {
+            periods,
+            totalAmountOfChangedDatapoints,
+        }
     }
 
-    return []
+    return { totalAmountOfChangedDatapoints }
 }
 
 export default updateManualDatapoints

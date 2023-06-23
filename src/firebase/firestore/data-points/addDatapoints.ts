@@ -10,13 +10,18 @@ import { documentDoesNotExistAlready } from '../getDocs'
 async function addDatapoints(datapoints: DataPoint[]) {
     const { source } = datapoints[0]
     let highestDate = null
-    for (let i = 0; i < datapoints.length; i += 1) {
-        const currentDate = new Date(datapoints[i].date)
+
+    const newDatapoints = datapoints.filter((datapoint) => datapoint.value)
+    const existingDatapoints = []
+
+    newDatapoints.forEach((datapoint) => {
+        const currentDate = new Date(datapoint.date)
         if (highestDate === null || currentDate > highestDate) {
             highestDate = currentDate
         }
-    }
-    datapoints.forEach(async (datapoint) => {
+    })
+
+    const addOperations = newDatapoints.map(async (datapoint) => {
         const datapointIsNew = await documentDoesNotExistAlready(datapoint)
         if (datapointIsNew) {
             try {
@@ -27,28 +32,36 @@ async function addDatapoints(datapoints: DataPoint[]) {
                     }
                 )
                 console.log(
-                    `New datapoint for ${datapoint.metric} has been added to the ${datapoint.source} collection`
+                    `New datapoint for ${datapoint.metric} has been added to the ${datapoint.source} collection with value ${datapoint.value}`
                 )
+                return 1
             } catch (e) {
                 console.error('Error adding document: ', e)
+                return 0
             }
+        } else {
+            existingDatapoints.push(datapoint)
+            return 0
         }
     })
 
-    if (highestDate) {
-        if (source === 'fitbit' || source === 'oura') {
-            const highestDateAsDateTime = DateTime.fromJSDate(highestDate)
-            // Sets lastUpdated value to datapoint with highest date + 1
-            // this is to avoid duplicate data on when retrieving data next time
-            const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
-            const newLastUpdatedAsString =
-                getSpecifiedDateAsString(newLastUpdated)
+    const addedCounts = await Promise.all(addOperations)
+    const amountOfDatapoints = addedCounts.reduce(
+        (sum: number, count: number) => sum + count,
+        0
+    )
 
-            updateWearables(source, {
-                lastUpdated: newLastUpdatedAsString,
-            })
-        }
+    if (highestDate && (source === 'fitbit' || source === 'oura')) {
+        const highestDateAsDateTime = DateTime.fromJSDate(highestDate)
+        const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
+        const newLastUpdatedAsString = getSpecifiedDateAsString(newLastUpdated)
+
+        updateWearables(source, {
+            lastUpdated: newLastUpdatedAsString,
+        })
     }
+
+    return amountOfDatapoints
 }
 
 export default addDatapoints

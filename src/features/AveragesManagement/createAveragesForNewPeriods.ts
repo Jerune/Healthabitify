@@ -7,16 +7,23 @@ async function createAveragesForNewPeriods(
     newPeriods: Period[],
     allMetrics: Metric[]
 ) {
-    newPeriods.map(async (newPeriod) => {
-        const datapoints: DatapointsReturn = await getDatapointsForPeriod(
-            allMetrics,
-            newPeriod
-        )
-        if (datapoints.data.length > 0) {
-            const averages = await calculateAveragesForPeriod(datapoints)
-            addAverages(averages)
-        }
-    })
+    let amountOfNewAverages = 0
+
+    await Promise.all(
+        newPeriods.map(async (newPeriod) => {
+            const datapoints: DatapointsReturn = await getDatapointsForPeriod(
+                allMetrics,
+                newPeriod
+            )
+            if (datapoints.data.length > 0) {
+                const averages = await calculateAveragesForPeriod(datapoints)
+                const newAverage = await addAverages(averages)
+                amountOfNewAverages += newAverage
+            }
+        })
+    )
+
+    return amountOfNewAverages
 }
 
 export default createAveragesForNewPeriods
