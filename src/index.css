@@ -22,6 +22,21 @@
     background-color: whitesmoke;
 }
 
+@keyframes slide-in-update-message {
+    0% {
+        top: -12;
+    }
+
+    20%,
+    80% {
+        top: 0;
+    }
+
+    100% {
+        top: -12;
+    }
+}
+
 .logo-text,
 nav {
     font-family: 'Oooh Baby', cursive;

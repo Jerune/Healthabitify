@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         sans: ["Nunito", ...defaultTheme.fontFamily.sans],
       },
+      animation: {
+        'slide-in': 'slide-in-update-message 3s linear'
+      },
       colors: {
         primary: colors.blue,
         secondary: colors.slate,
