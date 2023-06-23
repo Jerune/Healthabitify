@@ -7,6 +7,7 @@ import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
 import {
     changeLoadingMessage,
     changeLoadingStatus,
+    setUpdateMessage,
 } from '../redux/reducers/utilsReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import { initAverages } from '../redux/reducers/averagesReducer'
@@ -72,9 +73,20 @@ function AppStateInit() {
                 const newFitbitDatapoints = await transformFitbitData(
                     fitbitDataFromAPI
                 )
-                newFitbitDatapoints.forEach((datapoint) => {
-                    addDatapoints(datapoint)
-                })
+                if (newFitbitDatapoints.length > 0) {
+                    let totalAmountOfNewDatapoints = 0
+                    newFitbitDatapoints.forEach(async (datapoint) => {
+                        const amountOfNewDatapoints = await addDatapoints(
+                            datapoint
+                        )
+                        totalAmountOfNewDatapoints += amountOfNewDatapoints
+                    })
+                    dispatch(
+                        setUpdateMessage(
+                            `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
+                        )
+                    )
+                }
             }
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
@@ -89,7 +101,16 @@ function AppStateInit() {
                 const newOuraDatapoints = await transformOuraData(
                     ouraDataFromAPI
                 )
-                addDatapoints(newOuraDatapoints)
+                if (newOuraDatapoints.length > 0) {
+                    const amountOfNewDatapoints = await addDatapoints(
+                        newOuraDatapoints
+                    )
+                    dispatch(
+                        setUpdateMessage(
+                            `${amountOfNewDatapoints} new Oura datapoints have been added`
+                        )
+                    )
+                }
             }
         }
         initializeWearables()
@@ -110,7 +131,16 @@ function AppStateInit() {
         // Creates new datapoints for the new periods and adds averages
         if (newPeriods.length > 0) {
             dispatch(changeLoadingMessage('Getting results for latest weeks'))
-            await createAveragesForNewPeriods(newPeriods, allMetrics)
+            const amountOfNewAverages = await createAveragesForNewPeriods(
+                newPeriods,
+                allMetrics
+            )
+            // Showing results in updateMessage
+            dispatch(
+                setUpdateMessage(
+                    `${amountOfNewAverages} new averages have been calculated`
+                )
+            )
         }
         // Builds all averages to be used in the app up to current date
         // Runs on 2 second timeout to make sure new averages have been added
