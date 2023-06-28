@@ -1,5 +1,5 @@
+/* eslint-disable react/jsx-no-bind */
 import { useState } from 'react'
-import * as Icons from 'react-icons/ri'
 import { useAppSelector } from '../redux/reduxHooks'
 import SettingsMenuContainer from '../features/SettingsMenu/SettingsMenuContainer'
 import SettingsContentField from '../features/SettingsMenu/SettingsContentField'
@@ -8,50 +8,30 @@ import SettingsMenuSection from '../features/SettingsMenu/SettingsMenuSection'
 import categoriesList from '../data/categories'
 import MainContent from '../components/MainContent'
 import Wearables from '../features/SettingsMenu/Wearables'
+import wearablesCategories from '../data/wearablesCategories'
+import SettingsViewSelection from '../features/SettingsMenu/SettingsViewSelection'
+import SettingsMenuCategories from '../features/SettingsMenu/SettingsMenuCategories'
 
 function Settings() {
     const metrics = useAppSelector((state) => state.metrics)
-    const [metricsView, setMetricsView] = useState(false)
-    const [activeCategory, setActiveCategory] = useState([
-        { id: '', name: '', iconName: '' },
-    ])
+    const [detailView, setDetailView] = useState('none')
+    const [activeCategory, setActiveCategory] = useState({
+        id: '',
+        name: '',
+        iconName: '',
+    })
 
     async function setMetrics(categoryId: string) {
         const activeCat = categoriesList.filter(
             (category) => category.id === categoryId
-        )
+        )[0]
         setActiveCategory(activeCat)
-        setMetricsView(true)
-    }
-
-    function showCategories() {
-        const categories = categoriesList.map((category) => {
-            const IconElement = Icons[category.iconName]
-            return (
-                <button
-                    className={`w-72 flex flex-row gap-2 justify-start items-center text-2xl py-7 pl-8 rounded-lg ${
-                        activeCategory[0].id === category.id
-                            ? 'bg-green-400'
-                            : 'bg-white'
-                    } hover:bg-green-400`}
-                    type="button"
-                    key={category.name}
-                    onClick={() => setMetrics(category.id)}
-                >
-                    <i>
-                        <IconElement />
-                    </i>
-                    <h2 className="text-2xl font-normal">{category.name}</h2>
-                </button>
-            )
-        })
-
-        return categories
+        setDetailView('metrics')
     }
 
     function showActiveMetrics() {
         const filteredMetrics = metrics.filter(
-            (metric) => metric.categoryId === activeCategory[0].id
+            (metric) => metric.categoryId === activeCategory.id
         )
 
         const sortedMetrics = filteredMetrics.sort((a, b) => {
@@ -74,19 +54,40 @@ function Settings() {
         return activeMetrics
     }
 
+    function showWearables() {
+        return <Wearables />
+    }
+
     return (
         <MainContent>
-            <SettingsMenuContainer>
-                <SettingsMenuSection>
-                    <Wearables />
-                    {showCategories()}
-                </SettingsMenuSection>
-                {metricsView && (
-                    <SettingsContentField>
-                        {showActiveMetrics()}
-                    </SettingsContentField>
-                )}
-            </SettingsMenuContainer>
+            {detailView === 'none' && (
+                <SettingsViewSelection setDetailView={setDetailView} />
+            )}
+            {detailView !== 'none' && (
+                <>
+                    <button
+                        type="button"
+                        className="pl-6 pt-2"
+                        onClick={() => setDetailView('none')}
+                    >
+                        &larr; Back to overview
+                    </button>
+                    <SettingsMenuContainer>
+                        <SettingsMenuSection>
+                            <SettingsMenuCategories
+                                detailView={detailView}
+                                setMetrics={setMetrics}
+                                activeCategory={activeCategory}
+                            />
+                        </SettingsMenuSection>
+                        <SettingsContentField>
+                            {detailView === 'metrics'
+                                ? showActiveMetrics()
+                                : showWearables()}
+                        </SettingsContentField>
+                    </SettingsMenuContainer>
+                </>
+            )}
         </MainContent>
     )
 }
