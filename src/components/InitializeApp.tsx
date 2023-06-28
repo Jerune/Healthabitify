@@ -49,13 +49,21 @@ function AppStateInit() {
     async function initializeMetrics() {
         dispatch(changeLoadingMessage('Loading user settings...'))
         const metricList = await getMetrics()
-        dispatch(initMetrics(metricList))
+        if (typeof metricList !== 'string') {
+            dispatch(initMetrics(metricList))
+        } else {
+            dispatch(setUpdateMessage(metricList))
+        }
     }
 
     async function initializeWearables() {
         dispatch(changeLoadingMessage('Getting wearables information...'))
         const wearablesList = await getWearables()
-        dispatch(setDevices(wearablesList))
+        if (typeof wearablesList !== 'string') {
+            dispatch(setDevices(wearablesList))
+        } else {
+            dispatch(setUpdateMessage(wearablesList))
+        }
     }
 
     async function initializeServiceAPIs() {
@@ -74,19 +82,33 @@ function AppStateInit() {
                     fitbitDataFromAPI
                 )
                 if (newFitbitDatapoints.length > 0) {
-                    let totalAmountOfNewDatapoints = 0
-                    newFitbitDatapoints.forEach(async (datapoint) => {
-                        const amountOfNewDatapoints = await addDatapoints(
-                            datapoint
-                        )
-                        totalAmountOfNewDatapoints += amountOfNewDatapoints
-                    })
+                    const newDataPromises = newFitbitDatapoints.map(
+                        async (datapoint) => {
+                            const amountOfNewDatapoints = await addDatapoints(
+                                datapoint
+                            )
+                            return amountOfNewDatapoints
+                        }
+                    )
+
+                    const newDataCounts = await Promise.all(newDataPromises)
+                    const totalAmountOfNewDatapoints = newDataCounts.reduce(
+                        (sum, count) => sum + count,
+                        0
+                    )
+
                     dispatch(
                         setUpdateMessage(
                             `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
                         )
                     )
                 }
+            } else if (fitbitDataFromAPI === 'error') {
+                dispatch(
+                    setUpdateMessage(
+                        'An error occured while getting the Fitbit Data, please try again later'
+                    )
+                )
             }
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
@@ -111,9 +133,14 @@ function AppStateInit() {
                         )
                     )
                 }
+            } else if (ouraDataFromAPI === 'error') {
+                dispatch(
+                    setUpdateMessage(
+                        'An error occured while getting the Oura Data, please try again later'
+                    )
+                )
             }
         }
-        initializeWearables()
     }
 
     async function initializeAverages() {
@@ -166,6 +193,7 @@ function AppStateInit() {
     async function updateData() {
         dispatch(changeLoadingStatus(true))
         await initializeServiceAPIs()
+        await initializeWearables()
         await initializeAverages()
     }
 
@@ -179,10 +207,10 @@ function AppStateInit() {
     }, [isLoggedIn])
 
     useEffect(() => {
-        if (devices.fitbit.token && devices.oura.token) {
+        if (devices.fitbit.lastUpdated && devices.oura.lastUpdated) {
             updateData()
         }
-    }, [devices.fitbit.token, devices.oura.token])
+    }, [devices.fitbit.lastUpdated, devices.oura.lastUpdated])
 
     return null
 }
