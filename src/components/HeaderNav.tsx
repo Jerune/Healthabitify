@@ -63,7 +63,7 @@ function HeaderNav(): JSX.Element {
 
     return (
         <>
-            <header className="flex flex-row fixed top-0 justify-between items-center h-12 w-full bg-palette-600 text-white border-b border-solid border-palette-600">
+            <header className="flex flex-row fixed top-0 justify-between items-center h-12 w-full bg-palette-600 text-white border-b border-solid border-palette-600 z-20">
                 <div className="flex flex-row items-center">
                     <Link to="/">
                         <img
