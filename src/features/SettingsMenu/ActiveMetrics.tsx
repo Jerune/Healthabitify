@@ -24,7 +24,7 @@ function ActiveMetrics(props) {
         return <MetricCard key={metric.id} metric={metric} />
     })
 
-    return activeMetrics
+    return <div className="w-full flex flex-col gap-4">{activeMetrics}</div>
 }
 
 export default ActiveMetrics
