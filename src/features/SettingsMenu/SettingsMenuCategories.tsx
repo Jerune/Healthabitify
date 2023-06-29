@@ -15,7 +15,7 @@ import wearablesCategories from '../../data/wearablesCategories'
 import categoriesList from '../../data/categories'
 
 function SettingsMenuCategories(props) {
-    const { detailView, setMetrics, activeCategory } = props
+    const { detailView, setMetrics, setWearables, activeCategory } = props
 
     const Icons = {
         oura: <FaRing />,
@@ -44,7 +44,11 @@ function SettingsMenuCategories(props) {
                 } hover:bg-palette-600 hover:text-2xl hover:italic hover:text-white hover:transition-colors hover:underline`}
                 type="button"
                 key={category.name}
-                onClick={() => setMetrics(category.id)}
+                onClick={() =>
+                    detailView === 'metrics'
+                        ? setMetrics(category.id)
+                        : setWearables(category.id)
+                }
             >
                 <i>{Icon}</i>
                 <h2 className="text-2xl font-normal">{category.name}</h2>
