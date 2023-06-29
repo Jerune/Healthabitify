@@ -99,10 +99,10 @@ function MetricCard({ metric }: MetricProps) {
 
     return (
         <form
-            className={`w-[75%] p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
+            className={`w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center gap-4 text-sm shadow-lg ${
                 !detailsAreVisible
-                    ? 'opacity-80 hover:opacity-100'
-                    : 'opacity-100'
+                    ? 'hover:bg-palette-300 hover:bg-opacity-80 hover:italic hover:transition-colors'
+                    : 'bg-palette-300 bg-opacity-80'
             } ${!formData.active && 'opacity-50 hover:opacity-50'}`}
             onSubmit={handleSubmit}
         >
