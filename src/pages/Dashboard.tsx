@@ -65,7 +65,7 @@ function Dashboard() {
             }
         } else if (activeTimeView === 'year') {
             comparisonData.comparisonType = 'year'
-            if (allAverages[`Y${year}`]) {
+            if (allAverages[`Y${year}`] && allAverages[`Y${year}`].year) {
                 comparisonData.value = allAverages[`Y${year}`].year[dbMetricId]
                 if (allAverages[`Y${year - 1}`]) {
                     comparisonData.comparisonValue =
