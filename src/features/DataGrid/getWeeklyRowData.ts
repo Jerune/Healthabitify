@@ -1,3 +1,4 @@
+import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
 import { Average, Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
@@ -33,7 +34,10 @@ function getWeeklyRowData(activeMetrics: Metric[], allAverages: Average[]) {
                     allAverages[currentYear].weeks[`W${activeWeekNumber}`][
                         metricId
                     ]
-                if (metricAverageValuePreviousPeriod === 0) {
+                if (
+                    metricAverageValuePreviousPeriod === 0 &&
+                    !metricsWithZeroValues.includes(metric.id)
+                ) {
                     activeWeekNumber -= 1
                 } else {
                     row[`prev${metricId}`] = adjustValueOutput(
