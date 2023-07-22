@@ -12,7 +12,6 @@ async function buildAverages({ weekNumber, month, year }) {
     let latestWeekNumber = weekNumber
     while (currentYear >= 2019) {
         availableDatesInAverages[`Y${currentYear}`] = {
-            year: {},
             months: {},
             weeks: {},
         }
