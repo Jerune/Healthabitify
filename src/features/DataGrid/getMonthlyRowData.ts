@@ -26,49 +26,56 @@ function getMonthlyRowData(activeMetrics, allAverages) {
             }
             // Retrieving average data from every metric for that month
             activeMetrics.forEach((metric) => {
-                let yearString = year
-                const metricId = kebabcaseToCamelcase(metric.id)
-                const metricAverageValueThismonth =
-                    allAverages[yearString].months[month][metricId]
-                row[metricId] = adjustValueOutput(
-                    metric,
-                    metricAverageValueThismonth
-                )
-                // Verify if previousMonth is December and
-                // changing year and month if this is the case
-                let previousMonth = monthNumber - 1
-                let metricAverageValuePreviousPeriod = 0
-                let availableMonths = months
-                if (previousMonth === 0) {
-                    yearString = `Y${activeYear - 1}`
-                    // Verify if previous year is available
-                    if (allAverages[yearString]) {
-                        // Gathering months from prvious year
-                        availableMonths = Object.keys(
-                            allAverages[yearString].months
-                        )
-                        previousMonth = 12
+                if (
+                    activeYear < 2021 &&
+                    metricsWithZeroValues.includes(metric.id)
+                ) {
+                    // Don't create data from metrics without zero values
+                } else {
+                    let yearString = year
+                    const metricId = kebabcaseToCamelcase(metric.id)
+                    const metricAverageValueThismonth =
+                        allAverages[yearString].months[month][metricId]
+                    row[metricId] = adjustValueOutput(
+                        metric,
+                        metricAverageValueThismonth
+                    )
+                    // Verify if previousMonth is December and
+                    // changing year and month if this is the case
+                    let previousMonth = monthNumber - 1
+                    let metricAverageValuePreviousPeriod = 0
+                    let availableMonths = months
+                    if (previousMonth === 0) {
+                        yearString = `Y${activeYear - 1}`
+                        // Verify if previous year is available
+                        if (allAverages[yearString]) {
+                            // Gathering months from prvious year
+                            availableMonths = Object.keys(
+                                allAverages[yearString].months
+                            )
+                            previousMonth = 12
+                        }
                     }
-                }
-                // Look for last real value to compare with
-                while (availableMonths.includes(`M${previousMonth}`)) {
-                    metricAverageValuePreviousPeriod =
-                        allAverages[yearString].months[`M${previousMonth}`][
-                            metricId
-                        ]
-                    // Passes 0 values if for a metric where 0 values should be ignored
-                    if (
-                        metricAverageValuePreviousPeriod === 0 &&
-                        !metricsWithZeroValues.includes(metric.id)
-                    ) {
-                        previousMonth -= 1
-                        // Writes prev comparison data whenever last real value is found
-                    } else {
-                        row[`prev${metricId}`] = adjustValueOutput(
-                            metric,
-                            metricAverageValuePreviousPeriod
-                        )
-                        break
+                    // Look for last real value to compare with
+                    while (availableMonths.includes(`M${previousMonth}`)) {
+                        metricAverageValuePreviousPeriod =
+                            allAverages[yearString].months[`M${previousMonth}`][
+                                metricId
+                            ]
+                        // Passes 0 values if for a metric where 0 values should be ignored
+                        if (
+                            metricAverageValuePreviousPeriod === 0 &&
+                            !metricsWithZeroValues.includes(metric.id)
+                        ) {
+                            previousMonth -= 1
+                            // Writes prev comparison data whenever last real value is found
+                        } else {
+                            row[`prev${metricId}`] = adjustValueOutput(
+                                metric,
+                                metricAverageValuePreviousPeriod
+                            )
+                            break
+                        }
                     }
                 }
             })
