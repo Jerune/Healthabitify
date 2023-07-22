@@ -33,8 +33,8 @@ function getConditionalFormatting(metric: Metric) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                dataForPreviousPeriod === undefined ||
-                dataForPreviousPeriod === null
+                !dataForCurrentPeriod &&
+                metricsWithZeroValues.includes(metric.id)
             ) {
                 cellProps.style.background = backgroundColors.none
             } else if (dataForCurrentPeriod > dataForPreviousPeriod) {
@@ -43,9 +43,11 @@ function getConditionalFormatting(metric: Metric) {
             } else if (dataForCurrentPeriod === dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.medium
                 cellProps.style.color = fontColors.medium
-            } else {
+            } else if (dataForCurrentPeriod < dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.bad
                 cellProps.style.color = fontColors.bad
+            } else {
+                cellProps.style.background = backgroundColors.none
             }
         }
     }
@@ -63,19 +65,24 @@ function getConditionalFormatting(metric: Metric) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                dataForPreviousPeriod === undefined ||
-                dataForPreviousPeriod === null
+                !dataForCurrentPeriod &&
+                metricsWithZeroValues.includes(metric.id)
             ) {
                 cellProps.style.background = backgroundColors.none
             } else if (dataForCurrentPeriod < dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
-            } else if (dataForCurrentPeriod === dataForPreviousPeriod) {
+            } else if (
+                dataForCurrentPeriod === dataForPreviousPeriod &&
+                !metricsWithZeroValues.includes(metric.id)
+            ) {
                 cellProps.style.background = backgroundColors.medium
                 cellProps.style.color = fontColors.medium
-            } else {
+            } else if (dataForCurrentPeriod > dataForPreviousPeriod) {
                 cellProps.style.background = backgroundColors.bad
                 cellProps.style.color = fontColors.bad
+            } else {
+                cellProps.style.background = backgroundColors.none
             }
         }
     }
