@@ -50,8 +50,9 @@ function getConditionalFormatting(metric: Metric) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                dataForCurrentPeriod.isNaN &&
-                metricsWithZeroValues.includes(metric.id)
+                dataForCurrentPeriod === undefined ||
+                (dataForCurrentPeriod.isNaN &&
+                    metricsWithZeroValues.includes(metric.id))
             ) {
                 cellProps.style.background = backgroundColors.none
             } else if (dataForCurrentPeriod > dataForPreviousPeriod) {
@@ -87,8 +88,9 @@ function getConditionalFormatting(metric: Metric) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                dataForCurrentPeriod.isNaN &&
-                metricsWithZeroValues.includes(metric.id)
+                dataForCurrentPeriod === undefined ||
+                (dataForCurrentPeriod.isNaN &&
+                    metricsWithZeroValues.includes(metric.id))
             ) {
                 cellProps.style.background = backgroundColors.none
             } else if (dataForCurrentPeriod < dataForPreviousPeriod) {
@@ -125,6 +127,12 @@ function getConditionalFormatting(metric: Metric) {
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
+            } else if (
+                dataForCurrentPeriod === undefined ||
+                (dataForCurrentPeriod.isNaN &&
+                    metricsWithZeroValues.includes(metric.id))
+            ) {
+                cellProps.style.background = backgroundColors.none
             } else if (dataForCurrentPeriod > goodValue) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
