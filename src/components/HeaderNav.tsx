@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import {
     MdOutlineModeEditOutline,
@@ -99,7 +100,13 @@ function HeaderNav(): JSX.Element {
                         <Link to="/settings">
                             <SlSettings />
                         </Link>
-                        <TfiReload />
+                        <button
+                            type="button"
+                            className="cursor-pointer"
+                            onClick={() => location.reload()}
+                        >
+                            <TfiReload />
+                        </button>
                         <button
                             type="button"
                             className="cursor-pointer"
