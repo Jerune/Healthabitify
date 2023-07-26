@@ -46,9 +46,11 @@ function DataPage() {
 
     return (
         <MainContent>
-            <h1 className="block absolute top-16 left-8">
-                {title.charAt(0).toUpperCase() + title.slice(1)}
-            </h1>
+            <div className="flex justify-center md:block w-full md:w-auto absolute md:top-20 md:left-6 text-xl bottom-0 md:right-auto md:bottom-auto">
+                <h1 className="block text-xl md:text-4xl">
+                    {title.charAt(0).toUpperCase() + title.slice(1)}
+                </h1>
+            </div>
             <TimeSelectionModule tabs={Tabs} showDateSpecifications={false} />
             <ReactDataGrid
                 idProperty="id"
