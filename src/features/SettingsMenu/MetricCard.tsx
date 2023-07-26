@@ -124,7 +124,11 @@ function MetricCard({ metric }: MetricProps) {
                 <div className="flex flex-col">
                     <h3>
                         {formData.name}
-                        <span className="pl-2 text-sm italic in">{`(${formData.unit})`}</span>
+                        {formData.unit && (
+                            <span className="pl-2 text-sm italic in">
+                                ({formData.unit})
+                            </span>
+                        )}
                     </h3>
                     <span>{capitalizeFirstLetter(formData.source)}</span>
                 </div>
