@@ -3,7 +3,19 @@ import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
 import { Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 
+const metricsWithStringOutput = [
+    'amount-of-deep-sleep',
+    'amount-of-rem-sleep',
+    'amount-of-sleep',
+    'average-fasting-window',
+    'average-time-to-bed',
+    'average-wake-up',
+    'smartphone-screen-time',
+    'total-beneficial-sleep',
+]
+
 function getConditionalFormatting(metric: Metric) {
+    const hasStringOutput = metricsWithStringOutput.includes(metric.id)
     const { id, conditionsMode, good, bad } = metric
     const correctId = kebabcaseToCamelcase(id)
     const backgroundColors = {
@@ -21,19 +33,24 @@ function getConditionalFormatting(metric: Metric) {
 
     if (conditionsMode === 'higher') {
         return (cellProps, { data }) => {
-            const dataForCurrentPeriod = data[correctId]
-            const dataForPreviousPeriod = data[`prev${correctId}`]
+            const dataForCurrentPeriod = !hasStringOutput
+                ? Number(data[correctId])
+                : data[correctId]
+            const dataForPreviousPeriod = !hasStringOutput
+                ? Number(data[`prev${correctId}`])
+                : data[`prev${correctId}`]
             if (
-                (dataForCurrentPeriod === '0' &&
-                    !metricsWithZeroValues.includes(metric.id)) ||
                 (dataForCurrentPeriod === 0 &&
                     !metricsWithZeroValues.includes(metric.id)) ||
-                dataForCurrentPeriod === '00:00'
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00' ||
+                dataForCurrentPeriod === '0:00'
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                !dataForCurrentPeriod &&
+                dataForCurrentPeriod.isNaN &&
                 metricsWithZeroValues.includes(metric.id)
             ) {
                 cellProps.style.background = backgroundColors.none
@@ -53,19 +70,24 @@ function getConditionalFormatting(metric: Metric) {
     }
     if (conditionsMode === 'lower') {
         return (cellProps, { data }) => {
-            const dataForCurrentPeriod = data[correctId]
-            const dataForPreviousPeriod = data[`prev${correctId}`]
+            const dataForCurrentPeriod = !hasStringOutput
+                ? Number(data[correctId])
+                : data[correctId]
+            const dataForPreviousPeriod = !hasStringOutput
+                ? Number(data[`prev${correctId}`])
+                : data[`prev${correctId}`]
             if (
-                (dataForCurrentPeriod === '0' &&
-                    !metricsWithZeroValues.includes(metric.id)) ||
                 (dataForCurrentPeriod === 0 &&
                     !metricsWithZeroValues.includes(metric.id)) ||
-                dataForCurrentPeriod === '00:00'
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00' ||
+                dataForCurrentPeriod === '0:00'
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
             } else if (
-                !dataForCurrentPeriod &&
+                dataForCurrentPeriod.isNaN &&
                 metricsWithZeroValues.includes(metric.id)
             ) {
                 cellProps.style.background = backgroundColors.none
@@ -88,20 +110,25 @@ function getConditionalFormatting(metric: Metric) {
     }
     if (conditionsMode === 'range' && good.mode === 'more') {
         return (cellProps, { data }) => {
-            const dataForCurrentPeriod = data[correctId]
+            const dataForCurrentPeriod = !hasStringOutput
+                ? Number(data[correctId])
+                : data[correctId]
+            const goodValue = !hasStringOutput ? Number(good.value) : good.value
+            const badValue = !hasStringOutput ? Number(bad.value) : bad.value
             if (
-                (dataForCurrentPeriod === '0' &&
-                    !metricsWithZeroValues.includes(metric.id)) ||
                 (dataForCurrentPeriod === 0 &&
                     !metricsWithZeroValues.includes(metric.id)) ||
-                dataForCurrentPeriod === '00:00'
+                (dataForCurrentPeriod === '0' &&
+                    !metricsWithZeroValues.includes(metric.id)) ||
+                dataForCurrentPeriod === '00:00' ||
+                dataForCurrentPeriod === '0:00'
             ) {
                 cellProps.style.background = backgroundColors.none
                 cellProps.style.color = fontColors.none
-            } else if (dataForCurrentPeriod > good.value) {
+            } else if (dataForCurrentPeriod > goodValue) {
                 cellProps.style.background = backgroundColors.good
                 cellProps.style.color = fontColors.good
-            } else if (dataForCurrentPeriod < bad.value) {
+            } else if (dataForCurrentPeriod < badValue) {
                 cellProps.style.background = backgroundColors.bad
                 cellProps.style.color = fontColors.bad
             } else {
