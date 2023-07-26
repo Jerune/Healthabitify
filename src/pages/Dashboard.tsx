@@ -61,7 +61,7 @@ function Dashboard() {
         return (
             <>
                 <TimeSelectionModule tabs={Tabs} />
-                <div className="pt-16 flex flex-col justify-top align-middle">
+                <div className="w-full pt-4 px-[5%] md:px-0 md:pt-16 flex flex-col justify-center md:justify-top items-center">
                     <h2 className="text-xl italic">
                         No Data is yet available for the chosen period.
                     </h2>
