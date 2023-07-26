@@ -20,24 +20,38 @@ function Dashboard() {
     const isLoading = useAppSelector((state) => state.utils.isLoading)
     const dashboardMetrics = allMetrics.filter((metric) => metric.onDashboard)
     const { weekNumber, month, year } = currentDateTime
+    const [periodHasActiveData, setPeriodHasActiveData] = useState(false)
 
     // Verify if averages are available for the selected period
-    let periodHasActiveData = false
-    switch (activeTimeView) {
-        case 'week':
-            periodHasActiveData =
-                allAverages[`Y${year}`].weeks[`W${weekNumber}`] !== undefined
-            break
-        case 'month':
-            periodHasActiveData =
-                allAverages[`Y${year}`].months[`M${month}`] !== undefined
-            break
-        case 'year':
-            periodHasActiveData = allAverages[`Y${year}`].year !== undefined
-            break
-        default:
-            periodHasActiveData = false
-    }
+    useEffect(() => {
+        if (allAverages[`Y${year}`]) {
+            switch (activeTimeView) {
+                case 'week':
+                    if (allAverages[`Y${year}`].weeks[`W${weekNumber}`]) {
+                        setPeriodHasActiveData(true)
+                    } else {
+                        setPeriodHasActiveData(false)
+                    }
+                    break
+                case 'month':
+                    if (allAverages[`Y${year}`].months[`M${month}`]) {
+                        setPeriodHasActiveData(true)
+                    } else {
+                        setPeriodHasActiveData(false)
+                    }
+                    break
+                case 'year':
+                    if (allAverages[`Y${year}`].year) {
+                        setPeriodHasActiveData(true)
+                    } else {
+                        setPeriodHasActiveData(false)
+                    }
+                    break
+                default:
+                    setPeriodHasActiveData(false)
+            }
+        }
+    }, [allAverages, activeTimeView, currentDateTime])
 
     if (isLoading) {
         return <Loading size={50} />
