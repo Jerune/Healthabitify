@@ -7,20 +7,17 @@ import { toggleManualDataGrid } from '../../redux/reducers/utilsReducer'
 function ManualDataGridContainer() {
     const dispatch = useAppDispatch()
     return (
-        <div
-            className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-40"
-            id="my-modal"
-        >
-            <div className="relative top-16 mx-auto border w-[95%] h-[85%] overflow-scroll shadow-lg rounded-md bg-white">
-                <button
-                    type="button"
-                    id="close"
-                    onClick={() => dispatch(toggleManualDataGrid())}
-                    className="absolute right-4 top-4 z-50"
-                >
-                    <TfiClose />
-                </button>
-                <div className="sticky h-26 w-full top-0 z-40">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-40">
+            <div className="relative overflow-scroll h-screen max-w-screen-2xl md:h-[85%] md:w-[90%] md:top-16 md:border md:mx-auto md:shadow-lg md:rounded-md bg-white">
+                <div className="sticky h-26 w-full md:w-auto top-0 z-40">
+                    <button
+                        type="button"
+                        id="close"
+                        onClick={() => dispatch(toggleManualDataGrid())}
+                        className="absolute right-4 top-4 z-50"
+                    >
+                        <TfiClose />
+                    </button>
                     <TimeSelectionModule showDateTimeTabs={false} />
                 </div>
                 <ManualDataGrid />

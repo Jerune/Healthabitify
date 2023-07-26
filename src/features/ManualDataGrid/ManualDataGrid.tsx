@@ -194,7 +194,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 onEditComplete={onEditComplete}
                 className="w-full h-full"
             />
-            <div className="sticky h-12 w-full bottom-2  px-2 flex flex-row gap-4">
+            <div className="sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-inherit">
                 <SettingsButton
                     type="button"
                     active={!editForm}
