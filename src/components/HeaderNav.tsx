@@ -77,7 +77,7 @@ function HeaderNav(): JSX.Element {
                     {isLoggedIn && (
                         <button
                             type="button"
-                            className="ml-20 mt-2 text-base"
+                            className="ml-4 md:ml-20 mt-2 text-base"
                             onClick={() => dispatch(toggleMenu())}
                         >
                             {sideNavIcon}
@@ -85,7 +85,7 @@ function HeaderNav(): JSX.Element {
                     )}
                 </div>
                 {isLoggedIn && (
-                    <section className="flex flex-row gap-6 mr-8 text-lg">
+                    <section className="flex flex-row md:gap-6 md:mr-8 text-lg gap-4 mr-6">
                         <button
                             type="button"
                             className="cursor-pointer"
@@ -117,9 +117,9 @@ function HeaderNav(): JSX.Element {
                     </section>
                 )}
             </header>
-            <div className="headerSpace h-12 w-full" />
+            <div className="h-12 w-full" />
             <nav
-                className={`w-auto h-screen flex flex-col fixed top-12 left-0 py-5 pl-6 pr-10 bg-white shadow-lg z-50 ${sideNavClasses}`}
+                className={`w-screen overflow-scroll md:w-auto h-screen flex flex-col fixed top-12 left-0 pb-14 py-5 pl-6 pr-14 bg-white shadow-lg z-50 ${sideNavClasses}`}
             >
                 <Link
                     to="/"
