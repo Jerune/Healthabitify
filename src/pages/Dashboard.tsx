@@ -19,14 +19,45 @@ function Dashboard() {
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
     const isLoading = useAppSelector((state) => state.utils.isLoading)
     const dashboardMetrics = allMetrics.filter((metric) => metric.onDashboard)
+    const { weekNumber, month, year } = currentDateTime
+
+    // Verify if averages are available for the selected period
+    let periodHasActiveData = false
+    switch (activeTimeView) {
+        case 'week':
+            periodHasActiveData =
+                allAverages[`Y${year}`].weeks[`W${weekNumber}`] !== undefined
+            break
+        case 'month':
+            periodHasActiveData =
+                allAverages[`Y${year}`].months[`M${month}`] !== undefined
+            break
+        case 'year':
+            periodHasActiveData = allAverages[`Y${year}`].year !== undefined
+            break
+        default:
+            periodHasActiveData = false
+    }
 
     if (isLoading) {
         return <Loading size={50} />
     }
 
+    if (!periodHasActiveData) {
+        return (
+            <>
+                <TimeSelectionModule tabs={Tabs} />
+                <div className="pt-16 flex flex-col justify-top align-middle">
+                    <h2 className="text-xl italic">
+                        No Data is yet available for the chosen period.
+                    </h2>
+                </div>
+            </>
+        )
+    }
+
     const dashboardBlocks = dashboardMetrics.map((metric) => {
         const dbMetricId = kebabcaseToCamelcase(metric.id)
-        const { weekNumber, month, year } = currentDateTime
         const comparisonData = {
             value: 0,
             comparisonValue: 0,
