@@ -21,6 +21,9 @@ function Settings() {
         iconName: '',
     }
     const [activeCategory, setActiveCategory] = useState(emptyCategory)
+    const hasAnActiveCategory = activeCategory.id !== ''
+
+    const [hideMenuCategories, setHideMenuCategories] = useState(false)
 
     async function setMetrics(categoryId: string) {
         const activeCat = categoriesList.filter(
@@ -47,13 +50,14 @@ function Settings() {
                 <>
                     <button
                         type="button"
-                        className="pl-6 pt-2"
+                        className="absolute top-16 left-6"
                         onClick={() => {
                             setActiveCategory(emptyCategory)
                             setDetailView('none')
+                            setHideMenuCategories(false)
                         }}
                     >
-                        &larr; Back to overview
+                        &larr; Back
                     </button>
                     <SettingsMenuContainer>
                         <SettingsMenuSection>
@@ -62,18 +66,24 @@ function Settings() {
                                 setMetrics={setMetrics}
                                 setWearables={setWearables}
                                 activeCategory={activeCategory}
+                                hideMenuCategories={hideMenuCategories}
+                                setHideMenuCategories={setHideMenuCategories}
                             />
                         </SettingsMenuSection>
-                        <SettingsContentField>
-                            {detailView === 'metrics' ? (
-                                <ActiveMetrics
-                                    metrics={metrics}
-                                    activeCategory={activeCategory}
-                                />
-                            ) : (
-                                <WearableCard activeCategory={activeCategory} />
-                            )}
-                        </SettingsContentField>
+                        {hasAnActiveCategory && (
+                            <SettingsContentField>
+                                {detailView === 'metrics' ? (
+                                    <ActiveMetrics
+                                        metrics={metrics}
+                                        activeCategory={activeCategory}
+                                    />
+                                ) : (
+                                    <WearableCard
+                                        activeCategory={activeCategory}
+                                    />
+                                )}
+                            </SettingsContentField>
+                        )}
                     </SettingsMenuContainer>
                 </>
             )}
