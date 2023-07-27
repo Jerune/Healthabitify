@@ -99,12 +99,12 @@ function TimeSelectionModule({
     }, [])
 
     return (
-        <div className="w-full flex flex-col items-center p-6 rounded-lg bg-gray-50">
+        <div className="w-full flex flex-col items-center p-4 md:p-6 rounded-lg bg-gray-50">
             {tabs !== undefined && showDateTimeTabs && (
                 <ul className="flex items-center gap-3">{listOfTabs}</ul>
             )}
             {showDateSpecifications && (
-                <div className="flex flex-row items-center pt-6 -ml-8">
+                <div className="flex flex-row items-center pt-3 md:pt-6 -ml-8">
                     <DatePicker
                         onChange={(value: Date) =>
                             setCorrectDates(DateTime.fromJSDate(value))
