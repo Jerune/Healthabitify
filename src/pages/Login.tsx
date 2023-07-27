@@ -117,8 +117,13 @@ function Login() {
     }
 
     return (
-        <div className="h-full w-full">
-            <video className="h-auto w-full" autoPlay muted loop>
+        <div className="h-screen w-screen overflow-hidden">
+            <video
+                className="w-auto min-h-full h-full max-w-screen-md object-cover md:w-full md:max-w-[100%]"
+                autoPlay
+                muted
+                loop
+            >
                 <source src={IntroVideo} type="video/webm" />
             </video>
             <section className="w-screen h-screen z-50 fixed top-0 left-0 right-0 flex flex-col justify-center items-center">
