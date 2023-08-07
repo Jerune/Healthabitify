@@ -1,4 +1,18 @@
-// FireBase
+// Data Grid
+
+interface Column {
+    name: string
+    id: string
+    header: string
+    headerProps: {
+        style: {
+            color: string
+            fontStyle: string
+            fontWeight: string
+            fontSize: string
+        }
+    }
+}
 
 // UserData from Auth
 export type SignInData = {

@@ -10,6 +10,7 @@ import TimeSelectionModule from '../features/TimesDatesModule/TimeSelectionModul
 import Tabs from '../data/tabs'
 import buildRows from '../features/DataGrid/buildRows'
 import Loading from '../components/Loading'
+import type { Column } from '../types'
 
 function DataPage() {
     const { category } = useParams()
@@ -17,7 +18,7 @@ function DataPage() {
     const allAverages = useAppSelector((state) => state.averages)
     const isLoading = useAppSelector((state) => state.utils.isLoading)
     const activeTimeView = useAppSelector((state) => state.utils.activeTimeView)
-    const [activeColumns, setActiveColumns] = useState([])
+    const [activeColumns, setActiveColumns] = useState<Column[]>([])
     const [activeRows, setActiveRows] = useState([])
     const title: string = category || 'Title'
 
