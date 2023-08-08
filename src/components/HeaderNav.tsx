@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { SlLogout, SlSettings } from 'react-icons/sl'
 import {
     MdOutlineModeEditOutline,
@@ -103,7 +102,7 @@ function HeaderNav(): JSX.Element {
                         <button
                             type="button"
                             className="cursor-pointer"
-                            onClick={() => location.reload()}
+                            onClick={() => window.location.reload()}
                         >
                             <TfiReload />
                         </button>
