@@ -8,7 +8,6 @@ import {
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
-import * as Icons from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase/firebase'
@@ -21,6 +20,7 @@ import logo from '../assets/logo_1b.jpg'
 import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
 import categoriesList from '../data/categories'
+import { iconMapping } from './icons'
 
 function HeaderNav(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -38,7 +38,7 @@ function HeaderNav(): JSX.Element {
     )
 
     const menuCategories = categoriesList.map((category) => {
-        const IconElement = Icons[category.iconName]
+        const IconElement = iconMapping[category.iconName]
 
         return (
             <Link
