@@ -1,12 +1,13 @@
 /* eslint-disable no-await-in-loop */
 import getMonthlyYearlyAverages from '../../firebase/firestore/averages/getMonthlyYearlyAverages'
 import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverages'
+import { AveragesData, PeriodForAverage } from '../../types'
 
-async function buildAverages({ weekNumber, month, year }) {
-    const availableDatesInAverages = {}
+async function buildAverages({ weekNumber, month, year }: PeriodForAverage) {
+    const availableDatesInAverages: AveragesData = {}
 
     // Get all averages from months and weeks for a certain year
-    // Manually set to 2019 as first data is from 2019
+    // Maximum set to 2019 as first data is from 2019
     let currentYear = year
     let latestMonth = month
     let latestWeekNumber = weekNumber

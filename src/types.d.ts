@@ -1,5 +1,7 @@
 // Data Grid
 
+import { DocumentData } from 'firebase/firestore'
+
 interface Column {
     name: string
     id: string
@@ -11,6 +13,24 @@ interface Column {
             fontWeight: string
             fontSize: string
         }
+    }
+}
+
+// Features
+
+/// Averages
+
+export type PeriodForAverage = {
+    year: number
+    weekNumber: number
+    month: number
+}
+
+type AveragesData = {
+    [year: string]: {
+        months: { [month: string]: DocumentData | string }
+        weeks: { [week: string]: DocumentData | string }
+        year?: DocumentData | string
     }
 }
 
