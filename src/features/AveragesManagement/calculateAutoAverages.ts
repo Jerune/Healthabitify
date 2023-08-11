@@ -1,4 +1,6 @@
-function calculateAutoAverages(allAverages) {
+import { SleepAverages } from '../../types'
+
+function calculateAutoAverages(allAverages: SleepAverages) {
     const { AmountOfDeepSleep, AmountOfRemSleep, AmountOfSleep } = allAverages
     const TotalBeneficialSleep = AmountOfDeepSleep + AmountOfRemSleep
     const SleepCoificient = (TotalBeneficialSleep / AmountOfSleep) * 100

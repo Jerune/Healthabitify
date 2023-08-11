@@ -34,6 +34,13 @@ type AveragesData = {
     }
 }
 
+type SleepAverages = {
+    [key: string]: number | string
+    AmountOfDeepSleep: number
+    AmountOfRemSleep: number
+    AmountOfSleep: number
+}
+
 // UserData from Auth
 export type SignInData = {
     email: string | null
