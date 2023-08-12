@@ -1,3 +1,4 @@
+// Import all React icons that are used in the app here
 import {
     RiHeartPulseFill,
     RiBodyScanFill,
@@ -17,8 +18,9 @@ import {
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
-import { IconMapping } from './componentTypes'
+import { IconProps, IconMapping } from './_types'
 
+// Add all imported icons to the mapping below
 const iconMapping: IconMapping = {
     RiHeartPulseFill,
     RiBodyScanFill,
@@ -39,4 +41,13 @@ const iconMapping: IconMapping = {
     ImLab,
 }
 
-export { iconMapping }
+// Returns an icon from the above React icons mapping using the icon name as iconId
+export default function Icon({ iconId }: IconProps) {
+    const ReactIcon = iconMapping[iconId]
+
+    if (ReactIcon !== undefined) {
+        return <ReactIcon />
+    }
+
+    return <RiHeartPulseFill />
+}
