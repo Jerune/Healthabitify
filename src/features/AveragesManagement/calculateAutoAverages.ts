@@ -1,4 +1,4 @@
-import { SleepAverages } from '../../types'
+import { SleepAverages } from '../_types'
 
 function calculateAutoAverages(allAverages: SleepAverages) {
     const { AmountOfDeepSleep, AmountOfRemSleep, AmountOfSleep } = allAverages
