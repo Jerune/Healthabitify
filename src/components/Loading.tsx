@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import { changeLoadingStatus } from '../redux/reducers/utilsReducer'
-
-interface LoadingProps {
-    size: number
-}
+import { LoadingProps } from './_types'
 
 export default function Loading({ size }: LoadingProps) {
     const isLoading = useAppSelector((state) => state.utils.isLoading)
