@@ -1,12 +1,3 @@
-import { SlLogout, SlSettings } from 'react-icons/sl'
-import {
-    MdOutlineModeEditOutline,
-    MdModeEdit,
-    MdDashboard,
-} from 'react-icons/md'
-import { TfiReload } from 'react-icons/tfi'
-import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
-import { ImLab } from 'react-icons/im'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase/firebase'
@@ -16,12 +7,11 @@ import {
     toggleMenu,
 } from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
-import LogoText from './LogoText'
 import { localSignOut } from '../redux/reducers/usersReducer'
 import categoriesList from '../data/categories'
-import { iconMapping } from './icons'
+import Icon from './icon'
 
-function HeaderNav(): JSX.Element {
+function HeaderNav() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const sideNavOpen = useAppSelector((state) => state.utils.sideNavOpen)
@@ -31,14 +21,12 @@ function HeaderNav(): JSX.Element {
     )
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
-        <AiOutlineDoubleLeft />
+        <Icon iconId="AiOutlineDoubleLeft" />
     ) : (
-        <AiOutlineDoubleRight />
+        <Icon iconId="AiOutlineDoubleRight" />
     )
 
     const menuCategories = categoriesList.map((category) => {
-        const IconElement = iconMapping[category.iconName]
-
         return (
             <Link
                 to={`/data/${category.name.toLowerCase()}`}
@@ -47,7 +35,7 @@ function HeaderNav(): JSX.Element {
                 onClick={() => dispatch(toggleMenu())}
             >
                 <button type="button" className="text-xl">
-                    <IconElement />
+                    <Icon iconId={category.iconName} />
                 </button>
                 <span className="text-lg">{category.name}</span>
             </Link>
@@ -72,7 +60,7 @@ function HeaderNav(): JSX.Element {
                             alt="Healthability logo"
                         />
                     </Link>
-                    <LogoText />
+                    <Icon iconId="LogoText" />
                     {isLoggedIn && (
                         <button
                             type="button"
@@ -91,27 +79,27 @@ function HeaderNav(): JSX.Element {
                             onClick={() => dispatch(toggleManualDataGrid())}
                         >
                             {manualDataGridOpen ? (
-                                <MdOutlineModeEditOutline />
+                                <Icon iconId="MdOutlineModeEditOutline" />
                             ) : (
-                                <MdModeEdit />
+                                <Icon iconId="MdModeEdit" />
                             )}
                         </button>
                         <Link to="/settings">
-                            <SlSettings />
+                            <Icon iconId="SlSettings" />
                         </Link>
                         <button
                             type="button"
                             className="cursor-pointer"
                             onClick={() => window.location.reload()}
                         >
-                            <TfiReload />
+                            <Icon iconId="TfiReload" />
                         </button>
                         <button
                             type="button"
                             className="cursor-pointer"
                             onClick={signOutUser}
                         >
-                            <SlLogout />
+                            <Icon iconId="SlLogout" />
                         </button>
                     </section>
                 )}
@@ -126,7 +114,7 @@ function HeaderNav(): JSX.Element {
                     onClick={() => dispatch(toggleMenu())}
                 >
                     <button type="button" className="text-xl">
-                        <MdDashboard />
+                        <Icon iconId="MdDashboard" />
                     </button>
                     <span className="text-lg">Dashboard</span>
                 </Link>
@@ -137,7 +125,7 @@ function HeaderNav(): JSX.Element {
                         className="flex flex-row items-center gap-3 py-2"
                         onClick={() => dispatch(toggleMenu())}
                     >
-                        <ImLab />
+                        <Icon iconId="ImLab" />
                         <span className="text-base">Labs</span>
                     </Link>
                     <Link
@@ -145,7 +133,7 @@ function HeaderNav(): JSX.Element {
                         className="flex flex-row items-center gap-3 py-2"
                         onClick={() => dispatch(toggleMenu())}
                     >
-                        <SlSettings />
+                        <Icon iconId="SlSettings" />
                         <span className="text-base">Settings</span>
                     </Link>
                 </div>
