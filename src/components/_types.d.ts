@@ -6,3 +6,12 @@ import { IconType } from 'react-icons'
 export type IconMapping = {
     [iconName: string]: IconType
 }
+
+export type IconProps = {
+    iconId: string
+}
+
+// Loading
+export type LoadingProps = {
+    size: number
+}
