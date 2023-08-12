@@ -13,7 +13,7 @@ function UpdateMessage() {
         if (updateMessageOpen) {
             setTimeout(() => {
                 dispatch(changeUpdateMessageStatus(false))
-            }, 3000)
+            }, 4000)
         }
     }, [updateMessageOpen])
 
