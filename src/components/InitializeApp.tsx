@@ -49,6 +49,7 @@ function AppStateInit() {
     async function initializeMetrics() {
         dispatch(changeLoadingMessage('Loading user settings...'))
         const metricList = await getMetrics()
+        // Returns list of metrics or error message
         if (typeof metricList !== 'string') {
             dispatch(initMetrics(metricList))
         } else {
@@ -59,6 +60,7 @@ function AppStateInit() {
     async function initializeWearables() {
         dispatch(changeLoadingMessage('Getting wearables information...'))
         const wearablesList = await getWearables()
+        // Returns list of wearable data or error message
         if (typeof wearablesList !== 'string') {
             dispatch(setDevices(wearablesList))
         } else {
@@ -69,8 +71,10 @@ function AppStateInit() {
     async function initializeServiceAPIs() {
         dispatch(changeLoadingMessage('Gathering new data from wearables'))
         const yesterdayString = getYesterdaysDateAsString()
+        // Checks if there is any new dates with possible new data
         if (devices.fitbit.lastUpdated <= yesterdayString) {
             dispatch(changeLoadingMessage('Gathering Fitbit Data'))
+            // Gets data for those dates from Fitbit API
             const fitbitDataFromAPI = await getApiData(
                 'fitbit',
                 devices.fitbit.token,
@@ -78,9 +82,11 @@ function AppStateInit() {
             )
             if (fitbitDataFromAPI !== 'error') {
                 dispatch(changeLoadingMessage('Transforming Fitbit data'))
+                // Transforms Fitbit data to a readable format if new data is returned
                 const newFitbitDatapoints = await transformFitbitData(
                     fitbitDataFromAPI
                 )
+                // Adds new datapoints to database
                 if (newFitbitDatapoints.length > 0) {
                     const newDataPromises = newFitbitDatapoints.map(
                         async (datapoint) => {
@@ -91,12 +97,14 @@ function AppStateInit() {
                         }
                     )
 
+                    // Calculates amount of added datapoints
                     const newDataCounts = await Promise.all(newDataPromises)
                     const totalAmountOfNewDatapoints = newDataCounts.reduce(
                         (sum, count) => sum + count,
                         0
                     )
 
+                    // Sends update on added datapoints
                     dispatch(
                         setUpdateMessage(
                             `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
