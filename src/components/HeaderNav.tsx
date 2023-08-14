@@ -10,6 +10,7 @@ import logo from '../assets/logo_1b.jpg'
 import { localSignOut } from '../redux/reducers/usersReducer'
 import categoriesList from '../data/categories'
 import Icon from './icon'
+import LogoText from './LogoText'
 
 function HeaderNav() {
     const dispatch = useAppDispatch()
@@ -60,7 +61,7 @@ function HeaderNav() {
                             alt="Healthability logo"
                         />
                     </Link>
-                    <Icon iconId="LogoText" />
+                    <LogoText />
                     {isLoggedIn && (
                         <button
                             type="button"
