@@ -188,7 +188,7 @@ export type Period = {
 
 export type DatapointsReturn = {
     period: string
-    data: Average[]
+    data: DatapointsPerMetric[]
 }
 
 export type ManualDatapointReturn = {
@@ -209,18 +209,14 @@ export type PeriodData = {
     data: DataValuesPerMetric[]
 }
 
-export type Average = {
-    [key]: number
+export type DatapointsPerMetric = {
+    [key: string]: number[] | string[]
+    type: string
 }
 
 export type MetricValues = {
     name: string
     values: number[]
-}
-
-export type AveragesReturn = {
-    period: string
-    keys: Average[]
 }
 
 // getDocs

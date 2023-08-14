@@ -14,9 +14,11 @@ export type AveragesData = {
     }
 }
 
-export type SleepAverages = {
+export type Averages = {
     [key: string]: number | string
-    AmountOfDeepSleep: number
-    AmountOfRemSleep: number
-    AmountOfSleep: number
+}
+
+export type AveragesReturn = {
+    period: string
+    keys: Averages
 }
