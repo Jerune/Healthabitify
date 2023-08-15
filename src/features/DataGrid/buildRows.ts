@@ -1,4 +1,5 @@
-import { Average, Metric } from '../../types'
+import { Metric } from '../../types'
+import { Averages } from '../_types'
 import getMonthlyRowData from './getMonthlyRowData'
 import getWeeklyRowData from './getWeeklyRowData'
 import getYearlyRowData from './getYearlyRowData'
@@ -6,7 +7,7 @@ import getYearlyRowData from './getYearlyRowData'
 function buildRows(
     metrics: Metric[],
     activeTimeView: string,
-    allAverages: Average[]
+    allAverages: Averages[]
 ) {
     let rows = []
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import getConditionalFormatting from './getConditionalFormatting'
