@@ -1,7 +1,7 @@
 // Function to add new list of metrics to the database for a new user
 
 import { doc, setDoc } from 'firebase/firestore'
-import metricItems from '../../../data/metricsMock'
+import metricItems from '../../../data/metrics/metricsMock'
 import { db } from '../../firebase'
 
 async function addAllMetrics() {

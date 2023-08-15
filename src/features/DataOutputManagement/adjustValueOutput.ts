@@ -2,21 +2,15 @@ import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import { Metric } from '../../types'
 import addDecimals from './addDecimals'
 import forceNumberReturn from '../../utils/forceNumberReturn'
+import metricsInMilliseconds from '../../data/metrics/metricsInMilliseconds'
 
 export default function adjustValueOutput(
     metric: Metric,
-    value: number
+    value: number | string
 ): string {
-    const sleepMetricIdsWithMilliseconds = [
-        'amount-of-deep-sleep',
-        'amount-of-rem-sleep',
-        'amount-of-sleep',
-        'total-beneficial-sleep',
-    ]
-
     // Change to h:mm format as string in case id is part sleepMetricIdsWithMilliseconds
-    if (sleepMetricIdsWithMilliseconds.includes(metric.id)) {
-        return convertMillisecondsToTime(value)
+    if (metricsInMilliseconds.includes(metric.id)) {
+        return convertMillisecondsToTime(Number(value))
     }
 
     // Change to hours or minutes format as string in case of time or duration
