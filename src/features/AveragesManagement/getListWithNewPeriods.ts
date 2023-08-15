@@ -1,16 +1,16 @@
 /* eslint-disable no-await-in-loop */
 import averageExistsInDatabase from '../../firebase/firestore/averages/averageExistsInDatabase'
-import { Period } from '../../types'
+import { Period } from '../_types'
 
-async function getListWithNewPeriods(datesToCheckFor: Period) {
-    const currentYear = datesToCheckFor.year
+async function getListWithNewPeriods(dateToCheckFor: Period) {
+    const currentYear = dateToCheckFor.year
     const dateTypes = ['weekNumber', 'month', 'year']
     const newPeriods: Period[] = []
 
     // Checks if the averages for that year, month and week exist already
     const promises = dateTypes.map(async (dateType) => {
         let year = currentYear
-        const dateTypeValue = datesToCheckFor[dateType]
+        const dateTypeValue = dateToCheckFor[dateType as keyof Period]
         // Remove one year when checking year value as currentYear has not finished yet
         if (dateType === 'year') {
             year -= 1
