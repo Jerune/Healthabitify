@@ -1,11 +1,9 @@
-import { GiGoalKeeper } from 'react-icons/gi'
-import * as Icons from 'react-icons/ri'
-import type { DashboardMetric } from './DashboardTypes'
 import Difference from './Difference'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
+import Icon from '../../components/icon'
+import { DashboardMetricProps } from '../_types'
 
-function DashBoardMetricBlock({ metric }: DashboardMetric) {
-    const IconElement = Icons[metric.categoryIcon]
+function DashBoardMetricBlock({ metric }: DashboardMetricProps) {
     let bgColorClass = ''
 
     switch (metric.comparisonStatus) {
@@ -29,7 +27,7 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
         >
             <div className="h-12 px-2 bg-black-opacity text-white flex flex-row justify-center items-center">
                 <i className="text-xl mr-2">
-                    <IconElement />
+                    <Icon iconId={metric.categoryIcon} />
                 </i>
                 <h2 className="flex justify-center text-base">{metric.name}</h2>
             </div>
@@ -39,7 +37,7 @@ function DashBoardMetricBlock({ metric }: DashboardMetric) {
                     <span className="text-lg pt-8">{metric.unit}</span>
                 </div>
                 <p className="flex flex-row gap-x-2 pt-1 items-center text-center m-0 text-sm">
-                    <GiGoalKeeper />
+                    <Icon iconId="GiGoalKeeper" />
                     {metric.conditionsMode === 'range' && metric.goal}
                     {metric.conditionsMode === 'higher' && 'Higher is Better'}
                     {metric.conditionsMode === 'lower' && 'Lower is Better'}
