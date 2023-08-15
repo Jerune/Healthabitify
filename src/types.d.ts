@@ -1,8 +1,6 @@
 // Data Grid
 
-import { DocumentData } from 'firebase/firestore'
-
-interface Column {
+export type Column = {
     name: string
     id: string
     header: string
@@ -180,12 +178,6 @@ export type EndpointsDates = {
 
 // Datapoints functions
 
-export type Period = {
-    year: number
-    month?: number
-    weekNumber?: number
-}
-
 export type DatapointsReturn = {
     period: string
     data: DatapointsPerMetric[]
@@ -195,28 +187,6 @@ export type ManualDatapointReturn = {
     value: number | string
     date: string
     id: string
-}
-
-// calculateNewAveragesForPeriod
-
-export type DataValuesPerMetric = {
-    [key]: number[] | string[]
-    type: string
-}
-
-export type PeriodData = {
-    period: string
-    data: DataValuesPerMetric[]
-}
-
-export type DatapointsPerMetric = {
-    [key: string]: number[] | string[]
-    type: string
-}
-
-export type MetricValues = {
-    name: string
-    values: number[]
 }
 
 // getDocs
