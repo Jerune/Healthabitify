@@ -1,9 +1,10 @@
-import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
-import { Average, Metric } from '../../types'
+import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
+import { Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
+import { Averages } from '../_types'
 
-function getWeeklyRowData(activeMetrics: Metric[], allAverages: Average[]) {
+function getWeeklyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
     const currentYear = Object.keys(allAverages)[0]
     const weeks = Object.keys(allAverages[currentYear].weeks)
     const rows = []

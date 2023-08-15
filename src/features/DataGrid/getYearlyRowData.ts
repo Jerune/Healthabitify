@@ -1,4 +1,4 @@
-import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
+import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 
