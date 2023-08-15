@@ -1,15 +1,10 @@
+import metricsInMilliseconds from '../../data/metrics/metricsInMilliseconds'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import forceNumberReturn from '../../utils/forceNumberReturn'
-import { DashboardMetric } from './DashboardTypes'
+import { DashboardMetric } from '../_types'
 
 function getComparisonStatus(metric: DashboardMetric) {
     const { conditionsMode, good, bad, value, comparisonValue } = metric
-    const sleepMetricIdsWithMilliseconds = [
-        'amount-of-deep-sleep',
-        'amount-of-rem-sleep',
-        'amount-of-sleep',
-        'total-beneficial-sleep',
-    ]
 
     let dataForCurrentPeriod = forceNumberReturn(value)
     let dataForPreviousPeriod = forceNumberReturn(comparisonValue)
@@ -17,7 +12,7 @@ function getComparisonStatus(metric: DashboardMetric) {
     const badValue = forceNumberReturn(bad.value)
 
     // Change to hours format instead of Milliseconds
-    if (sleepMetricIdsWithMilliseconds.includes(metric.id)) {
+    if (metricsInMilliseconds.includes(metric.id)) {
         const convertedDataForCurrentPeriodAsString =
             convertMillisecondsToTime(dataForCurrentPeriod)
         dataForCurrentPeriod = forceNumberReturn(
