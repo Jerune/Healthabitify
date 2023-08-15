@@ -4,7 +4,7 @@ import { db } from '../../firebase'
 async function averageExistsInDatabase(
     currentYear: number,
     dateType: string,
-    dateTypeValue: number
+    dateTypeValue?: number
 ) {
     const dateTypeInitial = dateType.split('')[0].toUpperCase()
     let queryId = ''
