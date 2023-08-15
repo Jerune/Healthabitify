@@ -18,6 +18,9 @@ import {
 import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
+import { GiGoalKeeper } from 'react-icons/gi'
+import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
+import { TiEquals } from 'react-icons/ti'
 import { IconProps, IconMapping } from './_types'
 
 // Add all imported icons to the mapping below
@@ -39,6 +42,10 @@ const iconMapping: IconMapping = {
     AiOutlineDoubleRight,
     AiOutlineDoubleLeft,
     ImLab,
+    GiGoalKeeper,
+    BsCaretUpFill,
+    BsCaretDownFill,
+    TiEquals,
 }
 
 // Returns an icon from the above React icons mapping using the icon name as iconId
