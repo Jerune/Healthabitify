@@ -1,18 +1,8 @@
 /* eslint-disable no-param-reassign */
-import metricsWithZeroValues from '../../data/data-grid/metricsWithZeroValues'
+import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
+import metricsWithStringOutput from '../../data/metrics/metricsWithStringOutput'
 import { Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
-
-const metricsWithStringOutput = [
-    'amount-of-deep-sleep',
-    'amount-of-rem-sleep',
-    'amount-of-sleep',
-    'average-fasting-window',
-    'average-time-to-bed',
-    'average-wake-up',
-    'smartphone-screen-time',
-    'total-beneficial-sleep',
-]
 
 function getConditionalFormatting(metric: Metric) {
     const hasStringOutput = metricsWithStringOutput.includes(metric.id)
