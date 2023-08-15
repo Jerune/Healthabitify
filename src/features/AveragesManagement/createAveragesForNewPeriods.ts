@@ -1,6 +1,7 @@
 import addAverages from '../../firebase/firestore/averages/addAverages'
 import getDatapointsForPeriod from '../../firebase/firestore/data-points/getDatapointsForPeriod'
-import { DatapointsReturn, Metric, Period } from '../../types'
+import { DatapointsReturn, Metric } from '../../types'
+import { Period } from '../_types'
 import calculateAveragesForPeriod from './calculateAveragesForPeriod'
 
 async function createAveragesForNewPeriods(
