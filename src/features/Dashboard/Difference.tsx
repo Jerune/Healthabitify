@@ -1,12 +1,10 @@
-/* eslint-disable no-param-reassign */
-import { BsCaretUpFill, BsCaretDownFill } from 'react-icons/bs'
-import { TiEquals } from 'react-icons/ti'
-import { DashboardMetric } from './DashboardTypes'
 import calculateDifference from './calculateDifference'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 import forceNumberReturn from '../../utils/forceNumberReturn'
+import { DashboardMetricProps } from '../_types'
+import Icon from '../../components/icon'
 
-export default function Difference({ metric }: DashboardMetric) {
+export default function Difference({ metric }: DashboardMetricProps) {
     // Transform string to number if needed
     const currentValue = forceNumberReturn(metric.value)
     const previousValue = forceNumberReturn(metric.comparisonValue)
@@ -20,7 +18,7 @@ export default function Difference({ metric }: DashboardMetric) {
     if (currentValue > previousValue) {
         return (
             <>
-                <BsCaretUpFill />
+                <Icon iconId="BsCaretUpFill" />
                 {`${differenceResult} ${metric.unit} more than last ${metric.comparisonType}`}
             </>
         )
@@ -29,7 +27,7 @@ export default function Difference({ metric }: DashboardMetric) {
     if (currentValue < previousValue) {
         return (
             <>
-                <BsCaretDownFill />
+                <Icon iconId="BsCaretDownFill" />
                 {`${differenceResult} ${metric.unit} less than last ${metric.comparisonType}`}
             </>
         )
@@ -37,7 +35,7 @@ export default function Difference({ metric }: DashboardMetric) {
 
     return (
         <>
-            <TiEquals />
+            <Icon iconId="TiEquals" />
             {`same as last ${metric.comparisonType}`}
         </>
     )
