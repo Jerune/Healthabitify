@@ -37,11 +37,6 @@ export type PeriodData = {
     data: DataValuesPerMetric[]
 }
 
-export type DataValuesPerMetric = {
-    [key: string]: number[] | string[]
-    type: string
-}
-
 export type DatapointsPerMetric = {
     [key: string]: number[] | string[]
     type: string
@@ -74,4 +69,27 @@ export type DashboardMetricProps = {
 export type DashboardDataProps = {
     children: PropsWithChildren
     data: MetricDashboardData
+}
+
+// Data Grid
+
+export type Row = {
+    metric: string
+    id: string
+    cells: { [key: string]: string }
+    [key: string]: string | { [key: string]: string }
+}
+
+export type DataPoint = {
+    date: string
+    id: string
+    value: number
+}
+
+export type DatapointsForDataGrid = {
+    [key: string]: {
+        data: DataPoint[]
+        type: string
+        reference?: string
+    }
 }
