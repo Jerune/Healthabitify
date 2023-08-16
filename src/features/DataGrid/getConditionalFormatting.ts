@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { TypeCellProps } from '@inovua/reactdatagrid-community/types'
 import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
 import metricsWithStringOutput from '../../data/metrics/metricsWithStringOutput'
 import { Metric } from '../../types'
@@ -22,7 +23,10 @@ function getConditionalFormatting(metric: Metric) {
     }
 
     if (conditionsMode === 'higher') {
-        return (cellProps, { data }) => {
+        return (
+            cellProps: TypeCellProps,
+            { data }: { data: Record<string, number | string> }
+        ) => {
             const dataForCurrentPeriod = !hasStringOutput
                 ? Number(data[correctId])
                 : data[correctId]
@@ -60,7 +64,10 @@ function getConditionalFormatting(metric: Metric) {
         }
     }
     if (conditionsMode === 'lower') {
-        return (cellProps, { data }) => {
+        return (
+            cellProps: TypeCellProps,
+            { data }: { data: Record<string, number | string> }
+        ) => {
             const dataForCurrentPeriod = !hasStringOutput
                 ? Number(data[correctId])
                 : data[correctId]
@@ -101,7 +108,10 @@ function getConditionalFormatting(metric: Metric) {
         }
     }
     if (conditionsMode === 'range' && good.mode === 'more') {
-        return (cellProps, { data }) => {
+        return (
+            cellProps: TypeCellProps,
+            { data }: { data: Record<string, number | string> }
+        ) => {
             const dataForCurrentPeriod = !hasStringOutput
                 ? Number(data[correctId])
                 : data[correctId]
@@ -136,7 +146,10 @@ function getConditionalFormatting(metric: Metric) {
         }
     }
     if (conditionsMode === 'range' && good.mode === 'less') {
-        return (cellProps, { data }) => {
+        return (
+            cellProps: TypeCellProps,
+            { data }: { data: Record<string, number | string> }
+        ) => {
             const dataForCurrentPeriod = data[correctId]
             if (
                 (dataForCurrentPeriod === '0' &&
