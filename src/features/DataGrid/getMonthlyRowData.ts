@@ -2,9 +2,11 @@ import { DateTime } from 'luxon'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
+import { Metric } from '../../types'
+import { Averages, Row } from '../_types'
 
-function getMonthlyRowData(activeMetrics, allAverages) {
-    const rows = []
+function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
+    const rows: Row[] = []
 
     const years = Object.keys(allAverages)
     years.forEach((year) => {
@@ -35,7 +37,9 @@ function getMonthlyRowData(activeMetrics, allAverages) {
                     let yearString = year
                     const metricId = kebabcaseToCamelcase(metric.id)
                     const metricAverageValueThismonth =
-                        allAverages[yearString].months[month][metricId]
+                        allAverages[yearString as keyof AveragesData].months[
+                            month
+                        ][metricId]
                     row[metricId] = adjustValueOutput(
                         metric,
                         metricAverageValueThismonth
