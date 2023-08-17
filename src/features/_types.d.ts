@@ -8,10 +8,10 @@ export type Averages = {
 }
 
 export type AveragesData = {
-    [year: string]: {
-        months: { [month: string]: DocumentData | string }
-        weeks: { [week: string]: DocumentData | string }
-        year?: DocumentData | string
+    [key: string]: {
+        months: { [key: string]: Averages }
+        weeks: { [key: string]: Averages }
+        year?: Averages
     }
 }
 
@@ -74,10 +74,10 @@ export type DashboardDataProps = {
 // Data Grid
 
 export type Row = {
-    metric: string
-    id: string
-    cells: { [key: string]: string }
-    [key: string]: string | { [key: string]: string }
+    metric?: string
+    id: string | number
+    cells?: { [key: string]: string }
+    [key: string]: string | number | { [key: string]: string | number }
 }
 
 export type DataPoint = {
