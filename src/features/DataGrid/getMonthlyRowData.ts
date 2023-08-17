@@ -3,9 +3,12 @@ import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
 import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
 import { Metric } from '../../types'
-import { Averages, Row } from '../_types'
+import { AveragesData, Row } from '../_types'
 
-function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
+function getMonthlyRowData(
+    activeMetrics: Metric[],
+    allAverages: AveragesData
+): Row[] {
     const rows: Row[] = []
 
     const years = Object.keys(allAverages)
@@ -20,7 +23,7 @@ function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
             const dateTitle = `${monthName} ${activeYear}`
 
             // Setting default row data
-            const row = {
+            const row: Row = {
                 year: activeYear,
                 month: monthNumber,
                 id: `${activeYear}-${monthNumber}`,
@@ -37,9 +40,7 @@ function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
                     let yearString = year
                     const metricId = kebabcaseToCamelcase(metric.id)
                     const metricAverageValueThismonth =
-                        allAverages[yearString as keyof AveragesData].months[
-                            month
-                        ][metricId]
+                        allAverages[yearString].months[month][metricId]
                     row[metricId] = adjustValueOutput(
                         metric,
                         metricAverageValueThismonth
@@ -47,7 +48,7 @@ function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
                     // Verify if previousMonth is December and
                     // changing year and month if this is the case
                     let previousMonth = monthNumber - 1
-                    let metricAverageValuePreviousPeriod = 0
+                    let metricAverageValuePreviousPeriod: string | number = 0
                     let availableMonths = months
                     if (previousMonth === 0) {
                         yearString = `Y${activeYear - 1}`
@@ -90,9 +91,9 @@ function getMonthlyRowData(activeMetrics: Metric[], allAverages: Averages[]) {
 
     const sortedRows = rows.sort((a, b) => {
         if (a.year !== b.year) {
-            return b.year - a.year // Sort by year in descending order
+            return Number(b.year) - Number(a.year) // Sort by year in descending order
         }
-        return b.month - a.month // Sort by month in descending order within the same year
+        return Number(b.month) - Number(a.month) // Sort by month in descending order within the same year
     })
     return sortedRows
 }

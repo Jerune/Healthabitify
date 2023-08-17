@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
+import { Metric } from '../../types'
 import kebabcaseToCamelcase from '../../utils/kebabcaseToCamelcase'
 import adjustValueOutput from '../DataOutputManagement/adjustValueOutput'
+import { AveragesData, Row } from '../_types'
 
-function getYearlyRowData(activeMetrics, allAverages) {
-    const rows = []
+function getYearlyRowData(activeMetrics: Metric[], allAverages: AveragesData) {
+    const rows: Row[] = []
 
     const years = Object.keys(allAverages)
     // Remove current year from list
@@ -12,7 +15,7 @@ function getYearlyRowData(activeMetrics, allAverages) {
         const yearNumber = Number(year.split('Y')[1])
         const dateTitle = `Year ${yearNumber}`
         // Setting default row data
-        const row = {
+        const row: Row = {
             id: yearNumber,
             date: dateTitle,
         }
@@ -25,9 +28,9 @@ function getYearlyRowData(activeMetrics, allAverages) {
                 // Don't create data from metrics without zero values
             } else {
                 const metricId = kebabcaseToCamelcase(metric.id)
-                if (allAverages[year].year) {
+                if (allAverages[year]) {
                     const metricAverageValueThisYear =
-                        allAverages[year].year[metricId]
+                        allAverages[year]!.year![metricId]
                     row[metricId] = adjustValueOutput(
                         metric,
                         metricAverageValueThisYear
@@ -35,10 +38,10 @@ function getYearlyRowData(activeMetrics, allAverages) {
                 }
 
                 let activeYear = yearNumber - 1
-                let metricAverageValuePreviousPeriod = 0
+                let metricAverageValuePreviousPeriod: string | number = 0
                 while (years.includes(`Y${activeYear}`)) {
                     metricAverageValuePreviousPeriod =
-                        allAverages[`Y${yearNumber - 1}`].year[metricId]
+                        allAverages[`Y${yearNumber - 1}`]!.year![metricId]
                     if (metricAverageValuePreviousPeriod === 0) {
                         activeYear -= 1
                     } else {
