@@ -1,42 +1,45 @@
 import { DataPoint, DatapointsForDataGrid, Row } from '../_types'
 
-function buildManualRows(datapoints: DatapointsForDataGrid, dates: string[]) {
+function buildManualRows(datapoints: DatapointsForDataGrid[], dates: string[]) {
     const rows: Row[] = []
 
-    Object.entries(datapoints).forEach(([metricId, metricObject], index) => {
-        const { data, reference } = metricObject
-        const metricName = metricId.split(/(?=[A-Z])/).join(' ')
+    datapoints.forEach((metricObject, index: number) => {
+        const keys = Object.keys(metricObject)
+        const metricId = keys[0]
+        const weeklyData = metricObject[metricId]
+        const { reference } = weeklyData
+        const metricName = keys[0].split(/(?=[A-Z])/).join(' ')
+        console.log(metricObject, weeklyData)
 
-        const initialRow: Row = {
+        const row: Row = {
             metric: metricName,
             id: index.toString(),
             cells: {},
         }
-
-        const row = { ...initialRow }
 
         if (reference) {
             row.reference = reference
         }
 
         dates.forEach((date) => {
-            const weeklyData = data.find(
-                (item: DataPoint) => item.date === date
-            )
-            if (weeklyData) {
-                const cellId = weeklyData.id
-                const cellValue = weeklyData.value.toString()
-
-                row.cells = {}
-                row.cells[date] = cellId
-                row[date as keyof Row] = cellValue
+            for (let i = 0; i < weeklyData.length; i += 1) {
+                if (weeklyData[i].date === date) {
+                    const cellId = weeklyData[i].id
+                    const cell = {
+                        id: cellId,
+                        date,
+                        value: weeklyData[i].value,
+                    }
+                    row[date] = cell.value
+                    row.cells[date] = cellId
+                }
             }
         })
 
         rows.push(row)
     })
 
-    const sortedRows = rows.sort((a, b) => a.id.localeCompare(b.id))
+    const sortedRows = rows.sort((a, b) => Number(a.id) - Number(b.id))
     return sortedRows
 }
 
