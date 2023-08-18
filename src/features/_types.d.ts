@@ -76,6 +76,7 @@ export type DashboardDataProps = {
 export type Row = {
     metric?: string
     id: string | number
+    reference?: string
     cells?: { [key: string]: string }
     [key: string]: string | number | { [key: string]: string | number }
 }
@@ -90,6 +91,6 @@ export type DatapointsForDataGrid = {
     [key: string]: {
         data: DataPoint[]
         type: string
-        reference?: string
+        reference: string
     }
 }
