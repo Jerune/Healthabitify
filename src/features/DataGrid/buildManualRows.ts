@@ -1,15 +1,13 @@
-import { DataPoint, DatapointsForDataGrid, Row } from '../_types'
+import { DatapointsForDataGrid, Row } from '../_types'
 
 function buildManualRows(datapoints: DatapointsForDataGrid[], dates: string[]) {
     const rows: Row[] = []
 
     datapoints.forEach((metricObject, index: number) => {
-        const keys = Object.keys(metricObject)
-        const metricId = keys[0]
+        const metricId = Object.keys(metricObject)[0]
         const weeklyData = metricObject[metricId]
-        const { reference } = weeklyData
-        const metricName = keys[0].split(/(?=[A-Z])/).join(' ')
-        console.log(metricObject, weeklyData)
+        const { reference } = metricObject
+        const metricName = metricId.split(/(?=[A-Z])/).join(' ')
 
         const row: Row = {
             metric: metricName,
