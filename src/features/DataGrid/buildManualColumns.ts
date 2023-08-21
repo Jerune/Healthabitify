@@ -1,4 +1,4 @@
-async function buildManualColumns(dates: string[], labs: boolean) {
+async function buildManualColumns(dates: string[], labs?: boolean) {
     const columns = dates.map((date) => {
         return {
             id: date,
