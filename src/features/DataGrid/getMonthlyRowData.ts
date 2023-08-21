@@ -27,6 +27,7 @@ function getMonthlyRowData(
                 year: activeYear,
                 month: monthNumber,
                 id: `${activeYear}-${monthNumber}`,
+                cells: {},
                 date: dateTitle,
             }
             // Retrieving average data from every metric for that month

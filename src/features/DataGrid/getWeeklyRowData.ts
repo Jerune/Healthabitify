@@ -15,6 +15,7 @@ function getWeeklyRowData(activeMetrics: Metric[], allAverages: AveragesData) {
         const dateTitle = `Week ${weekNumber}`
         // Setting default row data
         const row: Row = {
+            cells: {},
             id: weekNumber,
             date: dateTitle,
         }

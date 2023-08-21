@@ -16,6 +16,7 @@ function getYearlyRowData(activeMetrics: Metric[], allAverages: AveragesData) {
         const dateTitle = `Year ${yearNumber}`
         // Setting default row data
         const row: Row = {
+            cells: {},
             id: yearNumber,
             date: dateTitle,
         }
