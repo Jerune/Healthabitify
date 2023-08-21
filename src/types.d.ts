@@ -76,6 +76,16 @@ export type Metric = {
     decimals?: number
 }
 
+export type LabtestMetric = {
+    order: number
+    id: string
+    name: string
+    unit: string
+    categoryId: string
+    reference: string
+    decimals?: number
+}
+
 export type MetricProps = {
     metric: Metric
 }
@@ -207,8 +217,9 @@ export type CurrentDateTime = {
     year: number
 }
 
-// ManualDataGrid
-
-export type ManualDataProps = {
-    labs?: boolean
+export type Device = {
+    [key: string]: {
+        token: string
+        lastUpdated: string
+    }
 }

@@ -1,4 +1,5 @@
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
+import { DateTime } from 'luxon'
 import { Metric } from '../types'
 
 // AveragesManagement
@@ -77,7 +78,7 @@ export type Row = {
     metric?: string
     id: string | number
     reference?: string
-    cells?: { [key: string]: string }
+    cells: { [key: string]: string }
     [key: string]: string | number | { [key: string]: string | number }
 }
 
@@ -88,9 +89,92 @@ export type DataPoint = {
 }
 
 export type DatapointsForDataGrid = {
-    [key: string]: {
-        data: DataPoint[]
-        type: string
-        reference: string
-    }
+    [key: string]: DataPoint[]
+    type: string
+    reference: string
+}
+
+// ManualDataGrid
+
+export type ManualDataProps = {
+    labs?: boolean
+}
+
+export type DatapointToEdit = {
+    date: string
+    id: string
+    value: string | number
+    metric: string
+}
+
+// SettingsMenu
+
+export type ActiveCategory = {
+    id: string
+    name: string
+    iconName: string
+}
+
+export type ActiveMetricsProps = {
+    metrics: Metric[]
+    activeCategory: ActiveCategory
+}
+
+export type SettingsCategoryProps = {
+    detailView: string
+    setMetrics: function
+    setWearables: function
+    activeCategory: ActiveCategory
+    hideMenuCategories: boolean
+    setHideMenuCategories: function
+}
+
+export type Settingsbutton = {
+    type: string
+    active: boolean
+    text: string
+    onClick?: () => void
+}
+
+export type Settingslabel = {
+    name: string
+    children: ReactNode
+}
+
+export type SettingsViewProps = {
+    setDetailView: function
+}
+
+export type WearableCardProps = {
+    activeCategory: ActiveCategory
+}
+
+export type AuthenticationButton = {
+    [key: string]: JSX.Element
+}
+
+// TimesDatesModule
+
+export type TabListProps = {
+    tabs?: {
+        name: string
+        function: () => void
+    }[]
+    showDateSpecifications?: boolean
+    showDateTimeTabs?: boolean
+}
+
+export type DateTimeData = {
+    currentDate: DateTime
+    weekNumber: number
+    month: number
+    year: number
+    firstDayOfTheWeek: DateTime
+    lastDayOfTheWeek: DateTime
+}
+
+export type DateTitles = {
+    week: string
+    month: string
+    year: string
 }
