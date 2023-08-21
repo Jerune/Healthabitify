@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
+import { TypeEditInfo } from '@inovua/reactdatagrid-community/types'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import {
     setUpdateMessage,
@@ -16,8 +18,9 @@ import createAveragesForNewPeriods from '../AveragesManagement/createAveragesFor
 import { initAverages } from '../../redux/reducers/averagesReducer'
 import buildAverages from '../AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../../utils/getDateTimeData'
-import { ManualDataProps } from '../../types'
 import labTestMetrics from '../../data/labTestMetrics'
+import { DatapointToEdit, ManualDataProps, Row } from '../_types'
+import { Column, LabtestMetric, Metric } from '../../types'
 
 function ManualDataGrid({ labs }: ManualDataProps) {
     const dispatch = useAppDispatch()
@@ -31,10 +34,12 @@ function ManualDataGrid({ labs }: ManualDataProps) {
         deviceData.fitbit.lastUpdated > deviceData.oura.lastUpdated
             ? deviceData.oura.lastUpdated
             : deviceData.fitbit.lastUpdated
-    const [activeColumns, setActiveColumns] = useState([])
-    const [activeRows, setActiveRows] = useState([])
+    const [activeColumns, setActiveColumns] = useState<Column[]>([])
+    const [activeRows, setActiveRows] = useState<Row[]>([])
     const [editForm, setEditForm] = useState(false)
-    const [datapointsToEdit, setDatapointsToEdit] = useState([])
+    const [datapointsToEdit, setDatapointsToEdit] = useState<DatapointToEdit[]>(
+        []
+    )
 
     const labDates = [
         '2018-07-04',
@@ -52,7 +57,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
     useEffect(() => {
         async function setDataGrid() {
             if (currentDateTime.currentDate) {
-                let activeMetrics = []
+                let activeMetrics: Metric[] | LabtestMetric[] = []
                 let dates = []
 
                 // Set labs data whenever labs props is active
@@ -120,7 +125,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     allMetrics
                 )
                 // Make sure datapoints message is run before message about averages
-                // Added 5 seconds delay
+                // Added 3 seconds delay
                 setTimeout(() => {
                     dispatch(
                         setUpdateMessage(
@@ -154,13 +159,17 @@ function ManualDataGrid({ labs }: ManualDataProps) {
     }, [editForm])
 
     const onEditComplete = useCallback(
-        ({ value, columnId, rowId }) => {
+        ({ value, columnId, rowId }: TypeEditInfo) => {
             const data = [...activeRows]
-            const id = data[rowId].cells[columnId]
-            const metricName = data[rowId].metric
-            const metric = metricName.split(' ').join('-').toLowerCase()
+            const id = data[rowId as any].cells[columnId]
+            const metricName = data[rowId as any].metric
+            const metric = metricName
+                ? metricName.split(' ').join('-').toLowerCase()
+                : ''
 
-            data[rowId][columnId] = value
+            if (value) {
+                data[rowId as any][columnId] = value
+            }
 
             setDatapointsToEdit((prevState) => {
                 const idToChange = id || 'new'
