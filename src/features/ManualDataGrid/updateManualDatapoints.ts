@@ -1,11 +1,11 @@
 import averageExistsInDatabase from '../../firebase/firestore/averages/averageExistsInDatabase'
 import addDatapoints from '../../firebase/firestore/data-points/addDatapoints'
 import updateDatapoints from '../../firebase/firestore/data-points/updateDatapoints'
-import { DataPoint, Period } from '../../types'
 import { getDateTimeDataForDatapoints } from '../../utils/getDateTimeData'
+import { DatapointToEdit, Period } from '../_types'
 
 async function updateManualDatapoints(
-    potentialDatapoints: Partial<DataPoint>[],
+    potentialDatapoints: DatapointToEdit[],
     labs: boolean
 ) {
     const source = labs ? 'labs' : 'manual'
