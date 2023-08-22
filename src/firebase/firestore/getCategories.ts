@@ -6,7 +6,9 @@ async function getCategories() {
     const querySnapshot = await getDocs(collection(db, 'categories'))
     const categoryList: Category[] = []
     querySnapshot.forEach((doc) => {
-        const data = doc.data()
+        const { id } = doc
+        const { iconName, order, name } = doc.data()
+        const data = { id, iconName, order, name }
         categoryList.push(data)
     })
 

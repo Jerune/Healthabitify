@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
+import { useEffect, useState } from 'react'
 import { auth } from '../firebase/firebase'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
 import {
@@ -8,9 +9,10 @@ import {
 } from '../redux/reducers/utilsReducer'
 import logo from '../assets/logo_1b.jpg'
 import { localSignOut } from '../redux/reducers/usersReducer'
-import categoriesList from '../data/categories'
 import Icon from './icon'
 import LogoText from './LogoText'
+import getCategories from '../firebase/firestore/getCategories'
+import { Category } from '../types'
 
 function HeaderNav() {
     const dispatch = useAppDispatch()
@@ -20,6 +22,7 @@ function HeaderNav() {
     const manualDataGridOpen = useAppSelector(
         (state) => state.utils.manualDataGridOpen
     )
+    const [categories, setCategories] = useState<Category[]>([])
     const sideNavClasses = sideNavOpen ? 'open' : ''
     const sideNavIcon = sideNavOpen ? (
         <Icon iconId="AiOutlineDoubleLeft" />
@@ -27,7 +30,16 @@ function HeaderNav() {
         <Icon iconId="AiOutlineDoubleRight" />
     )
 
-    const menuCategories = categoriesList.map((category) => {
+    useEffect(() => {
+        async function initCategories() {
+            const categoriesList = await getCategories()
+            setCategories(categoriesList)
+        }
+
+        initCategories()
+    }, [])
+
+    const menuCategories = categories.map((category) => {
         return (
             <Link
                 to={`/data/${category.name.toLowerCase()}`}
