@@ -1,14 +1,13 @@
 /* eslint-disable no-useless-escape */
 import { useState, useEffect } from 'react'
-import { RiStarLine, RiStarFill } from 'react-icons/ri'
-import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
-import type { MetricProps } from '../../types'
+import type { Metric, MetricProps } from '../../types'
 import type { InputEvent, SelectEvent, FormSubmit } from '../../types.js'
 import SettingsLabel from './SettingsLabel'
 import SettingsButton from './SettingsButton'
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter'
 import { useAppDispatch } from '../../redux/reduxHooks'
 import { updateMetric } from '../../redux/reducers/metricsReducer'
+import Icon from '../../components/icon'
 
 function MetricCard({ metric }: MetricProps) {
     const dispatch = useAppDispatch()
@@ -22,7 +21,11 @@ function MetricCard({ metric }: MetricProps) {
     })
 
     // Constants
-    const starIcon = formData.onDashboard ? <RiStarFill /> : <RiStarLine />
+    const starIcon = formData.onDashboard ? (
+        <Icon iconId="RiStarFill" />
+    ) : (
+        <Icon iconId="RiStarLine" />
+    )
     const generalSelectStyles = `text-sm select select-bordered font-normal ${
         !editForm && 'opacity-100 bg-gray-100 cursor-not-allowed'
     }`
@@ -75,7 +78,7 @@ function MetricCard({ metric }: MetricProps) {
                 return {
                     ...prevFormData,
                     [event.target.name]: {
-                        ...prevFormData[event.target.name],
+                        ...prevFormData[event.target.name as keyof Metric],
                         [event.target.dataset.type]: event.target.value,
                     },
                 }
@@ -115,9 +118,9 @@ function MetricCard({ metric }: MetricProps) {
                     onClick={() => setDetailsAreVisible(!detailsAreVisible)}
                 >
                     {detailsAreVisible ? (
-                        <AiOutlineDoubleLeft />
+                        <Icon iconId="AiOutlineDoubleLeft" />
                     ) : (
-                        <AiOutlineDoubleRight />
+                        <Icon iconId="AiOutlineDoubleRight" />
                     )}
                 </button>
 
