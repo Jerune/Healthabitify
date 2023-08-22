@@ -22,6 +22,7 @@ import buildAverages from '../features/AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
+import { FitbitRawData, OuraRawData } from '../types'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -75,12 +76,12 @@ function AppStateInit() {
         if (devices.fitbit.lastUpdated <= yesterdayString) {
             dispatch(changeLoadingMessage('Gathering Fitbit Data'))
             // Gets data for those dates from Fitbit API
-            const fitbitDataFromAPI = await getApiData(
+            const fitbitDataFromAPI = (await getApiData(
                 'fitbit',
                 devices.fitbit.token,
                 devices.fitbit.lastUpdated
-            )
-            if (fitbitDataFromAPI !== 'error') {
+            )) as FitbitRawData[]
+            if (typeof fitbitDataFromAPI !== 'string') {
                 dispatch(changeLoadingMessage('Transforming Fitbit data'))
                 // Transforms Fitbit data to a readable format if new data is returned
                 const newFitbitDatapoints = await transformFitbitData(
@@ -121,12 +122,13 @@ function AppStateInit() {
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
             dispatch(changeLoadingMessage('Gathering Oura Data'))
-            const ouraDataFromAPI = await getApiData(
+
+            const ouraDataFromAPI = (await getApiData(
                 'oura',
                 devices.oura.token,
                 devices.oura.lastUpdated
-            )
-            if (ouraDataFromAPI !== 'error') {
+            )) as OuraRawData
+            if (typeof ouraDataFromAPI !== 'string') {
                 dispatch(changeLoadingMessage('Transforming Oura data'))
                 const newOuraDatapoints = await transformOuraData(
                     ouraDataFromAPI
