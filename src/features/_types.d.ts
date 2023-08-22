@@ -50,6 +50,13 @@ export type MetricValues = {
 
 // Dashboard
 
+export type DashboardComparisonData = {
+    value: number | string
+    comparisonValue: number | string
+    comparisonStatus: string
+    comparisonType: string
+}
+
 export type MetricDashboardData = {
     metric: Metric
 }
@@ -82,8 +89,22 @@ export type Row = {
     [key: string]: string | number | { [key: string]: string | number }
 }
 
+export type Column = {
+    name: string
+    id: string
+    header: string
+    headerProps: {
+        style: {
+            color: string
+            fontStyle: string
+            fontWeight: string
+            fontSize: string
+        }
+    }
+}
+
 export type DataPoint = {
-    date: string
+    date?: string
     id: string
     value: number
 }

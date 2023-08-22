@@ -1,19 +1,3 @@
-// Data Grid
-
-export type Column = {
-    name: string
-    id: string
-    header: string
-    headerProps: {
-        style: {
-            color: string
-            fontStyle: string
-            fontWeight: string
-            fontSize: string
-        }
-    }
-}
-
 // UserData from Auth
 export type SignInData = {
     email: string | null
@@ -103,9 +87,18 @@ export type DataPoint = {
 
 // Fitbit Data
 
+type HeartRateZoneData = {
+    heartRateZones: [
+        {
+            name: string
+            minutes: number
+        }
+    ]
+}
+
 export type FitbitData = {
     dateTime: string
-    value: string
+    value: string | HeartRateZoneData
 }
 
 export type FitbitRawData = {
@@ -222,4 +215,12 @@ export type Device = {
         token: string
         lastUpdated: string
     }
+}
+
+// Authorization of APIs
+
+export type AuthorizeApi = {
+    url: string
+    id: string
+    scope: string
 }

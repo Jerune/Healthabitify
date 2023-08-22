@@ -8,7 +8,7 @@ export type IconMapping = {
 }
 
 export type IconProps = {
-    iconId: string
+    iconId: string | unknown
 }
 
 // Loading
