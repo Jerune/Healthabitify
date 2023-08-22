@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import getMonthlyYearlyAverages from '../../firebase/firestore/averages/getMonthlyYearlyAverages'
 import getWeeklyAverages from '../../firebase/firestore/averages/getWeeklyAverages'
-import { AveragesData, PeriodForAverage } from '../_types'
+import { Averages, AveragesData, PeriodForAverage } from '../_types'
 
 async function buildAverages({ weekNumber, month, year }: PeriodForAverage) {
     const availableDatesInAverages: AveragesData = {}
@@ -43,17 +43,17 @@ async function buildAverages({ weekNumber, month, year }: PeriodForAverage) {
         const sortedWeeklyAverages = weeklyAverages.reverse()
 
         for (let i = 0; i < sortedMonthlyAverages.length; i += 1) {
-            if (sortedMonthlyAverages[i] !== 'error') {
+            if (typeof sortedMonthlyAverages[i] !== 'string') {
                 availableDatesInAverages[`Y${currentYear}`].months[
                     `M${i + 1}`
-                ] = sortedMonthlyAverages[i]
+                ] = sortedMonthlyAverages[i] as Averages
             }
         }
 
         for (let i = 0; i < sortedWeeklyAverages.length; i += 1) {
-            if (sortedWeeklyAverages[i] !== 'error') {
+            if (typeof sortedWeeklyAverages[i] !== 'string') {
                 availableDatesInAverages[`Y${currentYear}`].weeks[`W${i + 1}`] =
-                    sortedWeeklyAverages[i]
+                    sortedWeeklyAverages[i] as Averages
             }
         }
 
