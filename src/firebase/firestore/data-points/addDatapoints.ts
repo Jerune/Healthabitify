@@ -9,7 +9,7 @@ import { documentDoesNotExistAlready } from '../getDocs'
 
 async function addDatapoints(datapoints: DataPoint[]) {
     const { source } = datapoints[0]
-    let highestDate = null
+    let highestDate: Date | null = null
 
     const newDatapoints = datapoints.filter((datapoint) => datapoint.value)
     const existingDatapoints = []
@@ -56,9 +56,7 @@ async function addDatapoints(datapoints: DataPoint[]) {
         const newLastUpdated = highestDateAsDateTime.plus({ days: 1 })
         const newLastUpdatedAsString = getSpecifiedDateAsString(newLastUpdated)
 
-        updateWearables(source, {
-            lastUpdated: newLastUpdatedAsString,
-        })
+        updateWearables(source, 'lastUpdated', newLastUpdatedAsString)
     }
 
     return amountOfDatapoints
