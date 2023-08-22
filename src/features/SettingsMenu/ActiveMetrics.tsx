@@ -1,8 +1,7 @@
+import { ActiveMetricsProps } from '../_types'
 import MetricCard from './MetricCard'
 
-function ActiveMetrics(props) {
-    const { metrics, activeCategory } = props
-
+function ActiveMetrics({ metrics, activeCategory }: ActiveMetricsProps) {
     const filteredMetrics = metrics.filter(
         (metric) => metric.categoryId === activeCategory.id
     )
