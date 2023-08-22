@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { doc, setDoc } from 'firebase/firestore'
-import { AveragesReturn } from '../../../types'
+import { AveragesReturn } from '../../../features/_types'
 import { db } from '../../firebase'
 
 async function addAverages(periodData: AveragesReturn) {
@@ -13,7 +13,7 @@ async function addAverages(periodData: AveragesReturn) {
         console.log(
             `Averages for ${period} have been added successfully to the averages collection`
         )
-        // returns a 1 every time the function has run succesfully
+        // returns an 1 every time the function has run succesfully
         // to be able to count the total amount
         return 1
     } catch (error) {

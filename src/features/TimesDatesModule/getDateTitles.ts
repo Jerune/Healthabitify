@@ -1,6 +1,6 @@
-import type { DataTitles, DateTimeData } from './TimesDatesTypes'
+import type { DateTitles, DateTimeData } from '../_types'
 
-function getDateTitles(DateTimeData: DateTimeData): DataTitles {
+function getDateTitles(DateTimeData: DateTimeData): DateTitles {
     const { currentDate, firstDayOfTheWeek, lastDayOfTheWeek } = DateTimeData
 
     const week = `${firstDayOfTheWeek.toFormat(

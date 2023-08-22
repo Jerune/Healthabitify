@@ -1,8 +1,12 @@
 /* eslint-disable no-console */
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { DataPoint } from '../../../features/_types'
 
-async function updateDatapoints(datapoints, source) {
+async function updateDatapoints(
+    datapoints: DataPoint[],
+    source: string
+): Promise<number> {
     const updateOperations = datapoints.map(async (datapoint) => {
         const { id, value } = datapoint
         const docReference = doc(db, `data-points-${source}`, id)
@@ -21,7 +25,7 @@ async function updateDatapoints(datapoints, source) {
     })
 
     const updatedCounts = await Promise.all(updateOperations)
-    const amountOfUpdatedDatapoints = updatedCounts.reduce(
+    const amountOfUpdatedDatapoints = updatedCounts.reduce<number>(
         (sum, count) => sum + count,
         0
     )

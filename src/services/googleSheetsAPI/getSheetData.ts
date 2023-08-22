@@ -22,8 +22,8 @@ async function getSheetData() {
 
     let datapoints: DataPoint[] = []
     // Iterate over each row
-    rows.forEach((row) => {
-        const metric = row[0]
+    rows.forEach((row: string[]) => {
+        const metric: string = row[0]
 
         // Iterate over each column
         for (let i = 1; i < row.length; i += 1) {
@@ -34,7 +34,7 @@ async function getSheetData() {
             const { weekNumber, month, year } =
                 getDateTimeDataForDatapoints(date)
             if (
-                value !== 0 &&
+                Number(value) !== 0 &&
                 value !== undefined &&
                 value !== '' &&
                 metric !== 'date'

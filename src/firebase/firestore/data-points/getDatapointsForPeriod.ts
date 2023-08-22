@@ -1,13 +1,8 @@
 import { collection, query, where, getDocs } from 'firebase/firestore'
-import {
-    Average,
-    DataPoint,
-    DatapointsReturn,
-    Metric,
-    Period,
-} from '../../../types'
+import { DatapointsReturn, Metric } from '../../../types'
 import kebabcaseToCamelcase from '../../../utils/kebabcaseToCamelcase'
 import { db } from '../../firebase'
+import { Period } from '../../../features/_types'
 
 export default async function getDatapointsForPeriod(
     allMetrics: Metric[],
@@ -26,10 +21,10 @@ export default async function getDatapointsForPeriod(
         (metric) => metric.source !== 'auto'
     )
 
-    const allDatapointsForPeriod: Average[] = await Promise.all(
+    const allDatapointsForPeriod = await Promise.all(
         metricsWithoutAutoSource.map(async (metric) => {
             const metricName = kebabcaseToCamelcase(metric.id)
-            const datapoints: Partial<DataPoint>[] = []
+            const datapoints: (number | string)[] = []
             const collectionName = `data-points-${metric.source}`
             // Verification if request is for a week, month or year and adjustment of query
             let dbQuery = query(

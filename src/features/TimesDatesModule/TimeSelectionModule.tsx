@@ -2,8 +2,6 @@
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-date-picker'
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
-import { TfiCalendar } from 'react-icons/tfi'
 import {
     changeActiveTimeView,
     changeDateTimeData,
@@ -14,7 +12,8 @@ import { getDateTimeDateFromDateString } from '../../utils/getDateTimeData'
 import getAmountToAdjustWith from './getAmountToAdjustWith'
 import getDateTitles from './getDateTitles'
 import getWeekDays from './getWeekDays'
-import type { TabListProps } from './TimesDatesTypes'
+import type { DateTitles, TabListProps } from '../_types'
+import Icon from '../../components/icon'
 
 function TimeSelectionModule({
     tabs,
@@ -26,7 +25,7 @@ function TimeSelectionModule({
     const currentDateTimeAsString = useAppSelector(
         (state) => state.utils.currentDateTime.currentDate
     )
-    const [dateTitle, setDateTitle] = useState({
+    const [dateTitle, setDateTitle] = useState<DateTitles>({
         week: '',
         month: '',
         year: '',
@@ -111,7 +110,7 @@ function TimeSelectionModule({
                         }
                         value={currentDate.toJSDate()}
                         clearIcon={null}
-                        calendarIcon={<TfiCalendar />}
+                        calendarIcon={<Icon iconId="TfiCalendar" />}
                         minDetail="month"
                     />
                     <button
@@ -121,16 +120,16 @@ function TimeSelectionModule({
                             changeTimeView('previous', activeTimeView)
                         }
                     >
-                        <AiOutlineLeft />
+                        <Icon iconId="AiOutlineLeft" />
                     </button>
                     <span className="flex justify-center gap-6 px-8 italic">
-                        {dateTitle[activeTimeView]}
+                        {dateTitle[activeTimeView as keyof DateTitles]}
                     </span>
                     <button
                         type="button"
                         onClick={() => changeTimeView('next', activeTimeView)}
                     >
-                        <AiOutlineRight />
+                        <Icon iconId="AiOutlineRight" />
                     </button>
                 </div>
             )}
