@@ -16,7 +16,10 @@ export default function transformFitbitData(fitbitData: FitbitRawData[]) {
         datapointsCollection[resourceNameFromAPI].forEach(
             (datapoint: FitbitData) => {
                 const date = datapoint.dateTime
-                if (metric !== 'heartrate-zones') {
+                if (
+                    metric !== 'heartrate-zones' &&
+                    typeof datapoint.value === 'string'
+                ) {
                     const { value } = datapoint
                     const { month, weekNumber, year } =
                         getDateTimeDataForDatapoints(date)
@@ -31,7 +34,10 @@ export default function transformFitbitData(fitbitData: FitbitRawData[]) {
                         year,
                     })
                 }
-                if (metric === 'heartrate-zones') {
+                if (
+                    metric === 'heartrate-zones' &&
+                    typeof datapoint.value !== 'string'
+                ) {
                     datapoint.value.heartRateZones.forEach((heartRateZone) => {
                         if (heartRateZone.name !== 'Out of Range') {
                             const metricName = `${heartRateZone.name
