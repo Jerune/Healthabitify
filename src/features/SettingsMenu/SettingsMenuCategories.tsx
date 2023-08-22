@@ -1,49 +1,20 @@
-import {
-    RiGobletFill,
-    RiMentalHealthFill,
-    RiFlashlightFill,
-    RiRunFill,
-    RiLungsFill,
-    RiHotelBedFill,
-    RiBodyScanFill,
-    RiHeartPulseFill,
-} from 'react-icons/ri'
-import { FaRing } from 'react-icons/fa'
-import { SiFitbit } from 'react-icons/si'
-import { IoScaleSharp } from 'react-icons/io5'
 import wearablesCategories from '../../data/wearablesCategories'
-import categoriesList from '../../data/categories'
+import categoriesList from '../../data/categoriesMock'
+import { SettingsCategoryProps } from '../_types'
+import Icon from '../../components/icon'
 
-function SettingsMenuCategories(props) {
-    const {
-        detailView,
-        setMetrics,
-        setWearables,
-        activeCategory,
-        hideMenuCategories,
-        setHideMenuCategories,
-    } = props
-
-    const Icons = {
-        oura: <FaRing />,
-        fitbit: <SiFitbit />,
-        bodypedia: <IoScaleSharp />,
-        vitals: <RiHeartPulseFill />,
-        body: <RiBodyScanFill />,
-        sleep: <RiHotelBedFill />,
-        metabolism: <RiLungsFill />,
-        activity: <RiRunFill />,
-        strength: <RiFlashlightFill />,
-        stress: <RiMentalHealthFill />,
-        lifestyle: <RiGobletFill />,
-    }
-
+function SettingsMenuCategories({
+    detailView,
+    setMetrics,
+    setWearables,
+    activeCategory,
+    hideMenuCategories,
+    setHideMenuCategories,
+}: SettingsCategoryProps) {
     const hideMenuOnMobile = hideMenuCategories ? 'hidden' : 'flex flex-col'
-
     const dataSource =
         detailView === 'wearables' ? wearablesCategories : categoriesList
     const categories = dataSource.map((category) => {
-        const Icon = Icons[category.id]
         return (
             <button
                 className={`w-full md:w-72 lg:w-96 flex flex-row gap-2 justify-start items-center text-xl pt-8 pb-7 px-8 rounded-lg shadow-lg ${
@@ -63,7 +34,9 @@ function SettingsMenuCategories(props) {
                     }
                 }}
             >
-                <i>{Icon}</i>
+                <i>
+                    <Icon iconId={category.iconName} />
+                </i>
                 <h2 className="text-2xl font-normal">{category.name}</h2>
             </button>
         )
