@@ -19,8 +19,8 @@ import { initAverages } from '../../redux/reducers/averagesReducer'
 import buildAverages from '../AveragesManagement/buildAverages'
 import { getDateTimeDataForPreviousPeriod } from '../../utils/getDateTimeData'
 import labTestMetrics from '../../data/labTestMetrics'
-import { DatapointToEdit, ManualDataProps, Row } from '../_types'
-import { Column, LabtestMetric, Metric } from '../../types'
+import { Column, DatapointToEdit, ManualDataProps, Row } from '../_types'
+import { LabtestMetric, Metric } from '../../types'
 
 function ManualDataGrid({ labs }: ManualDataProps) {
     const dispatch = useAppDispatch()
