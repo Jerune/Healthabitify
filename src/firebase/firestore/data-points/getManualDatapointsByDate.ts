@@ -7,12 +7,13 @@ import {
     ManualDatapointReturn,
     Metric,
 } from '../../../types'
+import { DatapointsForDataGrid } from '../../../features/_types'
 
 async function getManualDatapointsByDate(
     currentDateTime: CurrentDateTime,
     metrics: (Metric | LabtestMetric)[],
     labs?: boolean
-) {
+): Promise<DatapointsForDataGrid[]> {
     const { weekNumber, year } = currentDateTime
 
     const allDatapointsForPeriod = await Promise.all(
@@ -48,13 +49,13 @@ async function getManualDatapointsByDate(
                 return {
                     [metricName]: datapoints,
                     reference: (metric as LabtestMetric).reference,
-                }
+                } as DatapointsForDataGrid
             }
 
             return {
                 [metricName]: datapoints,
                 type: (metric as Metric).dataType,
-            }
+            } as DatapointsForDataGrid
         })
     )
 

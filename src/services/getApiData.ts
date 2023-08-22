@@ -1,4 +1,4 @@
-import { Endpoint, EndpointsDates } from '../types'
+import { Endpoint, EndpointsDates, FitbitRawData, OuraRawData } from '../types'
 import calculateDifferenceWithToday from '../utils/compareDates'
 import {
     getDayBeforeAsString,
@@ -12,7 +12,7 @@ export default async function getApiData(
     source: string,
     token: string,
     lastUpdated: string
-) {
+): Promise<OuraRawData | FitbitRawData[] | string> {
     if (source !== 'oura' && source !== 'fitbit') {
         return 'error'
     }
