@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useEffect, useState } from 'react'
 import MainContent from '../components/MainContent'
 import TimeSelectionModule from '../features/TimesDatesModule/TimeSelectionModule'
@@ -9,10 +10,11 @@ import { useAppSelector } from '../redux/reduxHooks'
 import kebabcaseToCamelcase from '../utils/kebabcaseToCamelcase'
 import getComparisonStatus from '../features/Dashboard/getComparisonStatus'
 import Loading from '../components/Loading'
+import { AveragesData, DashboardComparisonData } from '../features/_types'
 
 function Dashboard() {
     const allMetrics = useAppSelector((state) => state.metrics)
-    const allAverages = useAppSelector((state) => state.averages)
+    const allAverages: AveragesData = useAppSelector((state) => state.averages)
     const currentDateTime = useAppSelector(
         (state) => state.utils.currentDateTime
     )
@@ -72,7 +74,7 @@ function Dashboard() {
 
     const dashboardBlocks = dashboardMetrics.map((metric) => {
         const dbMetricId = kebabcaseToCamelcase(metric.id)
-        const comparisonData = {
+        const comparisonData: DashboardComparisonData = {
             value: 0,
             comparisonValue: 0,
             comparisonStatus: '',
@@ -111,10 +113,11 @@ function Dashboard() {
         } else if (activeTimeView === 'year') {
             comparisonData.comparisonType = 'year'
             if (allAverages[`Y${year}`] && allAverages[`Y${year}`].year) {
-                comparisonData.value = allAverages[`Y${year}`].year[dbMetricId]
+                comparisonData.value =
+                    allAverages[`Y${year}`]!.year![dbMetricId]
                 if (allAverages[`Y${year - 1}`]) {
                     comparisonData.comparisonValue =
-                        allAverages[`Y${year - 1}`].year[dbMetricId]
+                        allAverages[`Y${year - 1}`]!.year![dbMetricId]
                 } else {
                     comparisonData.comparisonValue = 0
                 }
