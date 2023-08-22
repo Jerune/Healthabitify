@@ -1,6 +1,6 @@
-function SettingsViewSelection(props) {
-    const { setDetailView } = props
+import { SettingsViewProps } from '../_types'
 
+function SettingsViewSelection({ setDetailView }: SettingsViewProps) {
     return (
         <div className="w-full flex flex-col justify-center md:flex-row items-center gap-12">
             <button

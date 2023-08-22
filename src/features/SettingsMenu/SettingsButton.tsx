@@ -1,11 +1,6 @@
-import type { SettingsButtonType } from './SettingsTypes'
+import { Settingsbutton } from '../_types'
 
-function SettingsButton({
-    type,
-    active,
-    text,
-    onClick,
-}: SettingsButtonType): JSX.Element {
+function SettingsButton({ type, active, text, onClick }: Settingsbutton) {
     const genericStyles = 'w-[50%] max-w-[600px] px-5 py-3 text-base'
     const activeStyles =
         'bg-green-600 hover:opacity-90 text-white pointer cursor-pointer'
