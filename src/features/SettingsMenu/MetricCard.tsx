@@ -74,11 +74,16 @@ function MetricCard({ metric }: MetricProps) {
     // Functions
     function handleChange(event: InputEvent | SelectEvent) {
         if (event.target.dataset.type) {
-            setFormData((prevFormData) => {
+            const targetName: string = event.target.name
+            setFormData((prevFormData): Metric => {
+                let keyValues = {}
+                if (typeof prevFormData[targetName] === 'object') {
+                    keyValues = prevFormData[targetName]
+                }
                 return {
                     ...prevFormData,
                     [event.target.name]: {
-                        ...prevFormData[event.target.name as keyof Metric],
+                        ...keyValues,
                         [event.target.dataset.type]: event.target.value,
                     },
                 }
