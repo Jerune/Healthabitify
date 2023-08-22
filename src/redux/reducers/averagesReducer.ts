@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { AveragesData } from '../../features/_types'
 
 // Initial State
 
-const defaultState = [{}]
+const defaultState: AveragesData = {}
 
 // Reducer
 
