@@ -1,14 +1,8 @@
-/* eslint-disable no-console */
 import { useOAuth2 } from '@tasoskakour/react-use-oauth2'
 import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
 import { setUpdateMessage } from '../redux/reducers/utilsReducer'
-
-type AuthorizeApi = {
-    url: string
-    id: string
-    scope: string
-}
+import { AuthorizeApi } from '../types'
 
 function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
     const [newTokenActive, setNewTokenActive] = useState(false)
