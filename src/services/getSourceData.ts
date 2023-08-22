@@ -4,6 +4,7 @@ function getSourceData(source: string) {
 
     switch (source) {
         case 'oura':
+            baseUrl = 'https://api.ouraring.com'
             resources = ['sleep']
             break
         case 'fitbit':

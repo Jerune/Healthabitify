@@ -59,7 +59,7 @@ export default async function getApiData(
         const endpoints = resources.map((resource) => {
             const url =
                 source === 'oura'
-                    ? `/v2/usercollection/${resource}?start_date=${start}&end_date=${end}`
+                    ? `${baseUrl}/v2/usercollection/${resource}?start_date=${start}&end_date=${end}`
                     : `${baseUrl}/${resource}/date/${start}/${end}.json`
             return {
                 url,
