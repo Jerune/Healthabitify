@@ -106,13 +106,13 @@ export type Column = {
 export type DataPoint = {
     date?: string
     id: string
-    value: number
+    value: string | number
 }
 
 export type DatapointsForDataGrid = {
     [key: string]: DataPoint[]
-    type: string
-    reference: string
+    type?: string
+    reference?: string
 }
 
 // ManualDataGrid

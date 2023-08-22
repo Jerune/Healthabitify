@@ -31,6 +31,7 @@ export type Wearable = {
 }
 
 export type Metric = {
+    [key: string]: number | string | boolean | object
     order: number
     id: string
     name: string
