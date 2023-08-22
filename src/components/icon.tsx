@@ -68,9 +68,8 @@ const iconMapping: IconMapping = {
 
 // Returns an icon from the above React icons mapping using the icon name as iconId
 export default function Icon({ iconId }: IconProps) {
-    const ReactIcon = iconMapping[iconId]
-
-    if (ReactIcon !== undefined) {
+    if (iconId !== undefined && typeof iconId === 'string') {
+        const ReactIcon = iconMapping[iconId]
         return <ReactIcon />
     }
 
