@@ -120,37 +120,38 @@ function AppStateInit() {
                 )
             }
         }
-        if (devices.oura.lastUpdated <= yesterdayString) {
-            dispatch(changeLoadingMessage('Gathering Oura Data'))
+        // Put on hold because of CORS issues with Oura API
+        // if (devices.oura.lastUpdated <= yesterdayString) {
+        //     dispatch(changeLoadingMessage('Gathering Oura Data'))
 
-            const ouraDataFromAPI = (await getApiData(
-                'oura',
-                devices.oura.token,
-                devices.oura.lastUpdated
-            )) as OuraRawData
-            if (typeof ouraDataFromAPI !== 'string') {
-                dispatch(changeLoadingMessage('Transforming Oura data'))
-                const newOuraDatapoints = await transformOuraData(
-                    ouraDataFromAPI
-                )
-                if (newOuraDatapoints.length > 0) {
-                    const amountOfNewDatapoints = await addDatapoints(
-                        newOuraDatapoints
-                    )
-                    dispatch(
-                        setUpdateMessage(
-                            `${amountOfNewDatapoints} new Oura datapoints have been added`
-                        )
-                    )
-                }
-            } else if (ouraDataFromAPI === 'error') {
-                dispatch(
-                    setUpdateMessage(
-                        'An error occured while getting the Oura Data, please try again later'
-                    )
-                )
-            }
-        }
+        //     const ouraDataFromAPI = (await getApiData(
+        //         'oura',
+        //         devices.oura.token,
+        //         devices.oura.lastUpdated
+        //     )) as OuraRawData
+        //     if (typeof ouraDataFromAPI !== 'string') {
+        //         dispatch(changeLoadingMessage('Transforming Oura data'))
+        //         const newOuraDatapoints = await transformOuraData(
+        //             ouraDataFromAPI
+        //         )
+        //         if (newOuraDatapoints.length > 0) {
+        //             const amountOfNewDatapoints = await addDatapoints(
+        //                 newOuraDatapoints
+        //             )
+        //             dispatch(
+        //                 setUpdateMessage(
+        //                     `${amountOfNewDatapoints} new Oura datapoints have been added`
+        //                 )
+        //             )
+        //         }
+        //     } else if (ouraDataFromAPI === 'error') {
+        //         dispatch(
+        //             setUpdateMessage(
+        //                 'An error occured while getting the Oura Data, please try again later'
+        //             )
+        //         )
+        //     }
+        // }
     }
 
     async function initializeAverages() {
