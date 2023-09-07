@@ -16,7 +16,6 @@ function Login() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const rememberCheckbox = useRef<HTMLInputElement>(null)
     const emailInLocalStorage = localStorage.getItem('email')
-    const [videoPlaying, setVideoPlaying] = useState(false)
     const [errorIsShowing, setErrorIsShowing] = useState(false)
     const [formData, setFormData] = useState({
         email: '',
@@ -25,7 +24,6 @@ function Login() {
     })
 
     useEffect(() => {
-        setVideoPlaying(true)
         if (emailInLocalStorage) {
             if (rememberCheckbox.current !== null) {
                 rememberCheckbox.current.checked = true
@@ -122,10 +120,10 @@ function Login() {
         <div className="h-screen w-screen overflow-hidden">
             <video
                 className="w-auto min-h-full h-full max-w-screen-md object-cover md:w-full md:max-w-[100%]"
-                autoPlay={videoPlaying}
+                autoPlay
                 muted
                 loop
-                playsInline
+                controls
             >
                 <source src={IntroVideo} type="video/webm" />
             </video>
