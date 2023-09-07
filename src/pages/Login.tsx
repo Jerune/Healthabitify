@@ -6,6 +6,7 @@ import { auth } from '../firebase/firebase'
 import { localSignIn } from '../redux/reducers/usersReducer'
 import type { InputEvent, FormSubmit, SignInData } from '../types.d.js'
 import IntroVideo from '../assets/login_video_alt.webm'
+import IntroVideoMP4 from '../assets/login_video_alt.mp4'
 import logo from '../assets/logo_1b.jpg'
 import LogoText from '../components/LogoText'
 import { capitalizeFirstLetterFromArray } from '../utils/capitalizeFirstLetter'
@@ -123,9 +124,10 @@ function Login() {
                 autoPlay
                 muted
                 loop
-                controls
+                playsInline
             >
                 <source src={IntroVideo} type="video/webm" />
+                <source src={IntroVideoMP4} type="video/mp4" />
             </video>
             <section className="w-screen h-screen z-50 fixed top-0 left-0 right-0 flex flex-col justify-center items-center">
                 <div className="w-80 h-16 flex flex-row items-center rounded-t-lg bg-palette-600">
