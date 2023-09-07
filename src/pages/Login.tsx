@@ -123,6 +123,7 @@ function Login() {
                 autoPlay
                 muted
                 loop
+                playsInline
             >
                 <source src={IntroVideo} type="video/webm" />
             </video>
