@@ -1,8 +1,8 @@
-import { TfiClose } from 'react-icons/tfi'
 import TimeSelectionModule from '../TimesDatesModule/TimeSelectionModule'
 import ManualDataGrid from './ManualDataGrid'
 import { useAppDispatch } from '../../redux/reduxHooks'
 import { toggleManualDataGrid } from '../../redux/reducers/utilsReducer'
+import Icon from '../../components/icon'
 
 function ManualDataGridContainer() {
     const dispatch = useAppDispatch()
@@ -16,7 +16,7 @@ function ManualDataGridContainer() {
                         onClick={() => dispatch(toggleManualDataGrid())}
                         className="absolute right-4 top-4 z-50"
                     >
-                        <TfiClose />
+                        <Icon iconId="TfiClose" />
                     </button>
                     <TimeSelectionModule showDateTimeTabs={false} />
                 </div>

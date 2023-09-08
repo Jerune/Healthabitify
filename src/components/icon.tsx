@@ -17,12 +17,13 @@ import {
     MdModeEdit,
     MdDashboard,
 } from 'react-icons/md'
-import { TfiReload, TfiCalendar } from 'react-icons/tfi'
+import { TfiReload, TfiCalendar, TfiClose } from 'react-icons/tfi'
 import {
     AiOutlineDoubleRight,
     AiOutlineDoubleLeft,
     AiOutlineLeft,
     AiOutlineRight,
+    AiOutlineStop,
 } from 'react-icons/ai'
 import { ImLab } from 'react-icons/im'
 import { GiGoalKeeper } from 'react-icons/gi'
@@ -64,6 +65,8 @@ const iconMapping: IconMapping = {
     TfiCalendar,
     AiOutlineLeft,
     AiOutlineRight,
+    TfiClose,
+    AiOutlineStop,
 }
 
 // Returns an icon from the above React icons mapping using the icon name as iconId
