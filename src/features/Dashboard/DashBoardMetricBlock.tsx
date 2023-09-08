@@ -16,8 +16,11 @@ function DashBoardMetricBlock({ metric }: DashboardMetricProps) {
         case 'bad':
             bgColorClass = 'red-gradient'
             break
+        case 'neutral':
+            bgColorClass = 'lightgray'
+            break
         default:
-            bgColorClass = 'white'
+            bgColorClass = 'lightgray'
             break
     }
 
