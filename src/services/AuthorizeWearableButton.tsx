@@ -1,8 +1,9 @@
 import { useOAuth2 } from '@tasoskakour/react-use-oauth2'
 import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
-import { setUpdateMessage } from '../redux/reducers/utilsReducer'
+import { addUpdateMessage } from '../redux/reducers/utilsReducer'
 import { AuthorizeApi } from '../types'
+import UpdateMessage from '../components/UpdateMessage'
 
 function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
     const [newTokenActive, setNewTokenActive] = useState(false)
@@ -20,7 +21,9 @@ function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
             setNewTokenActive(true)
         },
         onError: (error_) => {
-            dispatch(setUpdateMessage(`Error: ${error_}`))
+            dispatch(
+                addUpdateMessage(<UpdateMessage message={`Error: ${error_}`} />)
+            )
         },
     })
 

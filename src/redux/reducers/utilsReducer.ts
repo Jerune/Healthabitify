@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { DateTime } from 'luxon'
 import { getSpecifiedDateAsString } from '../../utils/getDatesAsString'
+import { UpdateMessage } from '../../types'
 
 // setting initial time values
 const todayOneWeekAgo = DateTime.now().minus({ days: 7 })
@@ -19,8 +20,7 @@ const utils = {
     loadingMessage: '',
     sideNavOpen: false,
     manualDataGridOpen: false,
-    updateMessageOpen: false,
-    updateMessage: 'No update yet',
+    updateMessages: [] as UpdateMessage[],
     activeTimeView: 'week',
     currentDateTime,
 }
@@ -43,17 +43,14 @@ export const utilsSlice = createSlice({
                 loadingMessage: action.payload,
             }
         },
-        changeUpdateMessageStatus: (state, action) => {
-            return {
-                ...state,
-                updateMessageOpen: action.payload,
+        addUpdateMessage: (state, action) => {
+            const newMessage: UpdateMessage = {
+                id: state.updateMessages.length + 1,
+                message: action.payload,
             }
-        },
-        setUpdateMessage: (state, action) => {
             return {
                 ...state,
-                updateMessage: action.payload,
-                updateMessageOpen: true,
+                updateMessages: [...state.updateMessages, newMessage],
             }
         },
         toggleMenu: (state) => {
@@ -97,8 +94,7 @@ export const utilsSlice = createSlice({
 export const {
     changeLoadingStatus,
     changeLoadingMessage,
-    changeUpdateMessageStatus,
-    setUpdateMessage,
+    addUpdateMessage,
     toggleMenu,
     toggleManualDataGrid,
     changeActiveTimeView,
