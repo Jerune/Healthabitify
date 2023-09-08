@@ -201,7 +201,6 @@ function AppStateInit() {
 
     async function manualAdjustments() {
         // Function that can be used to perform separate manual adjustments
-        dispatch(addUpdateMessage(<UpdateMessage message="This is a test" />))
     }
 
     async function initApp() {
