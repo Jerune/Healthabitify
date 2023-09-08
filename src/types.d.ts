@@ -218,6 +218,11 @@ export type Device = {
     }
 }
 
+export type UpdateMessage = {
+    id: number
+    message: JSX.Element
+}
+
 // Authorization of APIs
 
 export type AuthorizeApi = {
