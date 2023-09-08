@@ -24,16 +24,12 @@
 
 @keyframes slide-in-update-message {
     0% {
-        top: -12;
+        transform: translateY(-100px);
     }
 
     20%,
-    80% {
-        top: 0;
-    }
-
     100% {
-        top: -12;
+        transform: translateY(0);
     }
 }
 
@@ -135,4 +131,11 @@ input:required:invalid {
 
 .react-date-picker__inputGroup {
     display: none;
+}
+
+/* React Data Grid Rewrites */
+
+.InovuaReactDataGrid__row--show-horizontal-borders,
+.InovuaReactDataGrid__row--active {
+    border: none;
 }
