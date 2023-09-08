@@ -7,7 +7,7 @@ import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
 import {
     changeLoadingMessage,
     changeLoadingStatus,
-    setUpdateMessage,
+    addUpdateMessage,
 } from '../redux/reducers/utilsReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import { initAverages } from '../redux/reducers/averagesReducer'
@@ -23,6 +23,7 @@ import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
 import { FitbitRawData, OuraRawData } from '../types'
+import UpdateMessage from './UpdateMessage'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -54,7 +55,7 @@ function AppStateInit() {
         if (typeof metricList !== 'string') {
             dispatch(initMetrics(metricList))
         } else {
-            dispatch(setUpdateMessage(metricList))
+            dispatch(addUpdateMessage(<UpdateMessage message={metricList} />))
         }
     }
 
@@ -65,7 +66,9 @@ function AppStateInit() {
         if (typeof wearablesList !== 'string') {
             dispatch(setDevices(wearablesList))
         } else {
-            dispatch(setUpdateMessage(wearablesList))
+            dispatch(
+                addUpdateMessage(<UpdateMessage message={wearablesList} />)
+            )
         }
     }
 
@@ -107,15 +110,17 @@ function AppStateInit() {
 
                     // Sends update on added datapoints
                     dispatch(
-                        setUpdateMessage(
-                            `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
+                        addUpdateMessage(
+                            <UpdateMessage
+                                message={`${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`}
+                            />
                         )
                     )
                 }
             } else if (fitbitDataFromAPI === 'error') {
                 dispatch(
-                    setUpdateMessage(
-                        'An error occured while getting the Fitbit Data, please try again later'
+                    addUpdateMessage(
+                        <UpdateMessage message="An error occured while getting the Fitbit Data, please try again later" />
                     )
                 )
             }
@@ -139,15 +144,17 @@ function AppStateInit() {
         //                 newOuraDatapoints
         //             )
         //             dispatch(
-        //                 setUpdateMessage(
-        //                     `${amountOfNewDatapoints} new Oura datapoints have been added`
+        //                 addUpdateMessage(
+        //                     <UpdateMessage
+        //                         message={`${amountOfNewDatapoints} new Oura datapoints have been added`}
+        //                     />
         //                 )
         //             )
         //         }
         //     } else if (ouraDataFromAPI === 'error') {
         //         dispatch(
-        //             setUpdateMessage(
-        //                 'An error occured while getting the Oura Data, please try again later'
+        //             addUpdateMessage(
+        //                 <UpdateMessage message="An error occured while getting the Oura Data, please try again later" />
         //             )
         //         )
         //     }
@@ -175,8 +182,10 @@ function AppStateInit() {
             )
             // Showing results in updateMessage
             dispatch(
-                setUpdateMessage(
-                    `${amountOfNewAverages} new averages have been calculated`
+                addUpdateMessage(
+                    <UpdateMessage
+                        message={`${amountOfNewAverages} new averages have been calculated`}
+                    />
                 )
             )
         }
@@ -192,6 +201,7 @@ function AppStateInit() {
 
     async function manualAdjustments() {
         // Function that can be used to perform separate manual adjustments
+        dispatch(addUpdateMessage(<UpdateMessage message="This is a test" />))
     }
 
     async function initApp() {

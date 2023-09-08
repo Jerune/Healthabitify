@@ -1,29 +1,33 @@
-import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../redux/reduxHooks'
-import { changeUpdateMessageStatus } from '../redux/reducers/utilsReducer'
+import { useEffect, useState } from 'react'
+import { UpdateMessageProps } from './_types'
+import Icon from './icon'
 
-function UpdateMessage() {
-    const updateMessageOpen = useAppSelector(
-        (state) => state.utils.updateMessageOpen
-    )
-    const updateMessage = useAppSelector((state) => state.utils.updateMessage)
-    const dispatch = useAppDispatch()
+function UpdateMessage({ message }: UpdateMessageProps) {
+    const [updateMessageOpen, setUpdateMessageOpen] = useState(true)
 
     useEffect(() => {
         if (updateMessageOpen) {
             setTimeout(() => {
-                dispatch(changeUpdateMessageStatus(false))
-            }, 4000)
+                setUpdateMessageOpen(false)
+            }, 10000)
         }
     }, [updateMessageOpen])
 
     if (updateMessageOpen) {
         return (
-            <header className="absolute -top-12 left-0 w-screen h-12 px-4 flex justify-center items-center bg-red-200 z-50 shadow-lg animate-slide-in">
+            <article className="w-screen relative h-12 px-4 mb-2 flex justify-center items-center bg-red-200 z-50 shadow-lg animate-slide-in">
+                <button
+                    type="button"
+                    id="close"
+                    onClick={() => setUpdateMessageOpen(false)}
+                    className="absolute right-4 top-4 z-50"
+                >
+                    <Icon iconId="TfiClose" />
+                </button>
                 <p className="w-full h-full m-0 flex justify-center items-center text-black text-lg italic">
-                    {updateMessage}
+                    {message}
                 </p>
-            </header>
+            </article>
         )
     }
 
