@@ -4,7 +4,7 @@ import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import {
-    setUpdateMessage,
+    addUpdateMessage,
     toggleManualDataGrid,
 } from '../../redux/reducers/utilsReducer'
 import SettingsButton from '../SettingsMenu/SettingsButton'
@@ -21,6 +21,7 @@ import { getDateTimeDataForPreviousPeriod } from '../../utils/getDateTimeData'
 import labTestMetrics from '../../data/labTestMetrics'
 import { Column, DatapointToEdit, ManualDataProps, Row } from '../_types'
 import { LabtestMetric, Metric } from '../../types'
+import UpdateMessage from '../../components/UpdateMessage'
 
 function ManualDataGrid({ labs }: ManualDataProps) {
     const dispatch = useAppDispatch()
@@ -96,11 +97,13 @@ function ManualDataGrid({ labs }: ManualDataProps) {
             const { totalAmountOfChangedDatapoints } =
                 await updateManualDatapoints(datapointsToEdit, true)
             dispatch(
-                setUpdateMessage(
-                    `${totalAmountOfChangedDatapoints} new lab results have been added`
+                addUpdateMessage(
+                    <UpdateMessage
+                        message={`${totalAmountOfChangedDatapoints} new lab results have been added`}
+                    />
                 )
             )
-            dispatch(toggleManualDataGrid)
+            dispatch(toggleManualDataGrid())
         }
 
         async function updateExistingAverages() {
@@ -110,12 +113,14 @@ function ManualDataGrid({ labs }: ManualDataProps) {
             const { periods, totalAmountOfChangedDatapoints } =
                 await updateManualDatapoints(datapointsToEdit, false)
             dispatch(
-                setUpdateMessage(
-                    `${totalAmountOfChangedDatapoints} new ${
-                        totalAmountOfChangedDatapoints === 1
-                            ? 'datapoint has'
-                            : 'datapoints have'
-                    } been added/changed`
+                addUpdateMessage(
+                    <UpdateMessage
+                        message={`${totalAmountOfChangedDatapoints} new ${
+                            totalAmountOfChangedDatapoints === 1
+                                ? 'datapoint has'
+                                : 'datapoints have'
+                        } been added/changed`}
+                    />
                 )
             )
             // Update averages for already existing periods
@@ -128,12 +133,14 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 // Added 3 seconds delay
                 setTimeout(() => {
                     dispatch(
-                        setUpdateMessage(
-                            `${amountOfNewAverages} new ${
-                                amountOfNewAverages === 1
-                                    ? 'average has'
-                                    : 'averages have'
-                            } been calculated`
+                        addUpdateMessage(
+                            <UpdateMessage
+                                message={`${amountOfNewAverages} new ${
+                                    amountOfNewAverages === 1
+                                        ? 'average has'
+                                        : 'averages have'
+                                } been calculated`}
+                            />
                         )
                     )
                 }, 3000)
@@ -148,7 +155,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     }, 2000)
                 }
             }
-            dispatch(toggleManualDataGrid)
+            dispatch(toggleManualDataGrid())
         }
 
         if (!editForm && datapointsToEdit.length > 0 && !labs) {
@@ -194,6 +201,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 columns={activeColumns}
                 dataSource={activeRows}
                 activateRowOnFocus={false}
+                showActiveRowIndicator={false}
                 showHoverRows={false}
                 showColumnMenuTool={false}
                 showColumnMenuFilterOptions={false}
