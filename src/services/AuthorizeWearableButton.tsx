@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
 import { addUpdateMessage } from '../redux/reducers/utilsReducer'
 import { AuthorizeApi } from '../types'
-import UpdateMessage from '../components/UpdateMessage'
 
 function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
     const [newTokenActive, setNewTokenActive] = useState(false)
@@ -21,9 +20,7 @@ function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
             setNewTokenActive(true)
         },
         onError: (error_) => {
-            dispatch(
-                addUpdateMessage(<UpdateMessage message={`Error: ${error_}`} />)
-            )
+            dispatch(addUpdateMessage(`Error: ${error_}`))
         },
     })
 
