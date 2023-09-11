@@ -31,7 +31,7 @@ export default async function getApiData(
             fitbitLastSynchedDate === lastUpdated ||
             fitbitLastSynchedDate === 'error'
         ) {
-            return 'error'
+            return 'no update'
         }
         fitbitDayBeforeLastSynchedDate = getDayBeforeAsString(
             fitbitLastSynchedDate
@@ -94,6 +94,8 @@ export default async function getApiData(
                 const responseData = await response.json()
                 return responseData
             } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log(error)
                 return error
             }
         })
