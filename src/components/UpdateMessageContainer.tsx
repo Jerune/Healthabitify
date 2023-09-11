@@ -1,4 +1,5 @@
 import { useAppSelector } from '../redux/reduxHooks'
+import UpdateMessage from './UpdateMessage'
 
 function UpdateMessageContainer() {
     const updateMessagesObjects = useAppSelector(
@@ -6,12 +7,11 @@ function UpdateMessageContainer() {
     )
 
     const updateMessages = updateMessagesObjects.map((object) => {
-        return <i key={object.id}>{object.message}</i>
+        return <UpdateMessage key={object.id} message={object.message} />
     })
 
     return (
         <header className="fixed top-0 left-0 w-screen h-auto flex flex-col justify-start items-start z-50">
-            <ul />
             {updateMessages}
         </header>
     )
