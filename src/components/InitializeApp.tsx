@@ -23,7 +23,6 @@ import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
 import { FitbitRawData, OuraRawData } from '../types'
-import UpdateMessage from './UpdateMessage'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -55,7 +54,7 @@ function AppStateInit() {
         if (typeof metricList !== 'string') {
             dispatch(initMetrics(metricList))
         } else {
-            dispatch(addUpdateMessage(<UpdateMessage message={metricList} />))
+            dispatch(addUpdateMessage(metricList))
         }
     }
 
@@ -66,9 +65,7 @@ function AppStateInit() {
         if (typeof wearablesList !== 'string') {
             dispatch(setDevices(wearablesList))
         } else {
-            dispatch(
-                addUpdateMessage(<UpdateMessage message={wearablesList} />)
-            )
+            dispatch(addUpdateMessage(wearablesList))
         }
     }
 
@@ -111,54 +108,49 @@ function AppStateInit() {
                     // Sends update on added datapoints
                     dispatch(
                         addUpdateMessage(
-                            <UpdateMessage
-                                message={`${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`}
-                            />
+                            `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
                         )
                     )
                 }
             } else if (fitbitDataFromAPI === 'error') {
                 dispatch(
                     addUpdateMessage(
-                        <UpdateMessage message="An error occured while getting the Fitbit Data, please try again later" />
+                        'An error occured while getting the Fitbit Data, please try again later'
                     )
                 )
             }
         }
-        // Put on hold because of CORS issues with Oura API
-        // if (devices.oura.lastUpdated <= yesterdayString) {
-        //     dispatch(changeLoadingMessage('Gathering Oura Data'))
+        if (devices.oura.lastUpdated <= yesterdayString) {
+            dispatch(changeLoadingMessage('Gathering Oura Data'))
 
-        //     const ouraDataFromAPI = (await getApiData(
-        //         'oura',
-        //         devices.oura.token,
-        //         devices.oura.lastUpdated
-        //     )) as OuraRawData
-        //     if (typeof ouraDataFromAPI !== 'string') {
-        //         dispatch(changeLoadingMessage('Transforming Oura data'))
-        //         const newOuraDatapoints = await transformOuraData(
-        //             ouraDataFromAPI
-        //         )
-        //         if (newOuraDatapoints.length > 0) {
-        //             const amountOfNewDatapoints = await addDatapoints(
-        //                 newOuraDatapoints
-        //             )
-        //             dispatch(
-        //                 addUpdateMessage(
-        //                     <UpdateMessage
-        //                         message={`${amountOfNewDatapoints} new Oura datapoints have been added`}
-        //                     />
-        //                 )
-        //             )
-        //         }
-        //     } else if (ouraDataFromAPI === 'error') {
-        //         dispatch(
-        //             addUpdateMessage(
-        //                 <UpdateMessage message="An error occured while getting the Oura Data, please try again later" />
-        //             )
-        //         )
-        //     }
-        // }
+            const ouraDataFromAPI = (await getApiData(
+                'oura',
+                devices.oura.token,
+                devices.oura.lastUpdated
+            )) as OuraRawData
+            if (typeof ouraDataFromAPI !== 'string') {
+                dispatch(changeLoadingMessage('Transforming Oura data'))
+                const newOuraDatapoints = await transformOuraData(
+                    ouraDataFromAPI
+                )
+                if (newOuraDatapoints.length > 0) {
+                    const amountOfNewDatapoints = await addDatapoints(
+                        newOuraDatapoints
+                    )
+                    dispatch(
+                        addUpdateMessage(
+                            `${amountOfNewDatapoints} new Oura datapoints have been added`
+                        )
+                    )
+                }
+            } else if (ouraDataFromAPI === 'error') {
+                dispatch(
+                    addUpdateMessage(
+                        'An error occured while getting the Oura Data, please try again later'
+                    )
+                )
+            }
+        }
     }
 
     async function initializeAverages() {
@@ -183,9 +175,7 @@ function AppStateInit() {
             // Showing results in updateMessage
             dispatch(
                 addUpdateMessage(
-                    <UpdateMessage
-                        message={`${amountOfNewAverages} new averages have been calculated`}
-                    />
+                    `${amountOfNewAverages} new averages have been calculated`
                 )
             )
         }
