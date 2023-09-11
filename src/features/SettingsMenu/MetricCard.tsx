@@ -8,6 +8,7 @@ import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter'
 import { useAppDispatch } from '../../redux/reduxHooks'
 import { updateMetric } from '../../redux/reducers/metricsReducer'
 import Icon from '../../components/icon'
+import metricsInMilliseconds from '../../data/metrics/metricsInMilliseconds'
 
 function MetricCard({ metric }: MetricProps) {
     const dispatch = useAppDispatch()
@@ -64,6 +65,15 @@ function MetricCard({ metric }: MetricProps) {
                     typeReference: '',
                 })
                 break
+        }
+
+        if (metricsInMilliseconds.includes(metric.id)) {
+            setInputValidationData({
+                // eslint-disable-next-line prettier/prettier
+                regEx: '^([0-9][0-9]):([0-5][0-9])$',
+                placeholder: 'ex. 01:10',
+                typeReference: 'duration in the HH:MM format',
+            })
         }
     }, [formData.dataType])
 
