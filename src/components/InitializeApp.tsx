@@ -128,7 +128,8 @@ function AppStateInit() {
                 devices.oura.token,
                 devices.oura.lastUpdated
             )) as OuraRawData
-            if (typeof ouraDataFromAPI !== 'string') {
+            console.log(ouraDataFromAPI)
+            if (typeof ouraDataFromAPI[0] !== 'string') {
                 dispatch(changeLoadingMessage('Transforming Oura data'))
                 const newOuraDatapoints = await transformOuraData(
                     ouraDataFromAPI
@@ -143,7 +144,7 @@ function AppStateInit() {
                         )
                     )
                 }
-            } else if (ouraDataFromAPI === 'error') {
+            } else if (ouraDataFromAPI[0] === 'error') {
                 dispatch(
                     addUpdateMessage(
                         'An error occured while getting the Oura Data, please try again later'
