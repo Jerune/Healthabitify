@@ -218,11 +218,6 @@ export type Device = {
     }
 }
 
-export type UpdateMessage = {
-    id: number
-    message: string
-}
-
 // Authorization of APIs
 
 export type AuthorizeApi = {

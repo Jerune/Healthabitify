@@ -15,9 +15,3 @@ export type IconProps = {
 export type LoadingProps = {
     size: number
 }
-
-// UpdateMessage
-
-export type UpdateMessageProps = {
-    message: string
-}

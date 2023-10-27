@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound'
 import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import LayoutRoutes from './LayoutRoutes'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (

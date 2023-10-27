@@ -3,7 +3,8 @@ import HeaderNav from './components/HeaderNav'
 import AppStateInit from './components/InitializeApp'
 import { useAppSelector } from './redux/reduxHooks'
 import ManualDataGridContainer from './features/ManualDataGrid/ManualDataGridContainer'
-import UpdateMessageContainer from './components/UpdateMessageContainer'
+import { ToastContainer } from 'react-toastify';
+
 
 export default function LayoutRoutes() {
     const utils = useAppSelector((state) => state.utils)
@@ -11,7 +12,7 @@ export default function LayoutRoutes() {
     return (
         <>
             <AppStateInit />
-            <UpdateMessageContainer />
+            <ToastContainer />
             <HeaderNav />
             {utils.manualDataGridOpen && <ManualDataGridContainer />}
             <Outlet />

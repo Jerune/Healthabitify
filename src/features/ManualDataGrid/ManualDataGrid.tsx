@@ -4,7 +4,6 @@ import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types'
 import { useAppDispatch, useAppSelector } from '../../redux/reduxHooks'
 import {
-    addUpdateMessage,
     toggleManualDataGrid,
 } from '../../redux/reducers/utilsReducer'
 import SettingsButton from '../SettingsMenu/SettingsButton'
@@ -21,7 +20,7 @@ import { getDateTimeDataForPreviousPeriod } from '../../utils/getDateTimeData'
 import labTestMetrics from '../../data/labTestMetrics'
 import { Column, DatapointToEdit, ManualDataProps, Row } from '../_types'
 import { LabtestMetric, Metric } from '../../types'
-import UpdateMessage from '../../components/UpdateMessage'
+import { toast } from 'react-toastify'
 
 function ManualDataGrid({ labs }: ManualDataProps) {
     const dispatch = useAppDispatch()
@@ -96,13 +95,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
             setDatapointsToEdit([])
             const { totalAmountOfChangedDatapoints } =
                 await updateManualDatapoints(datapointsToEdit, true)
-            dispatch(
-                addUpdateMessage(
-                    <UpdateMessage
-                        message={`${totalAmountOfChangedDatapoints} new lab results have been added`}
-                    />
-                )
-            )
+            toast.success(`${totalAmountOfChangedDatapoints} new lab results have been added`)
             dispatch(toggleManualDataGrid())
         }
 
@@ -112,17 +105,14 @@ function ManualDataGrid({ labs }: ManualDataProps) {
             // Return periods whenever data of already calculated averages have been updated
             const { periods, totalAmountOfChangedDatapoints } =
                 await updateManualDatapoints(datapointsToEdit, false)
-            dispatch(
-                addUpdateMessage(
-                    <UpdateMessage
-                        message={`${totalAmountOfChangedDatapoints} new ${
+                toast.success(
+
+                        `${totalAmountOfChangedDatapoints} new ${
                             totalAmountOfChangedDatapoints === 1
                                 ? 'datapoint has'
                                 : 'datapoints have'
-                        } been added/changed`}
-                    />
+                        } been added/changed`
                 )
-            )
             // Update averages for already existing periods
             if (periods && periods.length > 0) {
                 const amountOfNewAverages = await createAveragesForNewPeriods(
@@ -130,20 +120,17 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     allMetrics
                 )
                 // Make sure datapoints message is run before message about averages
-                // Added 3 seconds delay
-                setTimeout(() => {
-                    dispatch(
-                        addUpdateMessage(
-                            <UpdateMessage
-                                message={`${amountOfNewAverages} new ${
+
+                        toast.success(
+                            
+                                `${amountOfNewAverages} new ${
                                     amountOfNewAverages === 1
                                         ? 'average has'
                                         : 'averages have'
-                                } been calculated`}
-                            />
+                                } been calculated`
+           
                         )
-                    )
-                }, 3000)
+
                 const datesToCheckFor =
                     getDateTimeDataForPreviousPeriod(lastUpdated)
                 if (datesToCheckFor) {

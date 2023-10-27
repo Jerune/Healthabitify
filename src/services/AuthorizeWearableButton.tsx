@@ -1,8 +1,8 @@
 import { useOAuth2 } from '@tasoskakour/react-use-oauth2'
 import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
-import { addUpdateMessage } from '../redux/reducers/utilsReducer'
 import { AuthorizeApi } from '../types'
+import { toast } from 'react-toastify'
 
 function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
     const [newTokenActive, setNewTokenActive] = useState(false)
@@ -20,7 +20,7 @@ function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
             setNewTokenActive(true)
         },
         onError: (error_) => {
-            dispatch(addUpdateMessage(`Error: ${error_}`))
+            toast.error(`Error: ${error_}`)
         },
     })
 

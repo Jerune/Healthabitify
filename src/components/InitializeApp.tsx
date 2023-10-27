@@ -7,7 +7,6 @@ import { localSignIn, setDevices } from '../redux/reducers/usersReducer'
 import {
     changeLoadingMessage,
     changeLoadingStatus,
-    addUpdateMessage,
 } from '../redux/reducers/utilsReducer'
 import { initMetrics } from '../redux/reducers/metricsReducer'
 import { initAverages } from '../redux/reducers/averagesReducer'
@@ -23,6 +22,7 @@ import { getDateTimeDataForPreviousPeriod } from '../utils/getDateTimeData'
 import getListWithNewPeriods from '../features/AveragesManagement/getListWithNewPeriods'
 import createAveragesForNewPeriods from '../features/AveragesManagement/createAveragesForNewPeriods'
 import { FitbitRawData, OuraRawData } from '../types'
+import { toast } from 'react-toastify'
 
 function AppStateInit() {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
@@ -54,7 +54,7 @@ function AppStateInit() {
         if (typeof metricList !== 'string') {
             dispatch(initMetrics(metricList))
         } else {
-            dispatch(addUpdateMessage(metricList))
+            toast.error(metricList)
         }
     }
 
@@ -65,7 +65,7 @@ function AppStateInit() {
         if (typeof wearablesList !== 'string') {
             dispatch(setDevices(wearablesList))
         } else {
-            dispatch(addUpdateMessage(wearablesList))
+            toast.error(wearablesList)
         }
     }
 
@@ -106,18 +106,14 @@ function AppStateInit() {
                     )
 
                     // Sends update on added datapoints
-                    dispatch(
-                        addUpdateMessage(
+                    toast.success(
                             `${totalAmountOfNewDatapoints} new Fitbit datapoints have been added`
                         )
-                    )
                 }
             } else if (fitbitDataFromAPI === 'error') {
-                dispatch(
-                    addUpdateMessage(
+                    toast.error(
                         'An error occured while getting the Fitbit Data, please try again later'
                     )
-                )
             }
         }
         if (devices.oura.lastUpdated <= yesterdayString) {
@@ -138,18 +134,17 @@ function AppStateInit() {
                     const amountOfNewDatapoints = await addDatapoints(
                         newOuraDatapoints
                     )
-                    dispatch(
-                        addUpdateMessage(
+                    
+                        toast.success(
                             `${amountOfNewDatapoints} new Oura datapoints have been added`
                         )
-                    )
+                 
                 }
             } else if (ouraDataFromAPI[0] === 'error') {
-                dispatch(
-                    addUpdateMessage(
+        
+                    toast.error(
                         'An error occured while getting the Oura Data, please try again later'
                     )
-                )
             }
         }
     }
@@ -173,12 +168,11 @@ function AppStateInit() {
                 newPeriods,
                 allMetrics
             )
-            // Showing results in updateMessage
-            dispatch(
-                addUpdateMessage(
+            // Showing results in Toast
+
+                toast.success(
                     `${amountOfNewAverages} new averages have been calculated`
                 )
-            )
         }
         // Builds all averages to be used in the app up to current date
         // Runs on 2 second timeout to make sure new averages have been added
