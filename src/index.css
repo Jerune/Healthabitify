@@ -126,11 +126,11 @@ input:required:invalid {
 /* React Date Picker Rewrites */
 
 .react-date-picker__wrapper {
-    border: none;
+    border: none !important;
 }
 
 .react-date-picker__inputGroup {
-    display: none;
+    display: none !important;
 }
 
 /* React Data Grid Rewrites */
