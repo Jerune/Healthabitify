@@ -12,7 +12,10 @@ export default function LayoutRoutes() {
     return (
         <>
             <AppStateInit />
-            <ToastContainer />
+            <ToastContainer 
+                position="top-center"
+                autoClose={6000}
+            />
             <HeaderNav />
             {utils.manualDataGridOpen && <ManualDataGridContainer />}
             <Outlet />
