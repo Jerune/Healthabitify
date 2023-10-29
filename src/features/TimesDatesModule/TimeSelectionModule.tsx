@@ -105,13 +105,14 @@ function TimeSelectionModule({
             {showDateSpecifications && (
                 <div className="flex flex-row items-center pt-3 md:pt-6 -ml-8">
                     <DatePicker
-                        onChange={(value: Date) =>
-                            setCorrectDates(DateTime.fromJSDate(value))
-                        }
+                        onChange={(value) => {
+                            if (value instanceof Date) {
+                              setCorrectDates(DateTime.fromJSDate(value));
+                            }
+                          }}
                         value={currentDate.toJSDate()}
-                        clearIcon={null}
+                        clearIcon={undefined}
                         calendarIcon={<Icon iconId="TfiCalendar" />}
-                        minDetail="month"
                     />
                     <button
                         className="pl-2"
