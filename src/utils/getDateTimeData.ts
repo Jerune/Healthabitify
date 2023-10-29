@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime, Info } from 'luxon'
 
 function getDateTimeDataForDatapoints(date: string) {
     const currentDate = DateTime.fromISO(date)
@@ -27,8 +27,24 @@ function getDateTimeDataForPreviousPeriod(date: string) {
     return { weekNumber, month, year }
 }
 
+function getDayOfTheWeek(date: string): string{
+    const dateTimeDate = getDateTimeDateFromDateString(date)
+    const weekDayNumber =  dateTimeDate.weekday - 1
+    
+    return Info.weekdays()[weekDayNumber]
+}
+
+function getShortDate(date: string): string{
+    const DateTimeDate = getDateTimeDateFromDateString(date)
+    const shortDate = DateTimeDate.toFormat('EEE. d LLL.')
+
+    return shortDate
+}
+
 export {
     getDateTimeDateFromDateString,
     getDateTimeDataForDatapoints,
     getDateTimeDataForPreviousPeriod,
+    getDayOfTheWeek,
+    getShortDate,
 }
