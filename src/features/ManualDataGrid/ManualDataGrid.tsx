@@ -182,7 +182,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
     }
 
     return (
-        <>
+        <div className='h-full w-full flex flex-col'>
             <ReactDataGrid
                 idProperty="id"
                 columns={activeColumns}
@@ -197,9 +197,9 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 resizable={false}
                 editable={editForm}
                 onEditComplete={onEditComplete}
-                className="w-full h-full m-0"
+                className='flex-1'
             />
-            <div className="md:sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-inherit">
+            <div className="sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-white">
                 <SettingsButton
                     type="button"
                     active={!editForm}
@@ -213,7 +213,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                     onClick={() => setEditForm(false)}
                 />
             </div>
-        </>
+        </div>
     )
 }
 

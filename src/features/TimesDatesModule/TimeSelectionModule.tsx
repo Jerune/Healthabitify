@@ -2,6 +2,8 @@
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-date-picker'
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 import {
     changeActiveTimeView,
     changeDateTimeData,
@@ -111,7 +113,7 @@ function TimeSelectionModule({
                             }
                           }}
                         value={currentDate.toJSDate()}
-                        clearIcon={undefined}
+                        clearIcon=''
                         calendarIcon={<Icon iconId="TfiCalendar" />}
                     />
                     <button
