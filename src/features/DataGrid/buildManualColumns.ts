@@ -1,9 +1,11 @@
+import { getShortDate } from "../../utils/getDateTimeData"
+
 async function buildManualColumns(dates: string[], labs?: boolean) {
     const columns = dates.map((date) => {
         return {
             id: date,
             name: date,
-            header: date,
+            header: getShortDate(date),
             headerProps: {
                 style: {
                     color: '#1D3557',
@@ -15,7 +17,7 @@ async function buildManualColumns(dates: string[], labs?: boolean) {
             flex: 1,
             textAlign: 'center',
             maxWidth: 300,
-            minWidth: 100,
+            minWidth: 120,
         }
     })
 
@@ -31,6 +33,8 @@ async function buildManualColumns(dates: string[], labs?: boolean) {
                 fontSize: '1.1em',
             },
         },
+        flex: 1,
+        textAlign: 'center',
         maxWidth: 300,
         minWidth: 200,
     }

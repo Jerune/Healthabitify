@@ -9,7 +9,7 @@ function ManualDataGridContainer() {
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-40">
             <div className="relative overflow-scroll h-screen max-w-screen-2xl md:h-[85%] md:w-[90%] md:top-16 md:border md:mx-auto md:shadow-lg md:rounded-md bg-white">
-                <div className="sticky h-26 w-full md:w-auto top-0 z-40">
+                <div className="md:sticky h-26 w-full md:w-auto top-0 z-40">
                     <button
                         type="button"
                         id="close"

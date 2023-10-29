@@ -193,12 +193,13 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 showColumnMenuTool={false}
                 showColumnMenuFilterOptions={false}
                 showColumnMenuGroupOptions={false}
+                sortable={false}
                 resizable={false}
                 editable={editForm}
                 onEditComplete={onEditComplete}
-                className="w-full h-full"
+                className="w-full h-full m-0"
             />
-            <div className="sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-inherit">
+            <div className="md:sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-inherit">
                 <SettingsButton
                     type="button"
                     active={!editForm}
