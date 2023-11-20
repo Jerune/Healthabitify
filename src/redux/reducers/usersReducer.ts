@@ -53,11 +53,20 @@ export const userSlice = createSlice({
                 },
             }
         },
+        updateDeviceToken: (state, action) => {
+            console.log("dispatched")
+            const { name, token } = action.payload
+            if (name === 'oura'){
+                state.devices.oura.token = token
+            } else if (name === 'fitbit'){
+                state.devices.fitbit.token = token
+            }
+        },
         default: (state) => {
             return state
         },
     },
 })
 
-export const { localSignIn, localSignOut, setDevices } = userSlice.actions
+export const { localSignIn, localSignOut, setDevices, updateDeviceToken } = userSlice.actions
 export default userSlice.reducer

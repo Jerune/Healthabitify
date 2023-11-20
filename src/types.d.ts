@@ -224,4 +224,5 @@ export type AuthorizeApi = {
     url: string
     id: string
     scope: string
+    name: string
 }

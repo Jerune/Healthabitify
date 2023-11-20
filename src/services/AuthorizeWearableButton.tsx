@@ -3,12 +3,11 @@ import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
 import { AuthorizeApi } from '../types'
 import { toast } from 'react-toastify'
+import { updateDeviceToken } from '../redux/reducers/usersReducer'
 
-function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
-    const [newTokenActive, setNewTokenActive] = useState(false)
+function AuthorizeWearableButton({ url, id, scope, name }: AuthorizeApi) {
     const dispatch = useAppDispatch()
     let textContent = 'Renew Authorization'
-    let newToken = ''
     const { loading, getAuth } = useOAuth2({
         authorizeUrl: url,
         clientId: id,
@@ -16,8 +15,8 @@ function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
         responseType: 'token',
         scope,
         onSuccess: (payload) => {
-            newToken = payload.access_token
-            setNewTokenActive(true)
+            const token = payload.access_token
+            dispatch(updateDeviceToken({name, token}))
         },
         onError: (error_) => {
             toast.error(`Error: ${error_}`)
@@ -37,7 +36,6 @@ function AuthorizeWearableButton({ url, id, scope }: AuthorizeApi) {
             >
                 {textContent}
             </button>
-            {newTokenActive && <p>{`Copy to token field: ${newToken}`}</p>}
         </>
     )
 }
