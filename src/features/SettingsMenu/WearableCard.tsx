@@ -10,10 +10,9 @@ function WearableCard({ activeCategory }: WearableCardProps) {
     const authenticationButtons: AuthenticationButton = {
         oura: <OuraButton />,
         fitbit: <FitbitButton />,
-        bodypedia: <GoogleSheetsButton />,
     }
 
-    if (id !== '' && id !== 'bodypedia') {
+    if (id !== '') {
         return (
             <div className="w-full p-4 rounded-lg bg-white flex flex-col items-start justify-center text-sm shadow-lg gap-4">
                 <h3>{name}</h3>

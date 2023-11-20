@@ -9,11 +9,6 @@ const wearablesCategories = [
         name: 'Fitbit',
         iconName: 'SiFitbit',
     },
-    {
-        id: 'bodypedia',
-        name: 'BodyPedia',
-        iconName: 'IoScaleSharp',
-    },
 ]
 
 export default wearablesCategories
