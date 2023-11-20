@@ -52,6 +52,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
         '2021-12-09',
         '2022-09-05',
         '2023-02-13',
+        '2023-11-07',
     ]
 
     useEffect(() => {
@@ -199,7 +200,7 @@ function ManualDataGrid({ labs }: ManualDataProps) {
                 onEditComplete={onEditComplete}
                 className='flex-1'
             />
-            <div className="sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-white">
+            <div className="md:sticky p-2 h-16 w-full bottom-0 flex flex-row gap-4 justify-between bg-white">
                 <SettingsButton
                     type="button"
                     active={!editForm}
