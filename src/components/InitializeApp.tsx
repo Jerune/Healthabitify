@@ -124,7 +124,7 @@ function AppStateInit() {
                 devices.oura.token,
                 devices.oura.lastUpdated
             )) as OuraRawData
-            console.log(ouraDataFromAPI)
+
             if (typeof ouraDataFromAPI[0] !== 'string') {
                 dispatch(changeLoadingMessage('Transforming Oura data'))
                 const newOuraDatapoints = await transformOuraData(

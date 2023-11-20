@@ -9,7 +9,6 @@ export default function adjustValueOutput(
     metric: Metric,
     value: number | string
 ): string {
-    console.log(metric.id, value)
     
     // Return string value in case value is 0 or 00:00:00
     if (!metricsWithZeroValues.includes(metric.id) && value === 0 || value === '0' || value === undefined){

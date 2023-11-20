@@ -54,7 +54,6 @@ export const userSlice = createSlice({
             }
         },
         updateDeviceToken: (state, action) => {
-            console.log("dispatched")
             const { name, token } = action.payload
             if (name === 'oura'){
                 state.devices.oura.token = token
