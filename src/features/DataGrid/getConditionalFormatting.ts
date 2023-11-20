@@ -47,6 +47,10 @@ function getConditionalFormatting(metric: Metric) {
                 style.background = backgroundColors.none
                 style.color = fontColors.none
             } else if (
+                dataForCurrentPeriod === '---'
+            ) {
+                style.background = backgroundColors.none
+            } else if (
                 dataForCurrentPeriod === undefined ||
                 (Number.isNaN(Number(dataForCurrentPeriod)) &&
                     metricsWithZeroValues.includes(metric.id))
@@ -91,6 +95,10 @@ function getConditionalFormatting(metric: Metric) {
                 style.background = backgroundColors.none
                 style.color = fontColors.none
             } else if (
+                dataForCurrentPeriod === '---'
+            ) {
+                style.background = backgroundColors.none
+            } else if (
                 dataForCurrentPeriod === undefined ||
                 (Number.isNaN(Number(dataForCurrentPeriod)) &&
                     metricsWithZeroValues.includes(metric.id))
@@ -126,6 +134,7 @@ function getConditionalFormatting(metric: Metric) {
                 : data[correctId]
             const goodValue = !hasStringOutput ? Number(good.value) : good.value
             const badValue = !hasStringOutput ? Number(bad.value) : bad.value
+            console.log(dataForCurrentPeriod)
             if (
                 (dataForCurrentPeriod === 0 &&
                     !metricsWithZeroValues.includes(metric.id)) ||
@@ -136,6 +145,10 @@ function getConditionalFormatting(metric: Metric) {
             ) {
                 style.background = backgroundColors.none
                 style.color = fontColors.none
+            } else if (
+                dataForCurrentPeriod === '---'
+            ) {
+                style.background = backgroundColors.none
             } else if (
                 dataForCurrentPeriod === undefined ||
                 (Number.isNaN(Number(dataForCurrentPeriod)) &&
@@ -172,6 +185,10 @@ function getConditionalFormatting(metric: Metric) {
             ) {
                 style.background = backgroundColors.none
                 style.color = fontColors.none
+            } else if (
+                dataForCurrentPeriod === '---'
+            ) {
+                style.background = backgroundColors.none
             } else if (dataForCurrentPeriod < good.value) {
                 style.background = backgroundColors.good
                 style.color = fontColors.good

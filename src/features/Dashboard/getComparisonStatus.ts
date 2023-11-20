@@ -1,5 +1,6 @@
 import metricsInMilliseconds from '../../data/metrics/metricsInMilliseconds'
 import metricsWithStringOutput from '../../data/metrics/metricsWithStringOutput'
+import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
 import convertMillisecondsToTime from '../../utils/convertMillisecondsToTime'
 import forceNumberReturn from '../../utils/forceNumberReturn'
 import { DashboardMetric } from '../_types'
@@ -26,6 +27,18 @@ function getComparisonStatus(metric: DashboardMetric) {
         )
     }
 
+    // Should return neutral color background in case no data of previous period has been registered.
+    if (
+        !metricsWithStringOutput.includes(metric.id) &&
+        dataForPreviousPeriod === 0 
+    ) {
+        return 'neutral'
+    }
+
+    if (!metricsWithZeroValues.includes(metric.id) && dataForCurrentPeriod === 0){
+        return 'neutral'
+    }
+
     if (conditionsMode === 'range' && good.mode === 'more') {
         if (dataForCurrentPeriod > goodValue) {
             return 'good'
@@ -45,14 +58,6 @@ function getComparisonStatus(metric: DashboardMetric) {
         return 'medium'
     }
 
-    // Should return neutral color background in case no data of previous period has been registered.
-    if (
-        !metricsWithStringOutput.includes(metric.id) &&
-        dataForPreviousPeriod === 0
-    ) {
-        return 'neutral'
-    }
-
     if (conditionsMode === 'higher') {
         if (dataForCurrentPeriod > dataForPreviousPeriod) {
             return 'good'
@@ -62,6 +67,7 @@ function getComparisonStatus(metric: DashboardMetric) {
         }
         return 'bad'
     }
+
     if (conditionsMode === 'lower') {
         if (dataForCurrentPeriod < dataForPreviousPeriod) {
             return 'good'

@@ -3,11 +3,19 @@ import { Metric } from '../../types'
 import addDecimals from './addDecimals'
 import forceNumberReturn from '../../utils/forceNumberReturn'
 import metricsInMilliseconds from '../../data/metrics/metricsInMilliseconds'
+import metricsWithZeroValues from '../../data/metrics/metricsWithZeroValues'
 
 export default function adjustValueOutput(
     metric: Metric,
     value: number | string
 ): string {
+    console.log(metric.id, value)
+    
+    // Return string value in case value is 0 or 00:00:00
+    if (!metricsWithZeroValues.includes(metric.id) && value === 0 || value === '0' || value === undefined){
+        return '---'
+    }
+    
     // Change to h:mm format as string in case id is part sleepMetricIdsWithMilliseconds
     if (metricsInMilliseconds.includes(metric.id)) {
         return convertMillisecondsToTime(Number(value))
