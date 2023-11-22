@@ -1,5 +1,4 @@
 import { useOAuth2 } from '@tasoskakour/react-use-oauth2'
-import { useState } from 'react'
 import { useAppDispatch } from '../redux/reduxHooks'
 import { AuthorizeApi } from '../types'
 import { toast } from 'react-toastify'
