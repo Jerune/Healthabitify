@@ -59,7 +59,7 @@ function Dashboard() {
         return <Loading size={50} />
     }
 
-    if (!periodHasActiveData) {
+    if (!periodHasActiveData || !allAverages[`Y${year}`]) {
         return (
             <>
                 <TimeSelectionModule tabs={Tabs} />
