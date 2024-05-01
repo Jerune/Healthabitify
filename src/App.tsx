@@ -8,6 +8,7 @@ import Settings from './pages/Settings'
 import Labs from './pages/Labs'
 import LayoutRoutes from './LayoutRoutes'
 import 'react-toastify/dist/ReactToastify.css';
+import Callback from './pages/Callback'
 
 function App() {
     return (
@@ -20,7 +21,7 @@ function App() {
                     <Route path="data/:category" element={<DataPage />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="labs" element={<Labs />} />
-                    <Route path="callback" element={<OAuthPopup />} />
+                    <Route path="callback" element={<Callback />} />
                 </Route>
             </Routes>
         </Router>
